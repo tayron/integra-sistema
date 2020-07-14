@@ -3,7 +3,7 @@ package models
 import (
 	"log"
 
-	"github.com/tayron/Integrador/database"
+	"github.com/tayron/integra-sistema/database"
 )
 
 type Integracao struct {

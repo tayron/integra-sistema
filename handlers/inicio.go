@@ -7,6 +7,7 @@ import (
 
 // InicioHandler Controlador página inicial
 func InicioHandler(w http.ResponseWriter, r *http.Request) {
+
 	tmpl, err := template.ParseFiles("template/index.html")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
