@@ -3,10 +3,10 @@ package database
 import (
 	"database/sql"
 	"fmt"
+	"os"
 
 	// Uso indireto do drive mysql
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/tayron/integra-sistema/configuration"
 )
 
 func exec(db *sql.DB, sql string) sql.Result {
@@ -22,10 +22,10 @@ func exec(db *sql.DB, sql string) sql.Result {
 func ObterConexao() *sql.DB {
 
 	stringConexao := fmt.Sprintf("%s:%s@tcp(%s:%s)/",
-		configuration.GetConfiguracao("usuario"),
-		configuration.GetConfiguracao("senha"),
-		configuration.GetConfiguracao("localhost"),
-		configuration.GetConfiguracao("porta"),
+		os.Getenv("DB_USUARIO"),
+		os.Getenv("DB_SENHA"),
+		os.Getenv("DB_LOCALHOST"),
+		os.Getenv("DB_PORTA"),
 	)
 
 	db, err := sql.Open("mysql", stringConexao)
@@ -34,8 +34,8 @@ func ObterConexao() *sql.DB {
 		panic(err)
 	}
 
-	exec(db, "create database if not exists "+configuration.GetConfiguracao("banco"))
-	exec(db, "use "+configuration.GetConfiguracao("banco"))
+	exec(db, "create database if not exists "+os.Getenv("DB_BANCO"))
+	exec(db, "use "+os.Getenv("DB_BANCO"))
 
 	return db
 }

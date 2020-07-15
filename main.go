@@ -6,36 +6,26 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/tayron/integra-sistema/configuration"
+	"github.com/joho/godotenv"
 	"github.com/tayron/integra-sistema/handlers"
 	"github.com/tayron/integra-sistema/models"
 )
 
 func init() {
-	// Configuração da aplicação
-	configuration.SetConfiguracao("nomeAplicativo", "Integra Sistema")
-	configuration.SetConfiguracao("versaoAplicativo", "1.0")
-	configuration.SetConfiguracao("portaServidorExecucao", os.Getenv("PORTA_SERVIDOR"))
-
-	// Configuração banco de dados
-	configuration.SetConfiguracao("localhost", "servidor_mysql_local")
-	configuration.SetConfiguracao("porta", "3306")
-	configuration.SetConfiguracao("usuario", "root")
-	configuration.SetConfiguracao("senha", "yakTLS&70c52")
-	configuration.SetConfiguracao("banco", "cursogo")
-
-	if configuration.GetConfiguracao("portaServidorExecucao") == "" {
-		panic("Deve-se informar a porta do servidor: PORTA_SERVIDOR=80 go run *.go")
-	}
-
+	godotenv.Load()
+	fmt.Println(os.Getenv("NOME_SISTEMA"))
 	models.CriarTabelaIntegracao()
 }
 
 func main() {
 	http.HandleFunc("/", handlers.InicioHandler)
 
-	fmt.Printf("Servidor executando em: http://127.0.0.1:%s\n", configuration.GetConfiguracao("portaServidorExecucao"))
-	enderecoServidor := fmt.Sprintf(":%s", configuration.GetConfiguracao("portaServidorExecucao"))
+	fmt.Printf("Servidor executando em: http://127.0.0.1:%s\n", os.Getenv("PORTA_SERVIDOR"))
+	enderecoServidor := fmt.Sprintf(":%s", os.Getenv("PORTA_SERVIDOR"))
+
+	if os.Getenv("PORTA_SERVIDOR") == "" {
+		panic("Deve-se informar a porta de execução do servidor no arquivo .env: PORTA_SERVIDOR=3003")
+	}
 
 	log.Fatalln(http.ListenAndServe(enderecoServidor, nil))
 }
