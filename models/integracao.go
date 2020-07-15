@@ -17,6 +17,7 @@ type Integracao struct {
 	metodoSistemaDestino string
 }
 
+// CriarTabelaIntegracao -
 func CriarTabelaIntegracao() {
 	db := database.ObterConexao()
 	defer db.Close()
