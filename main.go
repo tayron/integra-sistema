@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 	"github.com/tayron/integra-sistema/handlers"
 	"github.com/tayron/integra-sistema/models"
@@ -17,7 +18,9 @@ func init() {
 }
 
 func main() {
-	http.HandleFunc("/", handlers.InicioHandler)
+	r := mux.NewRouter()
+	r.HandleFunc("/", handlers.InicioHandler)
+	http.Handle("/", r)
 
 	fmt.Printf("####################### %s - versão %s #######################\n",
 		os.Getenv("NOME_SISTEMA"), os.Getenv("VERSAO_SISTEMA"))
