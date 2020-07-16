@@ -2,6 +2,7 @@ package models
 
 import (
 	"log"
+	"time"
 
 	"github.com/tayron/integra-sistema/database"
 )
@@ -15,6 +16,9 @@ type Integracao struct {
 	NomeSistemaDestino   string
 	APISistemaDestino    string
 	MetodoSistemaDestino string
+	Status               bool
+	Criacao              time.Time
+	Alteracao            time.Time
 }
 
 // CriarTabelaIntegracao -
@@ -30,7 +34,10 @@ func CriarTabelaIntegracao() {
 		metodo_sistema_origem char(6),
 		nome_sistema_destino varchar(255),
 		api_sistema_destino varchar(255),
-		metodo_sistema_destino char(6),		
+		metodo_sistema_destino char(6),			
+		status bool DEFAULT 1,	
+		criacao datetime DEFAULT CURRENT_TIMESTAMP,	
+		alteracao datetime ON UPDATE CURRENT_TIMESTAMP,
 		PRIMARY KEY (id)
 	)`
 
@@ -48,7 +55,7 @@ func (i Integracao) Gravar(integracao Integracao) bool {
 	var sql string = `insert into integracoes 
 	(nome, nome_sistema_origem, api_sistema_origem, metodo_sistema_origem, 
 	nome_sistema_destino, api_sistema_destino, metodo_sistema_destino) 
-	values (?, ?, ?, ?, ?, ?, ? )`
+	values (?, ?, ?, ?, ?, ?, ?)`
 
 	stmt, _ := db.Prepare(sql)
 
@@ -73,15 +80,15 @@ func (i Integracao) Gravar(integracao Integracao) bool {
 }
 
 // BuscarTodos -
-func (i Integracao) BuscarTodos() []Integracao {
+func (i Integracao) BuscarTodos(status bool) []Integracao {
 
 	db := database.ObterConexao()
 	defer db.Close()
 
 	var sql string = `SELECT id, nome, nome_sistema_origem, api_sistema_origem, metodo_sistema_origem, 
-	nome_sistema_destino, api_sistema_destino, metodo_sistema_destino FROM integracoes ORDER BY id DESC`
+	nome_sistema_destino, api_sistema_destino, metodo_sistema_destino FROM integracoes WHERE status = ? ORDER BY id DESC`
 
-	rows, _ := db.Query(sql)
+	rows, _ := db.Query(sql, status)
 	defer rows.Close()
 
 	var listaIntegracoes []Integracao

@@ -62,6 +62,7 @@ func CriarIntegracaoHandler(w http.ResponseWriter, r *http.Request) {
 func ListarHandler(w http.ResponseWriter, r *http.Request) {
 
 	integracao := models.Integracao{}
+	status := true
 
 	parametros := struct {
 		NomeSistema      string
@@ -73,7 +74,7 @@ func ListarHandler(w http.ResponseWriter, r *http.Request) {
 	}{
 		NomeSistema:      os.Getenv("NOME_SISTEMA"),
 		VersaoSistema:    os.Getenv("VERSAO_SISTEMA"),
-		ListaIntegracoes: integracao.BuscarTodos(),
+		ListaIntegracoes: integracao.BuscarTodos(status),
 	}
 
 	var templates = template.Must(template.ParseGlob("template/*.html"))
