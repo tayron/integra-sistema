@@ -42,14 +42,17 @@
                                 <label for="api_sistema_origem">Endereço da API</label>
                                 <input type="text" class="form-control" id="api_sistema_origem" name="api_sistema_origem" required>
                             </div> 
-                            <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" id="metodo_sistema_origem_post" name="metodo_sistema_origem" required value="post">
-                                <label class="custom-control-label" for="metodo_sistema_origem_post">Receber dados via POST</label>
-                            </div>                            
-                            <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" id="metodo_sistema_origem_get" name="metodo_sistema_origem" required value="get">
-                                <label class="custom-control-label" for="metodo_sistema_origem_get">Receber dados via GET</label>
-                            </div>                                                        
+                            <div class="form-group">
+                                <label for="api_sistema_destino">Método envio</label>
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" id="metodo_sistema_origem_post" name="metodo_sistema_origem" required value="post">
+                                    <label class="custom-control-label" for="metodo_sistema_origem_post">POST</label>
+                                </div>                            
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" id="metodo_sistema_origem_get" name="metodo_sistema_origem" required value="get">
+                                    <label class="custom-control-label" for="metodo_sistema_origem_get">GET</label>
+                                </div>                  
+                            </div>                                      
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
@@ -61,14 +64,17 @@
                                 <label for="api_sistema_destino">Endereço da API</label>
                                 <input type="text" class="form-control" id="api_sistema_destino" name="api_sistema_destino" required>
                             </div> 
-                            <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" id="metodo_sistema_destino_post" name="metodo_sistema_destino" required value="post">
-                                <label class="custom-control-label" for="metodo_sistema_destino_post">Enviar dados via POST</label>
-                            </div>                            
-                            <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" id="metodo_sistema_destino_get" name="metodo_sistema_destino" required value="get">
-                                <label class="custom-control-label" for="metodo_sistema_destino_get">Enviar dados via GET</label>
-                            </div>                                  
+                            <div class="form-group">
+                                <label for="api_sistema_destino">Método envio</label>   
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" id="metodo_sistema_destino_post" name="metodo_sistema_destino" required value="post">
+                                    <label class="custom-control-label" for="metodo_sistema_destino_post">POST</label>
+                                </div>                            
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" id="metodo_sistema_destino_get" name="metodo_sistema_destino" required value="get">
+                                    <label class="custom-control-label" for="metodo_sistema_destino_get">GET</label>
+                                </div>                                                              
+                            </div> 
                         </div>                
                         <div class="col-md-12">
                             <br />
