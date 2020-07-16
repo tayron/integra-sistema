@@ -79,7 +79,7 @@ func (i Integracao) BuscarTodos() []Integracao {
 	defer db.Close()
 
 	var sql string = `SELECT id, nome, nome_sistema_origem, api_sistema_origem, metodo_sistema_origem, 
-	nome_sistema_destino, api_sistema_destino, metodo_sistema_destino FROM integracoes`
+	nome_sistema_destino, api_sistema_destino, metodo_sistema_destino FROM integracoes ORDER BY id DESC`
 
 	rows, _ := db.Query(sql)
 	defer rows.Close()
