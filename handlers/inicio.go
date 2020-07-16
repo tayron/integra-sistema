@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"net/http"
+	"os"
 	"text/template"
 )
 
@@ -13,13 +14,18 @@ func InicioHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 
-	data := struct {
-		AppVersion string
+	parametros := struct {
+		NomeSistema   string
+		VersaoSistema string
+		Mensagem      string
+		Sucesso       bool
+		Erro          bool
 	}{
-		AppVersion: "1.0",
+		NomeSistema:   os.Getenv("NOME_SISTEMA"),
+		VersaoSistema: os.Getenv("VERSAO_SISTEMA"),
 	}
 
-	err = tmpl.Execute(w, data)
+	err = tmpl.Execute(w, parametros)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}

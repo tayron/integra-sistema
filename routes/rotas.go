@@ -11,6 +11,6 @@ import (
 func CarregarRotas() {
 	r := mux.NewRouter()
 	r.HandleFunc("/", handlers.InicioHandler).Methods("GET")
-	r.HandleFunc("/criar-integracao", handlers.CriarIntegracaoHandler).Methods("POST")
+	r.HandleFunc("/", handlers.CriarIntegracaoHandler).Methods("POST")
 	http.Handle("/", r)
 }

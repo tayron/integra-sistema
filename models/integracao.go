@@ -7,14 +7,14 @@ import (
 )
 
 type Integracao struct {
-	id                   int
-	nome                 string
-	nomeSistemaOrigem    string
-	apiSistemaOrigem     string
-	metodoSistemaOrigem  string
-	nomeSistemaDestino   string
-	apiSistemaDestino    string
-	metodoSistemaDestino string
+	ID                   int
+	Nome                 string
+	NomeSistemaOrigem    string
+	APISistemaOrigem     string
+	MetodoSistemaOrigem  string
+	NomeSistemaDestino   string
+	APISistemaDestino    string
+	MetodoSistemaDestino string
 }
 
 // CriarTabelaIntegracao -
@@ -40,6 +40,7 @@ func CriarTabelaIntegracao() {
 	}
 }
 
+// Gravar -
 func (i Integracao) Gravar(integracao Integracao) bool {
 	db := database.ObterConexao()
 	defer db.Close()
@@ -51,7 +52,14 @@ func (i Integracao) Gravar(integracao Integracao) bool {
 
 	stmt, _ := db.Prepare(sql)
 
-	resultado, err := stmt.Exec(integracao.nome, integracao.nomeSistemaOrigem, integracao.apiSistemaOrigem, integracao.metodoSistemaOrigem, integracao.nomeSistemaDestino, integracao.apiSistemaDestino, integracao.metodoSistemaDestino)
+	resultado, err := stmt.Exec(
+		integracao.Nome,
+		integracao.NomeSistemaOrigem,
+		integracao.APISistemaOrigem,
+		integracao.MetodoSistemaOrigem,
+		integracao.NomeSistemaDestino,
+		integracao.APISistemaDestino,
+		integracao.MetodoSistemaDestino)
 
 	if err != nil {
 		log.Println(err)
