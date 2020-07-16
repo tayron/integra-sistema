@@ -76,8 +76,6 @@ func ListarHandler(w http.ResponseWriter, r *http.Request) {
 		ListaIntegracoes: integracao.BuscarTodos(),
 	}
 
-	fmt.Println(parametros.ListaIntegracoes)
-
 	var templates = template.Must(template.ParseGlob("template/*.html"))
 	template.Must(templates.ParseGlob("template/layout/*.html"))
 	template.Must(templates.ParseGlob("template/integracao/*.html"))
