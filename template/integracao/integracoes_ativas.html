@@ -1,0 +1,61 @@
+ {{- define "integracoesAtivasPage" -}}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{{.NomeSistema}} {{.VersaoSistema}}</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        {{- template "menu" . -}}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-info" role="alert">
+                    Um integrador de sistemas é uma ferramenta especializada em reunir subsistemas de componentes em um
+                    todo e garantir que esses subsistemas funcionem juntos, uma prática conhecida como integração de
+                    sistemas. Eles também resolvem problemas de automação.
+                </div>            
+                {{- template "alert" . -}}   
+            </div>         
+
+            <div class="col-md-12">
+                <h4>Integrações ativas</h4>
+                <div class="table-responsive">
+                    <table class="table table-sm table-bordered table-hover">
+                        <thead>
+                            <tr class="bg-secondary text-white">
+                                <th>#</th>
+                                <th>Nome</th>
+                                <th>Sistema Origem</th>
+                                <th>Método</th>
+                                <th>Sistema Destino</th>
+                                <th>Método</th>                            
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {{- range .ListaIntegracoes -}}
+                        <tr>
+                            <td>{{.ID}}</td>
+                            <td>{{.Nome}}</td>
+                            <td>{{.NomeSistemaOrigem}} - {{.APISistemaOrigem}}</td>
+                            <td>{{.MetodoSistemaOrigem}}</td>
+                            <td>{{.NomeSistemaDestino}} - {{.APISistemaDestino}}</td>
+                            <td>{{.MetodoSistemaDestino}}</td>
+                        </tr>
+                        {{- end -}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{- template "javascript" . -}}
+</body>
+</html>
+{{end}}

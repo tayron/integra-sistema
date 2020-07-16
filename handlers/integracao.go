@@ -57,3 +57,33 @@ func CriarIntegracaoHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
+
+// ListarHandler -+
+func ListarHandler(w http.ResponseWriter, r *http.Request) {
+
+	integracao := models.Integracao{}
+
+	parametros := struct {
+		NomeSistema      string
+		VersaoSistema    string
+		Mensagem         string
+		Sucesso          bool
+		Erro             bool
+		ListaIntegracoes []models.Integracao
+	}{
+		NomeSistema:      os.Getenv("NOME_SISTEMA"),
+		VersaoSistema:    os.Getenv("VERSAO_SISTEMA"),
+		ListaIntegracoes: integracao.BuscarTodos(),
+	}
+
+	fmt.Println(parametros.ListaIntegracoes)
+
+	var templates = template.Must(template.ParseGlob("template/*.html"))
+	template.Must(templates.ParseGlob("template/layout/*.html"))
+	template.Must(templates.ParseGlob("template/integracao/*.html"))
+	err := templates.ExecuteTemplate(w, "integracoesAtivasPage", parametros)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+}

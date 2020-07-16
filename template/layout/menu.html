@@ -1,6 +1,6 @@
 {{define "menu"}}
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">{{.NomeSistema}} {{.VersaoSistema}}    </a>
+    <a class="navbar-brand" href="/">{{.NomeSistema}} {{.VersaoSistema}}    </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -17,8 +17,8 @@
                     Integrações
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Ativas</a>
-                    <a class="dropdown-item" href="#">Inativas</a>
+                    <a class="dropdown-item" href="/integracoes-ativas">Ativas</a>
+                    <a class="dropdown-item" href="/integracoes-inativas">Inativas</a>
                 </div>
             </li>
         </ul>

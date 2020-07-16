@@ -71,3 +71,35 @@ func (i Integracao) Gravar(integracao Integracao) bool {
 
 	return false
 }
+
+// BuscarTodos -
+func (i Integracao) BuscarTodos() []Integracao {
+
+	db := database.ObterConexao()
+	defer db.Close()
+
+	var sql string = `SELECT id, nome, nome_sistema_origem, api_sistema_origem, metodo_sistema_origem, 
+	nome_sistema_destino, api_sistema_destino, metodo_sistema_destino FROM integracoes`
+
+	rows, _ := db.Query(sql)
+	defer rows.Close()
+
+	var listaIntegracoes []Integracao
+
+	for rows.Next() {
+		var integracao Integracao
+
+		rows.Scan(&integracao.ID,
+			&integracao.Nome,
+			&integracao.NomeSistemaOrigem,
+			&integracao.APISistemaOrigem,
+			&integracao.MetodoSistemaOrigem,
+			&integracao.NomeSistemaDestino,
+			&integracao.APISistemaDestino,
+			&integracao.MetodoSistemaDestino)
+
+		listaIntegracoes = append(listaIntegracoes, integracao)
+	}
+
+	return listaIntegracoes
+}
