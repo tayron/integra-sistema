@@ -35,11 +35,6 @@ func CriarIntegracaoHandler(w http.ResponseWriter, r *http.Request) {
 		mensagem = fmt.Sprint("Erro ao gravar dados da integração")
 	}
 
-	tmpl, err := template.ParseFiles("template/index.html")
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-
 	parametros := struct {
 		NomeSistema   string
 		VersaoSistema string
@@ -54,7 +49,10 @@ func CriarIntegracaoHandler(w http.ResponseWriter, r *http.Request) {
 		Mensagem:      mensagem,
 	}
 
-	err = tmpl.Execute(w, parametros)
+	var templates = template.Must(template.ParseGlob("template/*.html"))
+	template.Must(templates.ParseGlob("template/layout/*.html"))
+	err := templates.ExecuteTemplate(w, "homePage", parametros)
+
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}

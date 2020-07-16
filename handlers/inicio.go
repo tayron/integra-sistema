@@ -9,11 +9,6 @@ import (
 // InicioHandler Controlador página inicial
 func InicioHandler(w http.ResponseWriter, r *http.Request) {
 
-	tmpl, err := template.ParseFiles("template/index.html")
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-
 	parametros := struct {
 		NomeSistema   string
 		VersaoSistema string
@@ -25,7 +20,10 @@ func InicioHandler(w http.ResponseWriter, r *http.Request) {
 		VersaoSistema: os.Getenv("VERSAO_SISTEMA"),
 	}
 
-	err = tmpl.Execute(w, parametros)
+	var templates = template.Must(template.ParseGlob("template/*.html"))
+	template.Must(templates.ParseGlob("template/layout/*.html"))
+	err := templates.ExecuteTemplate(w, "homePage", parametros)
+
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
