@@ -46,11 +46,11 @@
                             <div class="form-group">
                                 <label for="api_sistema_destino">Método envio</label>
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" class="custom-control-input" id="metodo_sistema_origem_post" name="metodo_sistema_origem" required value="post">
+                                    <input type="radio" class="custom-control-input" id="metodo_sistema_origem_post" name="metodo_sistema_origem" required value="post" {{if eq .Integracao.MetodoSistemaOrigem "post" }} checked {{end}}>
                                     <label class="custom-control-label" for="metodo_sistema_origem_post">POST</label>
                                 </div>                            
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" class="custom-control-input" id="metodo_sistema_origem_get" name="metodo_sistema_origem" required value="get">
+                                    <input type="radio" class="custom-control-input" id="metodo_sistema_origem_get" name="metodo_sistema_origem" required value="get" {{if eq .Integracao.MetodoSistemaOrigem "get" }} checked {{end}}>
                                     <label class="custom-control-label" for="metodo_sistema_origem_get">GET</label>
                                 </div>                  
                             </div>                                      
@@ -68,11 +68,11 @@
                             <div class="form-group">
                                 <label for="api_sistema_destino">Método envio</label>   
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" class="custom-control-input" id="metodo_sistema_destino_post" name="metodo_sistema_destino" required value="post">
+                                    <input type="radio" class="custom-control-input" id="metodo_sistema_destino_post" name="metodo_sistema_destino" required value="post" {{if eq .Integracao.MetodoSistemaDestino "post" }} checked {{end}}>
                                     <label class="custom-control-label" for="metodo_sistema_destino_post">POST</label>
                                 </div>                            
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" class="custom-control-input" id="metodo_sistema_destino_get" name="metodo_sistema_destino" required value="get">
+                                    <input type="radio" class="custom-control-input" id="metodo_sistema_destino_get" name="metodo_sistema_destino" required value="get" {{if eq .Integracao.MetodoSistemaDestino "get" }} checked {{end}}>
                                     <label class="custom-control-label" for="metodo_sistema_destino_get">GET</label>
                                 </div>                                                              
                             </div> 

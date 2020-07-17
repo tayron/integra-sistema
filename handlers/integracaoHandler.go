@@ -60,8 +60,8 @@ func CriarIntegracaoHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// ListarHandler -+
-func ListarHandler(w http.ResponseWriter, r *http.Request) {
+// ListarIntegracoesHandler -+
+func ListarIntegracoesHandler(w http.ResponseWriter, r *http.Request) {
 
 	integracao := models.Integracao{}
 
@@ -88,8 +88,8 @@ func ListarHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// EditarHandler -+
-func EditarHandler(w http.ResponseWriter, r *http.Request) {
+// EditarIntegracaoHandler -+
+func EditarIntegracaoHandler(w http.ResponseWriter, r *http.Request) {
 
 	parametrosURL := mux.Vars(r)
 	idIntegracao, _ := strconv.Atoi(parametrosURL["id"])
@@ -112,6 +112,60 @@ func EditarHandler(w http.ResponseWriter, r *http.Request) {
 	var templates = template.Must(template.ParseGlob("template/*.html"))
 	template.Must(templates.ParseGlob("template/layout/*.html"))
 	template.Must(templates.ParseGlob("template/integracao/*.html"))
+	err := templates.ExecuteTemplate(w, "editarIntegracoesPage", parametros)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+}
+
+// GravarIntegracaoHandler -
+func GravarIntegracaoHandler(w http.ResponseWriter, r *http.Request) {
+	idIntegracao, _ := strconv.Atoi(r.FormValue("id"))
+
+	integracao := models.Integracao{
+		ID:                   idIntegracao,
+		Nome:                 r.FormValue("nome"),
+		NomeSistemaOrigem:    r.FormValue("nome_sistema_origem"),
+		APISistemaOrigem:     r.FormValue("api_sistema_origem"),
+		MetodoSistemaOrigem:  r.FormValue("metodo_sistema_origem"),
+		NomeSistemaDestino:   r.FormValue("nome_sistema_destino"),
+		APISistemaDestino:    r.FormValue("api_sistema_destino"),
+		MetodoSistemaDestino: r.FormValue("metodo_sistema_destino"),
+	}
+
+	retornoGravacao := integracao.Atualizar()
+
+	var mensagem string
+	var sucesso bool
+	var erro bool
+
+	if retornoGravacao == true {
+		sucesso = true
+		mensagem = fmt.Sprint("Sucesso ao gravar dados da integração")
+	} else {
+		erro = true
+		mensagem = fmt.Sprint("Erro ao gravar dados da integração")
+	}
+
+	parametros := struct {
+		NomeSistema   string
+		VersaoSistema string
+		Sucesso       bool
+		Erro          bool
+		Mensagem      string
+		Integracao    models.Integracao
+	}{
+		NomeSistema:   os.Getenv("NOME_SISTEMA"),
+		VersaoSistema: os.Getenv("VERSAO_SISTEMA"),
+		Sucesso:       sucesso,
+		Erro:          erro,
+		Mensagem:      mensagem,
+		Integracao:    integracao,
+	}
+
+	var templates = template.Must(template.ParseGlob("template/*.html"))
+	template.Must(templates.ParseGlob("template/layout/*.html"))
 	err := templates.ExecuteTemplate(w, "editarIntegracoesPage", parametros)
 
 	if err != nil {

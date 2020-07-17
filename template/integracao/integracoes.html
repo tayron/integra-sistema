@@ -29,25 +29,23 @@
                 <div class="table-responsive">
                     <table class="table table-sm table-bordered table-hover">
                         <thead>
-                            <tr class="bg-secondary text-white">
+                            <tr class="bg-dark text-white">
                                 <th>#</th>
                                 <th>Nome</th>
-                                <th>Sistema Origem</th>
-                                <th>Método</th>
-                                <th>Sistema Destino</th>
-                                <th>Método</th>
+                                <th>Sistema origem</th>                                                                
+                                <th>Sistema destino</th>                                   
+                                <th>Status</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody>
                         {{- range .ListaIntegracoes -}}
-                        <tr>
+                        <tr {{if .Status }} class="table-primary" {{else}} class="table-warning" {{end}}>
                             <td>{{.ID}}</td>
                             <td>{{.Nome}}</td>
-                            <td>{{.NomeSistemaOrigem}} - {{.APISistemaOrigem}}</td>
-                            <td>{{.MetodoSistemaOrigem}}</td>
-                            <td>{{.NomeSistemaDestino}} - {{.APISistemaDestino}}</td>
-                            <td>{{.MetodoSistemaDestino}}</td>
+                            <td>{{.NomeSistemaOrigem}}</td>                                                                                    
+                            <td>{{.NomeSistemaDestino}}</td>
+                            <td>{{if .Status }} Ativo {{else}} Inativo {{end}}</td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                                     <div class="btn-group-sm" role="group">

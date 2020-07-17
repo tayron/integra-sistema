@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"log"
 	"time"
 
@@ -79,6 +80,51 @@ func (i Integracao) Gravar(integracao Integracao) bool {
 	return false
 }
 
+// Atualizar -
+func (i Integracao) Atualizar() bool {
+
+	db := database.ObterConexao()
+	defer db.Close()
+	/*
+		var sqlA string = `UPDATE integracoes
+		(nome = ?, nome_sistema_origem = ?, api_sistema_origem = ?, metodo_sistema_origem = ?,
+		nome_sistema_destino = ?, api_sistema_destino = ?, metodo_sistema_destino = ?)
+		WHERE id = ?`
+	*/
+
+	var sql string = `UPDATE integracoes nome = ? WHERE id = ?`
+	stmt, _ := db.Prepare(sql)
+
+	fmt.Println("EXECUTOU COMANDO PREPARE")
+	resultado, err := stmt.Exec(i.Nome, i.ID)
+
+	/*
+		resultado, err := stmt.Exec(
+			i.Nome,
+			i.NomeSistemaOrigem,
+			i.APISistemaOrigem,
+			i.MetodoSistemaOrigem,
+			i.NomeSistemaDestino,
+			i.APISistemaDestino,
+			i.MetodoSistemaDestino,
+			i.ID)
+	*/
+	fmt.Println("EXECUTOU COMANDO")
+
+	if err != nil {
+		log.Printf("ERRO OCORRIDO: %s", err.Error)
+		log.Println(err)
+	}
+
+	fmt.Printf("TOTAL REGISTRO ALTERADO NO BANCO: %d", resultado.RowsAffected)
+
+	if resultado.RowsAffected != nil {
+		return true
+	}
+
+	return false
+}
+
 // BuscarTodos -
 func (i Integracao) BuscarTodos() []Integracao {
 
@@ -86,7 +132,7 @@ func (i Integracao) BuscarTodos() []Integracao {
 	defer db.Close()
 
 	var sql string = `SELECT id, nome, nome_sistema_origem, api_sistema_origem, metodo_sistema_origem, 
-	nome_sistema_destino, api_sistema_destino, metodo_sistema_destino FROM integracoes ORDER BY id DESC`
+	nome_sistema_destino, api_sistema_destino, metodo_sistema_destino, status FROM integracoes ORDER BY id DESC`
 
 	rows, _ := db.Query(sql)
 	defer rows.Close()
@@ -103,7 +149,8 @@ func (i Integracao) BuscarTodos() []Integracao {
 			&integracao.MetodoSistemaOrigem,
 			&integracao.NomeSistemaDestino,
 			&integracao.APISistemaDestino,
-			&integracao.MetodoSistemaDestino)
+			&integracao.MetodoSistemaDestino,
+			&integracao.Status)
 
 		listaIntegracoes = append(listaIntegracoes, integracao)
 	}
@@ -118,7 +165,7 @@ func (i Integracao) BuscarPorID(idIntegracao int) Integracao {
 	defer db.Close()
 
 	var sql string = `SELECT id, nome, nome_sistema_origem, api_sistema_origem, metodo_sistema_origem, 
-	nome_sistema_destino, api_sistema_destino, metodo_sistema_destino FROM integracoes WHERE id = ?`
+	nome_sistema_destino, api_sistema_destino, metodo_sistema_destino, status FROM integracoes WHERE id = ?`
 
 	rows, _ := db.Query(sql, idIntegracao)
 	defer rows.Close()
@@ -132,7 +179,8 @@ func (i Integracao) BuscarPorID(idIntegracao int) Integracao {
 			&integracao.MetodoSistemaOrigem,
 			&integracao.NomeSistemaDestino,
 			&integracao.APISistemaDestino,
-			&integracao.MetodoSistemaDestino)
+			&integracao.MetodoSistemaDestino,
+			&integracao.Status)
 
 		return integracao
 	}
