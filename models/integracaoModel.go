@@ -110,3 +110,32 @@ func (i Integracao) BuscarTodos() []Integracao {
 
 	return listaIntegracoes
 }
+
+// BuscarPorID -
+func (i Integracao) BuscarPorID(idIntegracao int) Integracao {
+
+	db := database.ObterConexao()
+	defer db.Close()
+
+	var sql string = `SELECT id, nome, nome_sistema_origem, api_sistema_origem, metodo_sistema_origem, 
+	nome_sistema_destino, api_sistema_destino, metodo_sistema_destino FROM integracoes WHERE id = ?`
+
+	rows, _ := db.Query(sql, idIntegracao)
+	defer rows.Close()
+
+	var integracao Integracao
+	for rows.Next() {
+		rows.Scan(&integracao.ID,
+			&integracao.Nome,
+			&integracao.NomeSistemaOrigem,
+			&integracao.APISistemaOrigem,
+			&integracao.MetodoSistemaOrigem,
+			&integracao.NomeSistemaDestino,
+			&integracao.APISistemaDestino,
+			&integracao.MetodoSistemaDestino)
+
+		return integracao
+	}
+
+	return integracao
+}

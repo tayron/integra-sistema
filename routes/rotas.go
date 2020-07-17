@@ -12,7 +12,7 @@ func CarregarRotas() {
 	r := mux.NewRouter()
 	r.HandleFunc("/", handlers.InicioHandler).Methods("GET")
 	r.HandleFunc("/", handlers.CriarIntegracaoHandler).Methods("POST")
-	r.HandleFunc("/integracoes-ativas", handlers.ListarHandler).Methods("GET")
-	r.HandleFunc("/integracoes-inativas", handlers.ListarHandler).Methods("GET")
+	r.HandleFunc("/integracoes", handlers.ListarHandler).Methods("GET")
+	r.HandleFunc("/editar/{id:[0-9]+}", handlers.EditarHandler).Methods("GET")
 	http.Handle("/", r)
 }

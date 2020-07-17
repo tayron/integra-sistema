@@ -4,8 +4,10 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strconv"
 	"text/template"
 
+	"github.com/gorilla/mux"
 	"github.com/tayron/integra-sistema/models"
 )
 
@@ -79,7 +81,38 @@ func ListarHandler(w http.ResponseWriter, r *http.Request) {
 	var templates = template.Must(template.ParseGlob("template/*.html"))
 	template.Must(templates.ParseGlob("template/layout/*.html"))
 	template.Must(templates.ParseGlob("template/integracao/*.html"))
-	err := templates.ExecuteTemplate(w, "integracoesAtivasPage", parametros)
+	err := templates.ExecuteTemplate(w, "listarIntegracoesPage", parametros)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+}
+
+// EditarHandler -+
+func EditarHandler(w http.ResponseWriter, r *http.Request) {
+
+	parametrosURL := mux.Vars(r)
+	idIntegracao, _ := strconv.Atoi(parametrosURL["id"])
+
+	integracao := models.Integracao{}
+
+	parametros := struct {
+		NomeSistema   string
+		VersaoSistema string
+		Mensagem      string
+		Sucesso       bool
+		Erro          bool
+		Integracao    models.Integracao
+	}{
+		NomeSistema:   os.Getenv("NOME_SISTEMA"),
+		VersaoSistema: os.Getenv("VERSAO_SISTEMA"),
+		Integracao:    integracao.BuscarPorID(idIntegracao),
+	}
+
+	var templates = template.Must(template.ParseGlob("template/*.html"))
+	template.Must(templates.ParseGlob("template/layout/*.html"))
+	template.Must(templates.ParseGlob("template/integracao/*.html"))
+	err := templates.ExecuteTemplate(w, "editarIntegracoesPage", parametros)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
