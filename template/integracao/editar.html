@@ -28,7 +28,8 @@
                 <form method="post">
                     <div class="form-group">
                         <label for="nome">Nome da integração</label>
-                        <input type="text" class="form-control" id="nome" name="nome" aria-describedby="emailHelp" required value="{{.Integracao.Nome}}">
+                        <input type="hidden" id="id" name="id" required value="{{.Integracao.ID}}">
+                        <input type="text" class="form-control" id="nome" name="nome" required value="{{.Integracao.Nome}}">                        
                         <small class="form-text text-muted">Nome usado para identificar a integração.</small>
                     </div>
                     <div class="row">                    
