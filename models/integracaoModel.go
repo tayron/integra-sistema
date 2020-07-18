@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	"log"
 	"time"
 
@@ -85,44 +84,44 @@ func (i Integracao) Atualizar() bool {
 
 	db := database.ObterConexao()
 	defer db.Close()
-	/*
-		var sqlA string = `UPDATE integracoes
-		(nome = ?, nome_sistema_origem = ?, api_sistema_origem = ?, metodo_sistema_origem = ?,
-		nome_sistema_destino = ?, api_sistema_destino = ?, metodo_sistema_destino = ?)
-		WHERE id = ?`
-	*/
 
-	var sql string = `UPDATE integracoes nome = ? WHERE id = ?`
-	stmt, _ := db.Prepare(sql)
+	var sql string = `UPDATE integracoes SET
+	nome = ?, nome_sistema_origem = ?, api_sistema_origem = ?, metodo_sistema_origem = ?,
+	nome_sistema_destino = ?, api_sistema_destino = ?, metodo_sistema_destino = ?
+	WHERE id = ?`
 
-	fmt.Println("EXECUTOU COMANDO PREPARE")
-	resultado, err := stmt.Exec(i.Nome, i.ID)
-
-	/*
-		resultado, err := stmt.Exec(
-			i.Nome,
-			i.NomeSistemaOrigem,
-			i.APISistemaOrigem,
-			i.MetodoSistemaOrigem,
-			i.NomeSistemaDestino,
-			i.APISistemaDestino,
-			i.MetodoSistemaDestino,
-			i.ID)
-	*/
-	fmt.Println("EXECUTOU COMANDO")
+	//var sql string = `UPDATE integracoes SET nome = ? WHERE id = ?`
+	stmt, err := db.Prepare(sql)
 
 	if err != nil {
-		log.Printf("ERRO OCORRIDO: %s", err.Error)
-		log.Println(err)
+		panic(err)
 	}
 
-	fmt.Printf("TOTAL REGISTRO ALTERADO NO BANCO: %d", resultado.RowsAffected)
+	resultado, err := stmt.Exec(
+		i.Nome,
+		i.NomeSistemaOrigem,
+		i.APISistemaOrigem,
+		i.MetodoSistemaOrigem,
+		i.NomeSistemaDestino,
+		i.APISistemaDestino,
+		i.MetodoSistemaDestino,
+		i.ID)
 
-	if resultado.RowsAffected != nil {
+	if err != nil {
+		panic(err)
+	}
+
+	numeroRegistrosAlterados, err := resultado.RowsAffected()
+
+	if err != nil {
+		panic(err)
+	}
+
+	if numeroRegistrosAlterados > 0 {
 		return true
 	}
 
-	return false
+	return true
 }
 
 // BuscarTodos -

@@ -166,6 +166,7 @@ func GravarIntegracaoHandler(w http.ResponseWriter, r *http.Request) {
 
 	var templates = template.Must(template.ParseGlob("template/*.html"))
 	template.Must(templates.ParseGlob("template/layout/*.html"))
+	template.Must(templates.ParseGlob("template/integracao/*.html"))
 	err := templates.ExecuteTemplate(w, "editarIntegracoesPage", parametros)
 
 	if err != nil {
