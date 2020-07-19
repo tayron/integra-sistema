@@ -1,7 +1,6 @@
 package models
 
 import (
-	"log"
 	"time"
 
 	"github.com/tayron/integra-sistema/database"
@@ -48,7 +47,7 @@ func CriarTabelaIntegracao() {
 }
 
 // Gravar -
-func (i Integracao) Gravar(integracao Integracao) bool {
+func (i Integracao) Gravar() bool {
 	db := database.ObterConexao()
 	defer db.Close()
 
@@ -60,19 +59,21 @@ func (i Integracao) Gravar(integracao Integracao) bool {
 	stmt, _ := db.Prepare(sql)
 
 	resultado, err := stmt.Exec(
-		integracao.Nome,
-		integracao.NomeSistemaOrigem,
-		integracao.APISistemaOrigem,
-		integracao.MetodoSistemaOrigem,
-		integracao.NomeSistemaDestino,
-		integracao.APISistemaDestino,
-		integracao.MetodoSistemaDestino)
+		i.Nome,
+		i.NomeSistemaOrigem,
+		i.APISistemaOrigem,
+		i.MetodoSistemaOrigem,
+		i.NomeSistemaDestino,
+		i.APISistemaDestino,
+		i.MetodoSistemaDestino)
+
+	numeroRegistrosAlterados, err := resultado.RowsAffected()
 
 	if err != nil {
-		log.Println(err)
+		panic(err)
 	}
 
-	if resultado.LastInsertId != nil {
+	if numeroRegistrosAlterados > 0 {
 		return true
 	}
 

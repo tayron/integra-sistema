@@ -23,7 +23,7 @@ func CriarIntegracaoHandler(w http.ResponseWriter, r *http.Request) {
 		MetodoSistemaDestino: r.FormValue("metodo_sistema_destino"),
 	}
 
-	retornoGravacao := integracao.Gravar(integracao)
+	retornoGravacao := integracao.Gravar()
 
 	var mensagem string
 	var sucesso bool
