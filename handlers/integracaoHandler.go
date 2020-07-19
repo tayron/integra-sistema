@@ -88,7 +88,55 @@ func ListarIntegracoesHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// EditarIntegracaoHandler -+
+// ExcluirIntegracaoHandler -
+func ExcluirIntegracaoHandler(w http.ResponseWriter, r *http.Request) {
+	idIntegracao, _ := strconv.Atoi(r.FormValue("id"))
+
+	integracao := models.Integracao{
+		ID: idIntegracao,
+	}
+
+	retornoGravacao := integracao.Excluir()
+
+	var mensagem string
+	var sucesso bool
+	var erro bool
+
+	if retornoGravacao == true {
+		sucesso = true
+		mensagem = fmt.Sprint("Sucesso ao excluir a integração")
+	} else {
+		erro = true
+		mensagem = fmt.Sprint("Erro ao excluir a integração")
+	}
+
+	parametros := struct {
+		NomeSistema      string
+		VersaoSistema    string
+		Mensagem         string
+		Sucesso          bool
+		Erro             bool
+		ListaIntegracoes []models.Integracao
+	}{
+		NomeSistema:      os.Getenv("NOME_SISTEMA"),
+		VersaoSistema:    os.Getenv("VERSAO_SISTEMA"),
+		ListaIntegracoes: integracao.BuscarTodos(),
+		Mensagem:         mensagem,
+		Sucesso:          sucesso,
+		Erro:             erro,
+	}
+
+	var templates = template.Must(template.ParseGlob("template/*.html"))
+	template.Must(templates.ParseGlob("template/layout/*.html"))
+	template.Must(templates.ParseGlob("template/integracao/*.html"))
+	err := templates.ExecuteTemplate(w, "listarIntegracoesPage", parametros)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+}
+
+// EditarIntegracaoHandler -
 func EditarIntegracaoHandler(w http.ResponseWriter, r *http.Request) {
 
 	parametrosURL := mux.Vars(r)

@@ -15,5 +15,6 @@ func CarregarRotas() {
 	r.HandleFunc("/integracoes", handlers.ListarIntegracoesHandler).Methods("GET")
 	r.HandleFunc("/editar/{id:[0-9]+}", handlers.EditarIntegracaoHandler).Methods("GET")
 	r.HandleFunc("/editar/{id:[0-9]+}", handlers.GravarIntegracaoHandler).Methods("POST")
+	r.HandleFunc("/excluir-integracao", handlers.ExcluirIntegracaoHandler).Methods("POST")
 	http.Handle("/", r)
 }

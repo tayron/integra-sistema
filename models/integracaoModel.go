@@ -90,7 +90,6 @@ func (i Integracao) Atualizar() bool {
 	nome_sistema_destino = ?, api_sistema_destino = ?, metodo_sistema_destino = ?
 	WHERE id = ?`
 
-	//var sql string = `UPDATE integracoes SET nome = ? WHERE id = ?`
 	stmt, err := db.Prepare(sql)
 
 	if err != nil {
@@ -106,6 +105,38 @@ func (i Integracao) Atualizar() bool {
 		i.APISistemaDestino,
 		i.MetodoSistemaDestino,
 		i.ID)
+
+	if err != nil {
+		panic(err)
+	}
+
+	numeroRegistrosAlterados, err := resultado.RowsAffected()
+
+	if err != nil {
+		panic(err)
+	}
+
+	if numeroRegistrosAlterados > 0 {
+		return true
+	}
+
+	return true
+}
+
+// Excluir -
+func (i Integracao) Excluir() bool {
+	db := database.ObterConexao()
+	defer db.Close()
+
+	var sql string = `DELETE FROM integracoes WHERE id = ?`
+
+	stmt, err := db.Prepare(sql)
+
+	if err != nil {
+		panic(err)
+	}
+
+	resultado, err := stmt.Exec(i.ID)
 
 	if err != nil {
 		panic(err)
