@@ -10,6 +10,8 @@ import (
 func init() {
 	godotenv.Load()
 	models.CriarTabelaIntegracao()
+	models.CriarTabelaSaida()
+	models.CriarTabelaEntrada()
 }
 
 func main() {

@@ -8,7 +8,7 @@ Sistema de integração entre sistemas feito em Go
 * Bootstrap v4.5.0 (https://getbootstrap.com/)
 * https://icons.getbootstrap.com/
 
-### Dependências
+## Dependências
 * github.com/joho/godotenv
 * github.com/gorilla/mux
 * github.com/go-sql-driver/mysql

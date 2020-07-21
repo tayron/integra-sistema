@@ -1,0 +1,6 @@
+* Tabela Integração onde irá guardar informações basicas entre os sistema
+* Tabela Entrada que irá armazenar nome do atributo de entrada e Id da integração e da Saida
+* Tabela Saida que irá armazenar nome do atributo de saída 
+
+* Na tela de edição de Integração irá ter um botão para Adicionar novos campos, 
+onde deverá informar campo de origem e destino.
