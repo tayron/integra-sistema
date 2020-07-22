@@ -3,6 +3,9 @@ Sistema de integração entre sistemas feito em Go
 
 ![Alt text](/imagem.png?raw=true "Página inicial do sistema Integra Sistema")
 
+## Estrutura do banco desenvolvida
+![Alt text](/der.png?raw=true "Diagrama de Entidade e Relacionamento")
+
 ## Tecnologias
 * Go versão 1.14.4 linux/amd64
 * Bootstrap v4.5.0 (https://getbootstrap.com/)
