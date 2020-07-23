@@ -1,4 +1,4 @@
-package handlers
+package controllers
 
 import (
 	"fmt"
@@ -11,8 +11,32 @@ import (
 	"github.com/tayron/integra-sistema/models"
 )
 
-// CriarIntegracaoHandler - Grava uma nova integração
-func CriarIntegracaoHandler(w http.ResponseWriter, r *http.Request) {
+// ListarIntegracao -
+func ListarIntegracao(w http.ResponseWriter, r *http.Request) {
+
+	integracao := models.Integracao{}
+
+	parametros := struct {
+		NomeSistema      string
+		VersaoSistema    string
+		Mensagem         string
+		Sucesso          bool
+		Erro             bool
+		ListaIntegracoes []models.Integracao
+	}{
+		NomeSistema:      os.Getenv("NOME_SISTEMA"),
+		VersaoSistema:    os.Getenv("VERSAO_SISTEMA"),
+		ListaIntegracoes: integracao.BuscarTodos(),
+	}
+
+	var templates = template.Must(template.ParseGlob("template/*.html"))
+	template.Must(templates.ParseGlob("template/layout/*.html"))
+	template.Must(templates.ParseGlob("template/integracao/*.html"))
+	templates.ExecuteTemplate(w, "listarIntegracoesPage", parametros)
+}
+
+// CriarIntegracao -
+func CriarIntegracao(w http.ResponseWriter, r *http.Request) {
 	integracao := models.Integracao{
 		Nome:                 r.FormValue("nome"),
 		NomeSistemaOrigem:    r.FormValue("nome_sistema_origem"),
@@ -53,43 +77,38 @@ func CriarIntegracaoHandler(w http.ResponseWriter, r *http.Request) {
 
 	var templates = template.Must(template.ParseGlob("template/*.html"))
 	template.Must(templates.ParseGlob("template/layout/*.html"))
-	err := templates.ExecuteTemplate(w, "homePage", parametros)
-
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
+	templates.ExecuteTemplate(w, "homePage", parametros)
 }
 
-// ListarIntegracoesHandler -+
-func ListarIntegracoesHandler(w http.ResponseWriter, r *http.Request) {
+// EditarIntegracao -
+func EditarIntegracao(w http.ResponseWriter, r *http.Request) {
+
+	parametrosURL := mux.Vars(r)
+	idIntegracao, _ := strconv.ParseInt(parametrosURL["id"], 10, 64)
 
 	integracao := models.Integracao{}
 
 	parametros := struct {
-		NomeSistema      string
-		VersaoSistema    string
-		Mensagem         string
-		Sucesso          bool
-		Erro             bool
-		ListaIntegracoes []models.Integracao
+		NomeSistema   string
+		VersaoSistema string
+		Mensagem      string
+		Sucesso       bool
+		Erro          bool
+		Integracao    models.Integracao
 	}{
-		NomeSistema:      os.Getenv("NOME_SISTEMA"),
-		VersaoSistema:    os.Getenv("VERSAO_SISTEMA"),
-		ListaIntegracoes: integracao.BuscarTodos(),
+		NomeSistema:   os.Getenv("NOME_SISTEMA"),
+		VersaoSistema: os.Getenv("VERSAO_SISTEMA"),
+		Integracao:    integracao.BuscarPorID(idIntegracao),
 	}
 
 	var templates = template.Must(template.ParseGlob("template/*.html"))
 	template.Must(templates.ParseGlob("template/layout/*.html"))
 	template.Must(templates.ParseGlob("template/integracao/*.html"))
-	err := templates.ExecuteTemplate(w, "listarIntegracoesPage", parametros)
-
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
+	templates.ExecuteTemplate(w, "editarIntegracoesPage", parametros)
 }
 
-// ExcluirIntegracaoHandler -
-func ExcluirIntegracaoHandler(w http.ResponseWriter, r *http.Request) {
+// ExcluirIntegracao -
+func ExcluirIntegracao(w http.ResponseWriter, r *http.Request) {
 	idIntegracao, _ := strconv.Atoi(r.FormValue("id"))
 
 	integracao := models.Integracao{
@@ -129,46 +148,11 @@ func ExcluirIntegracaoHandler(w http.ResponseWriter, r *http.Request) {
 	var templates = template.Must(template.ParseGlob("template/*.html"))
 	template.Must(templates.ParseGlob("template/layout/*.html"))
 	template.Must(templates.ParseGlob("template/integracao/*.html"))
-	err := templates.ExecuteTemplate(w, "listarIntegracoesPage", parametros)
-
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
+	templates.ExecuteTemplate(w, "listarIntegracoesPage", parametros)
 }
 
-// EditarIntegracaoHandler -
-func EditarIntegracaoHandler(w http.ResponseWriter, r *http.Request) {
-
-	parametrosURL := mux.Vars(r)
-	idIntegracao, _ := strconv.ParseInt(parametrosURL["id"], 10, 64)
-
-	integracao := models.Integracao{}
-
-	parametros := struct {
-		NomeSistema   string
-		VersaoSistema string
-		Mensagem      string
-		Sucesso       bool
-		Erro          bool
-		Integracao    models.Integracao
-	}{
-		NomeSistema:   os.Getenv("NOME_SISTEMA"),
-		VersaoSistema: os.Getenv("VERSAO_SISTEMA"),
-		Integracao:    integracao.BuscarPorID(idIntegracao),
-	}
-
-	var templates = template.Must(template.ParseGlob("template/*.html"))
-	template.Must(templates.ParseGlob("template/layout/*.html"))
-	template.Must(templates.ParseGlob("template/integracao/*.html"))
-	err := templates.ExecuteTemplate(w, "editarIntegracoesPage", parametros)
-
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
-
-// GravarIntegracaoHandler -
-func GravarIntegracaoHandler(w http.ResponseWriter, r *http.Request) {
+// SalvarIntegracao -
+func SalvarIntegracao(w http.ResponseWriter, r *http.Request) {
 	idIntegracao, _ := strconv.Atoi(r.FormValue("id"))
 
 	integracao := models.Integracao{
@@ -215,9 +199,5 @@ func GravarIntegracaoHandler(w http.ResponseWriter, r *http.Request) {
 	var templates = template.Must(template.ParseGlob("template/*.html"))
 	template.Must(templates.ParseGlob("template/layout/*.html"))
 	template.Must(templates.ParseGlob("template/integracao/*.html"))
-	err := templates.ExecuteTemplate(w, "editarIntegracoesPage", parametros)
-
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
+	templates.ExecuteTemplate(w, "editarIntegracoesPage", parametros)
 }

@@ -1,4 +1,4 @@
-package handlers
+package controllers
 
 import (
 	"net/http"
@@ -6,8 +6,8 @@ import (
 	"text/template"
 )
 
-// InicioHandler Controlador página inicial
-func InicioHandler(w http.ResponseWriter, r *http.Request) {
+// IndexApplication -
+func IndexApplication(w http.ResponseWriter, r *http.Request) {
 
 	parametros := struct {
 		NomeSistema   string
@@ -22,9 +22,5 @@ func InicioHandler(w http.ResponseWriter, r *http.Request) {
 
 	var templates = template.Must(template.ParseGlob("template/*.html"))
 	template.Must(templates.ParseGlob("template/layout/*.html"))
-	err := templates.ExecuteTemplate(w, "homePage", parametros)
-
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
+	templates.ExecuteTemplate(w, "homePage", parametros)
 }

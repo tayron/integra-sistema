@@ -1,4 +1,4 @@
-package handlers
+package controllers
 
 import (
 	"fmt"
@@ -11,8 +11,8 @@ import (
 	"github.com/tayron/integra-sistema/models"
 )
 
-// GerirParametrosHandler -
-func GerirParametrosHandler(w http.ResponseWriter, r *http.Request) {
+// ListarParametro -
+func ListarParametro(w http.ResponseWriter, r *http.Request) {
 
 	parametrosURL := mux.Vars(r)
 	idIntegracao, _ := strconv.ParseInt(parametrosURL["id"], 10, 64)
@@ -38,15 +38,11 @@ func GerirParametrosHandler(w http.ResponseWriter, r *http.Request) {
 	var templates = template.Must(template.ParseGlob("template/*.html"))
 	template.Must(templates.ParseGlob("template/layout/*.html"))
 	template.Must(templates.ParseGlob("template/parametro/*.html"))
-	err := templates.ExecuteTemplate(w, "listarParametroPage", parametros)
-
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
+	templates.ExecuteTemplate(w, "listarParametroPage", parametros)
 }
 
-// CriarParametroHandler -
-func CriarParametroHandler(w http.ResponseWriter, r *http.Request) {
+// CriarParametro -
+func CriarParametro(w http.ResponseWriter, r *http.Request) {
 
 	integracaoID, _ := strconv.ParseInt(r.FormValue("integracao_id"), 10, 64)
 	nomeParametroEntrada := r.FormValue("nome_parametro_entrada")
@@ -95,9 +91,5 @@ func CriarParametroHandler(w http.ResponseWriter, r *http.Request) {
 	var templates = template.Must(template.ParseGlob("template/*.html"))
 	template.Must(templates.ParseGlob("template/layout/*.html"))
 	template.Must(templates.ParseGlob("template/parametro/*.html"))
-	err := templates.ExecuteTemplate(w, "listarParametroPage", parametros)
-
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
+	templates.ExecuteTemplate(w, "listarParametroPage", parametros)
 }
