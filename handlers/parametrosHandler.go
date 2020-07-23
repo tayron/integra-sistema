@@ -18,18 +18,21 @@ func GerirParametrosHandler(w http.ResponseWriter, r *http.Request) {
 	idIntegracao, _ := strconv.ParseInt(parametrosURL["id"], 10, 64)
 
 	integracao := models.Integracao{}
+	parametro := models.Parametro{}
 
 	parametros := struct {
-		NomeSistema   string
-		VersaoSistema string
-		Mensagem      string
-		Sucesso       bool
-		Erro          bool
-		Integracao    models.Integracao
+		NomeSistema     string
+		VersaoSistema   string
+		Mensagem        string
+		Sucesso         bool
+		Erro            bool
+		Integracao      models.Integracao
+		ListaParametros []models.Parametro
 	}{
-		NomeSistema:   os.Getenv("NOME_SISTEMA"),
-		VersaoSistema: os.Getenv("VERSAO_SISTEMA"),
-		Integracao:    integracao.BuscarPorID(idIntegracao),
+		NomeSistema:     os.Getenv("NOME_SISTEMA"),
+		VersaoSistema:   os.Getenv("VERSAO_SISTEMA"),
+		Integracao:      integracao.BuscarPorID(idIntegracao),
+		ListaParametros: parametro.BuscarPorIDIntegracao(idIntegracao),
 	}
 
 	var templates = template.Must(template.ParseGlob("template/*.html"))
@@ -78,7 +81,7 @@ func CriarParametroHandler(w http.ResponseWriter, r *http.Request) {
 		Sucesso         bool
 		Erro            bool
 		Integracao      models.Integracao
-		listaParametros []Parametro
+		listaParametros []models.Parametro
 	}{
 		NomeSistema:     os.Getenv("NOME_SISTEMA"),
 		VersaoSistema:   os.Getenv("VERSAO_SISTEMA"),

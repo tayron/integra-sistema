@@ -54,7 +54,8 @@
                             </button>
                         </div>                                                              
                         <div class="col-md-12">
-                            <h4>Integrações</h4>
+                            <br />
+                            <h4>Parâmetros</h4>
                             <div class="table-responsive">
                                 <table class="table table-sm table-bordered table-hover">
                                     <thead>
@@ -65,14 +66,12 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{- range .ListaIntegracoes -}}
-                                        <tr {{if .Status }} class="table-primary" {{else}} class="table-warning" {{end}}>
-                                            <td>{{.ID}}</td>
-                                            <td>{{.Nome}}</td>
-                                            <td>{{.NomeSistemaOrigem}}</td>
-                                            <td>{{.NomeSistemaDestino}}</td>                                            
-                                        </tr>
-                                        {{- template "modalExclusao" . -}}
+                                        {{- range .ListaParametros -}}
+                                        <tr>
+                                            <td>{{.ID}}</td>                                            
+                                            <td>{{.NomeParametroEntrada}}</td>
+                                            <td>{{.NomeParametroSaida}}</td>                                            
+                                        </tr>                                        
                                         {{- end -}}
                                     </tbody>
                                 </table>
