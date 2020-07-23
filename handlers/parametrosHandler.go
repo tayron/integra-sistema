@@ -34,8 +34,8 @@ func GerirParametrosHandler(w http.ResponseWriter, r *http.Request) {
 
 	var templates = template.Must(template.ParseGlob("template/*.html"))
 	template.Must(templates.ParseGlob("template/layout/*.html"))
-	template.Must(templates.ParseGlob("template/atributo/*.html"))
-	err := templates.ExecuteTemplate(w, "editarAtributosPage", parametros)
+	template.Must(templates.ParseGlob("template/parametro/*.html"))
+	err := templates.ExecuteTemplate(w, "listarParametroPage", parametros)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -89,8 +89,8 @@ func CriarParametroHandler(w http.ResponseWriter, r *http.Request) {
 
 	var templates = template.Must(template.ParseGlob("template/*.html"))
 	template.Must(templates.ParseGlob("template/layout/*.html"))
-	template.Must(templates.ParseGlob("template/atributo/*.html"))
-	err := templates.ExecuteTemplate(w, "editarAtributosPage", parametros)
+	template.Must(templates.ParseGlob("template/parametro/*.html"))
+	err := templates.ExecuteTemplate(w, "listarParametroPage", parametros)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

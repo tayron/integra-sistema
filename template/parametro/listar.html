@@ -1,4 +1,4 @@
-{{- define "editarAtributosPage" -}}
+{{- define "listarParametroPage" -}}
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -25,20 +25,20 @@
             </div>         
 
             <div class="col-md-12">
-                <form method="post" action="/cadastrar-atributos">
+                <form method="post" action="/parametro/cadastrar">
                 <input type="hidden" class="form-control" id="integracao_id" name="integracao_id" required value="{{.Integracao.ID}}">
                     <div class="row">                    
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="nome_sistema_origem">Atributo do sistema de origem dos dados</label>
-                                <input type="text" class="form-control" id="nome_sistema_origem" name="nome_sistema_origem" required value="{{.Integracao.NomeSistemaOrigem}}">
+                                <label for="nome_parametro_entrada">Atributo do sistema de origem dos dados</label>
+                                <input type="text" class="form-control" id="nome_parametro_entrada" name="nome_parametro_entrada" required />
                                 <small class="form-text text-muted">Sistema que irá fazer a requisição.</small>
                             </div>                                   
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="nome_sistema_destino">Atributo do sistema de destino dos dados</label>
-                                <input type="text" class="form-control" id="nome_sistema_destino" name="nome_sistema_destino" required value="{{.Integracao.NomeSistemaDestino}}">
+                                <label for="nome_parametro_saida">Atributo do sistema de destino dos dados</label>
+                                <input type="text" class="form-control" id="nome_parametro_saida" name="nome_parametro_saida" required />
                                 <small class="form-text text-muted">Sistema que irá receber a requisição.</small>
                             </div>
                         </div>  
