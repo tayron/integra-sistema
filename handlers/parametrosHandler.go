@@ -11,8 +11,8 @@ import (
 	"github.com/tayron/integra-sistema/models"
 )
 
-// EditarAtributosHandler -
-func EditarAtributosHandler(w http.ResponseWriter, r *http.Request) {
+// GerirParametrosHandler -
+func GerirParametrosHandler(w http.ResponseWriter, r *http.Request) {
 
 	parametrosURL := mux.Vars(r)
 	idIntegracao, _ := strconv.ParseInt(parametrosURL["id"], 10, 64)
@@ -42,26 +42,20 @@ func EditarAtributosHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// CriarAtributoHandler -
-func CriarAtributoHandler(w http.ResponseWriter, r *http.Request) {
+// CriarParametroHandler -
+func CriarParametroHandler(w http.ResponseWriter, r *http.Request) {
 
 	integracaoID, _ := strconv.ParseInt(r.FormValue("integracao_id"), 10, 64)
-	nomeAtributoSistemaOrigem := r.FormValue("nome_sistema_origem")
-	nomeAtributoSistemaDestino := r.FormValue("nome_sistema_destino")
+	nomeParametroEntrada := r.FormValue("nome_parametro_entrada")
+	nomeParametroSaida := r.FormValue("nome_parametro_saida")
 
-	saida := models.Saida{
-		NomeAtributoSistemaDestino: nomeAtributoSistemaDestino,
+	parametro := models.Parametro{
+		IntegracaoID:         integracaoID,
+		NomeParametroEntrada: nomeParametroEntrada,
+		NomeParametroSaida:   nomeParametroSaida,
 	}
 
-	saidaID := saida.Gravar()
-
-	entrada := models.Entrada{
-		IntegracaoID:              integracaoID,
-		SaidaID:                   saidaID,
-		NomeAtributoSistemaOrigem: nomeAtributoSistemaOrigem,
-	}
-
-	retornoGravacao := entrada.Gravar()
+	retornoGravacao := parametro.Gravar()
 
 	var mensagem string
 	var sucesso bool

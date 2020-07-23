@@ -4,30 +4,28 @@ import (
 	"github.com/tayron/integra-sistema/database"
 )
 
-type Entrada struct {
-	ID                        int
-	IntegracaoID              int64
-	SaidaID                   int64
-	NomeAtributoSistemaOrigem string
+type Parametro struct {
+	ID                   int
+	IntegracaoID         int64
+	NomeParametroEntrada string
+	NomeParametroSaida   string
 }
 
-// CriarTabelaEntrada -
-func CriarTabelaEntrada() {
+// CriarTabelaParametro -
+func CriarTabelaParametro() {
 	db := database.ObterConexao()
 	defer db.Close()
 
-	var sql string = `create table if not exists entradas (
+	var sql string = `create table if not exists parametros (
 		id integer auto_increment,
 		integracao_id integer,
-		saida_id integer,
-		nome_atributo_sistema_origem varchar(255),
+		nome_parametro_entrada varchar(255),
+		nome_parametro_saida varchar(255),		
 		criacao datetime DEFAULT CURRENT_TIMESTAMP,	
 		alteracao datetime ON UPDATE CURRENT_TIMESTAMP,
 		PRIMARY KEY (id),
-		FOREIGN KEY (integracao_id) REFERENCES integracoes(id),
-		FOREIGN KEY (saida_id) REFERENCES saidas(id)
+		FOREIGN KEY (integracao_id) REFERENCES integracoes(id)
 	)`
-
 	_, err := db.Exec(sql)
 	if err != nil {
 		panic(err)
@@ -35,20 +33,20 @@ func CriarTabelaEntrada() {
 }
 
 // Gravar -
-func (e Entrada) Gravar() bool {
+func (p Parametro) Gravar() bool {
 	db := database.ObterConexao()
 	defer db.Close()
 
-	var sql string = `insert into entradas 
-	(nome_atributo_sistema_origem, integracao_id, saida_id) 
+	var sql string = `insert into parametros 
+	(nome_parametro_entrada, nome_parametro_saida, integracao_id) 
 	values (?, ?, ?)`
 
 	stmt, _ := db.Prepare(sql)
 
 	resultado, err := stmt.Exec(
-		e.NomeAtributoSistemaOrigem,
-		e.IntegracaoID,
-		e.SaidaID)
+		p.NomeParametroEntrada,
+		p.NomeParametroSaida,
+		p.IntegracaoID)
 
 	numeroRegistrosAlterados, err := resultado.RowsAffected()
 
@@ -64,11 +62,11 @@ func (e Entrada) Gravar() bool {
 }
 
 // Excluir -
-func (e Entrada) Excluir() bool {
+func (p Parametro) Excluir() bool {
 	db := database.ObterConexao()
 	defer db.Close()
 
-	var sql string = `DELETE FROM entradas WHERE id = ?`
+	var sql string = `DELETE FROM parametros WHERE id = ?`
 
 	stmt, err := db.Prepare(sql)
 
@@ -76,7 +74,7 @@ func (e Entrada) Excluir() bool {
 		panic(err)
 	}
 
-	resultado, err := stmt.Exec(e.ID)
+	resultado, err := stmt.Exec(p.ID)
 
 	if err != nil {
 		panic(err)
