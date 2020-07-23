@@ -6,10 +6,9 @@ import (
 
 type Entrada struct {
 	ID                        int
-	Integracao                Integracao
-	Saida                     Saida
+	IntegracaoID              int64
+	SaidaID                   int64
 	NomeAtributoSistemaOrigem string
-	NomeCampoOrigem           string
 }
 
 // CriarTabelaEntrada -
@@ -48,8 +47,8 @@ func (e Entrada) Gravar() bool {
 
 	resultado, err := stmt.Exec(
 		e.NomeAtributoSistemaOrigem,
-		e.Integracao.ID,
-		e.Saida.ID)
+		e.IntegracaoID,
+		e.SaidaID)
 
 	numeroRegistrosAlterados, err := resultado.RowsAffected()
 

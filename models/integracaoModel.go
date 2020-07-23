@@ -190,7 +190,7 @@ func (i Integracao) BuscarTodos() []Integracao {
 }
 
 // BuscarPorID -
-func (i Integracao) BuscarPorID(idIntegracao int) Integracao {
+func (i Integracao) BuscarPorID(idIntegracao int64) Integracao {
 
 	db := database.ObterConexao()
 	defer db.Close()

@@ -6,7 +6,6 @@ import (
 
 type Saida struct {
 	ID                         int
-	Nome                       string
 	NomeAtributoSistemaDestino string
 }
 
@@ -30,7 +29,7 @@ func CriarTabelaSaida() {
 }
 
 // Gravar -
-func (s Saida) Gravar() bool {
+func (s Saida) Gravar() int64 {
 	db := database.ObterConexao()
 	defer db.Close()
 
@@ -43,17 +42,13 @@ func (s Saida) Gravar() bool {
 	resultado, err := stmt.Exec(
 		s.NomeAtributoSistemaDestino)
 
-	numeroRegistrosAlterados, err := resultado.RowsAffected()
+	idRegistro, err := resultado.LastInsertId()
 
 	if err != nil {
 		panic(err)
 	}
 
-	if numeroRegistrosAlterados > 0 {
-		return true
-	}
-
-	return false
+	return idRegistro
 }
 
 // Excluir -

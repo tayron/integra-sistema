@@ -140,7 +140,7 @@ func ExcluirIntegracaoHandler(w http.ResponseWriter, r *http.Request) {
 func EditarIntegracaoHandler(w http.ResponseWriter, r *http.Request) {
 
 	parametrosURL := mux.Vars(r)
-	idIntegracao, _ := strconv.Atoi(parametrosURL["id"])
+	idIntegracao, _ := strconv.ParseInt(parametrosURL["id"], 10, 64)
 
 	integracao := models.Integracao{}
 
