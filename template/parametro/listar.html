@@ -25,19 +25,20 @@
             </div>         
 
             <div class="col-md-12">
+                <h2>Parametros de integração: <strong>{{.Integracao.Nome}}</strong></h2>
                 <form method="post" action="/parametro/cadastrar">
                 <input type="hidden" class="form-control" id="integracao_id" name="integracao_id" required value="{{.Integracao.ID}}">
                     <div class="row">                    
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="nome_parametro_entrada">Atributo do sistema de origem dos dados</label>
+                                <label for="nome_parametro_entrada">Atributo do sistema: <strong>{{.Integracao.NomeSistemaOrigem}}</strong></label>
                                 <input type="text" class="form-control" id="nome_parametro_entrada" name="nome_parametro_entrada" required />
                                 <small class="form-text text-muted">Sistema que irá fazer a requisição.</small>
                             </div>                                   
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="nome_parametro_saida">Atributo do sistema de destino dos dados</label>
+                                <label for="nome_parametro_saida">Atributo do sistema: <strong>{{.Integracao.NomeSistemaDestino}}</strong></label>
                                 <input type="text" class="form-control" id="nome_parametro_saida" name="nome_parametro_saida" required />
                                 <small class="form-text text-muted">Sistema que irá receber a requisição.</small>
                             </div>
