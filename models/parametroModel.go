@@ -92,3 +92,29 @@ func (p Parametro) Excluir() bool {
 
 	return true
 }
+
+// BuscarPorIDIntegracao -
+func (p Parametro) BuscarPorIDIntegracao(idIntegracao int64) []Parametro {
+
+	db := database.ObterConexao()
+	defer db.Close()
+
+	var sql string = `SELECT id, nome_parametro_entrada, nome_parametro_saida FROM parametros WHERE integracao_id = ?`
+
+	rows, _ := db.Query(sql, idIntegracao)
+	defer rows.Close()
+
+	var listaParametro []Parametro
+	for rows.Next() {
+
+		var parametro Parametro
+
+		rows.Scan(&parametro.ID,
+			&parametro.NomeParametroEntrada,
+			&parametro.NomeParametroSaida)
+
+		listaParametro = append(listaParametro, parametro)
+	}
+
+	return listaParametro
+}
