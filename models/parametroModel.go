@@ -66,31 +66,15 @@ func (p Parametro) Excluir() bool {
 	db := database.ObterConexao()
 	defer db.Close()
 
-	var sql string = `DELETE FROM parametros WHERE id = ?`
-
-	stmt, err := db.Prepare(sql)
-
-	if err != nil {
-		panic(err)
-	}
-
-	resultado, err := stmt.Exec(p.ID)
+	stmt, _ := db.Prepare("DELETE FROM parametros WHERE id = ?")
+	var _, err = stmt.Exec(p.ID)
 
 	if err != nil {
-		panic(err)
-	}
-
-	numeroRegistrosAlterados, err := resultado.RowsAffected()
-
-	if err != nil {
-		panic(err)
-	}
-
-	if numeroRegistrosAlterados > 0 {
-		return true
+		return false
 	}
 
 	return true
+
 }
 
 // BuscarPorIDIntegracao -

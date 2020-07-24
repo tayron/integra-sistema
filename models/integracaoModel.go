@@ -111,14 +111,10 @@ func (i Integracao) Atualizar() bool {
 		panic(err)
 	}
 
-	numeroRegistrosAlterados, err := resultado.RowsAffected()
+	_, err = resultado.RowsAffected()
 
 	if err != nil {
-		panic(err)
-	}
-
-	if numeroRegistrosAlterados > 0 {
-		return true
+		return false
 	}
 
 	return true
@@ -129,28 +125,11 @@ func (i Integracao) Excluir() bool {
 	db := database.ObterConexao()
 	defer db.Close()
 
-	var sql string = `DELETE FROM integracoes WHERE id = ?`
-
-	stmt, err := db.Prepare(sql)
-
-	if err != nil {
-		panic(err)
-	}
-
-	resultado, err := stmt.Exec(i.ID)
+	stmt, _ := db.Prepare("DELETE FROM integracoes WHERE id = ?")
+	var _, err = stmt.Exec(i.ID)
 
 	if err != nil {
-		panic(err)
-	}
-
-	numeroRegistrosAlterados, err := resultado.RowsAffected()
-
-	if err != nil {
-		panic(err)
-	}
-
-	if numeroRegistrosAlterados > 0 {
-		return true
+		return false
 	}
 
 	return true
