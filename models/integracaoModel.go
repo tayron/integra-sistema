@@ -9,6 +9,7 @@ import (
 type Integracao struct {
 	ID                   int
 	Nome                 string
+	Endpoint             string
 	NomeSistemaOrigem    string
 	APISistemaOrigem     string
 	MetodoSistemaOrigem  string
@@ -28,6 +29,7 @@ func CriarTabelaIntegracao() {
 	var sql string = `create table if not exists integracoes (
 		id integer auto_increment,
 		nome varchar(255),
+		endpoint varchar(255),
 		nome_sistema_origem varchar(255),
 		api_sistema_origem varchar(255),
 		metodo_sistema_origem char(6),
@@ -52,14 +54,15 @@ func (i Integracao) Gravar() bool {
 	defer db.Close()
 
 	var sql string = `insert into integracoes 
-	(nome, nome_sistema_origem, api_sistema_origem, metodo_sistema_origem, 
+	(nome, endpoint, nome_sistema_origem, api_sistema_origem, metodo_sistema_origem, 
 	nome_sistema_destino, api_sistema_destino, metodo_sistema_destino) 
-	values (?, ?, ?, ?, ?, ?, ?)`
+	values (?, ?, ?, ?, ?, ?, ?, ?)`
 
 	stmt, _ := db.Prepare(sql)
 
 	resultado, err := stmt.Exec(
 		i.Nome,
+		i.Endpoint,
 		i.NomeSistemaOrigem,
 		i.APISistemaOrigem,
 		i.MetodoSistemaOrigem,
@@ -87,7 +90,7 @@ func (i Integracao) Atualizar() bool {
 	defer db.Close()
 
 	var sql string = `UPDATE integracoes SET
-	nome = ?, nome_sistema_origem = ?, api_sistema_origem = ?, metodo_sistema_origem = ?,
+	nome = ?, endpoint = ?, nome_sistema_origem = ?, api_sistema_origem = ?, metodo_sistema_origem = ?,
 	nome_sistema_destino = ?, api_sistema_destino = ?, metodo_sistema_destino = ?
 	WHERE id = ?`
 
@@ -99,6 +102,7 @@ func (i Integracao) Atualizar() bool {
 
 	resultado, err := stmt.Exec(
 		i.Nome,
+		i.Endpoint,
 		i.NomeSistemaOrigem,
 		i.APISistemaOrigem,
 		i.MetodoSistemaOrigem,
@@ -141,7 +145,7 @@ func (i Integracao) BuscarTodos() []Integracao {
 	db := database.ObterConexao()
 	defer db.Close()
 
-	var sql string = `SELECT id, nome, nome_sistema_origem, api_sistema_origem, metodo_sistema_origem, 
+	var sql string = `SELECT id, nome, endpoint, nome_sistema_origem, api_sistema_origem, metodo_sistema_origem, 
 	nome_sistema_destino, api_sistema_destino, metodo_sistema_destino, status FROM integracoes ORDER BY id DESC`
 
 	rows, _ := db.Query(sql)
@@ -154,6 +158,7 @@ func (i Integracao) BuscarTodos() []Integracao {
 
 		rows.Scan(&integracao.ID,
 			&integracao.Nome,
+			&integracao.Endpoint,
 			&integracao.NomeSistemaOrigem,
 			&integracao.APISistemaOrigem,
 			&integracao.MetodoSistemaOrigem,
@@ -174,7 +179,7 @@ func (i Integracao) BuscarPorID(idIntegracao int64) Integracao {
 	db := database.ObterConexao()
 	defer db.Close()
 
-	var sql string = `SELECT id, nome, nome_sistema_origem, api_sistema_origem, metodo_sistema_origem, 
+	var sql string = `SELECT id, nome, endpoint, nome_sistema_origem, api_sistema_origem, metodo_sistema_origem, 
 	nome_sistema_destino, api_sistema_destino, metodo_sistema_destino, status FROM integracoes WHERE id = ?`
 
 	rows, _ := db.Query(sql, idIntegracao)
@@ -184,6 +189,7 @@ func (i Integracao) BuscarPorID(idIntegracao int64) Integracao {
 	for rows.Next() {
 		rows.Scan(&integracao.ID,
 			&integracao.Nome,
+			&integracao.Endpoint,
 			&integracao.NomeSistemaOrigem,
 			&integracao.APISistemaOrigem,
 			&integracao.MetodoSistemaOrigem,

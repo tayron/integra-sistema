@@ -26,14 +26,14 @@
 
             <div class="col-md-12">
                 <form method="post">
-                    <div class="form-group">
-                        <label for="nome">Nome da integração</label>
-                        <input type="hidden" id="id" name="id" required value="{{.Integracao.ID}}">
-                        <input type="text" class="form-control" id="nome" name="nome" required value="{{.Integracao.Nome}}">                        
-                        <small class="form-text text-muted">Nome usado para identificar a integração.</small>
-                    </div>
                     <div class="row">                    
                         <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="nome">Nome da integração</label>
+                                <input type="hidden" id="id" name="id" required value="{{.Integracao.ID}}">
+                                <input type="text" class="form-control" id="nome" name="nome" required value="{{.Integracao.Nome}}">                        
+                                <small class="form-text text-muted">Nome usado para identificar a integração.</small>
+                            </div>                            
                             <div class="form-group">
                                 <label for="nome_sistema_origem">Nome do sistema de origem dos dados</label>
                                 <input type="text" class="form-control" id="nome_sistema_origem" name="nome_sistema_origem" required value="{{.Integracao.NomeSistemaOrigem}}">
@@ -56,6 +56,11 @@
                             </div>                                      
                         </div>
                         <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="endpoint">Endpoint da API</label>                                
+                                <input type="text" class="form-control" id="nome" name="nome" required value="{{.Integracao.Endpoint}}">                        
+                                <small class="form-text text-muted">Exemplo: cadastrar-produto</small>
+                            </div>                            
                             <div class="form-group">
                                 <label for="nome_sistema_destino">Nome do sistema de destino dos dados</label>
                                 <input type="text" class="form-control" id="nome_sistema_destino" name="nome_sistema_destino" required value="{{.Integracao.NomeSistemaDestino}}">

@@ -39,6 +39,7 @@ func ListarIntegracao(w http.ResponseWriter, r *http.Request) {
 func CriarIntegracao(w http.ResponseWriter, r *http.Request) {
 	integracao := models.Integracao{
 		Nome:                 r.FormValue("nome"),
+		Endpoint:             r.FormValue("endpoint"),
 		NomeSistemaOrigem:    r.FormValue("nome_sistema_origem"),
 		APISistemaOrigem:     r.FormValue("api_sistema_origem"),
 		MetodoSistemaOrigem:  r.FormValue("metodo_sistema_origem"),
@@ -158,6 +159,7 @@ func SalvarIntegracao(w http.ResponseWriter, r *http.Request) {
 	integracao := models.Integracao{
 		ID:                   idIntegracao,
 		Nome:                 r.FormValue("nome"),
+		Endpoint:             r.FormValue("endpoint"),
 		NomeSistemaOrigem:    r.FormValue("nome_sistema_origem"),
 		APISistemaOrigem:     r.FormValue("api_sistema_origem"),
 		MetodoSistemaOrigem:  r.FormValue("metodo_sistema_origem"),
