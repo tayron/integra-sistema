@@ -203,3 +203,35 @@ func (i Integracao) BuscarPorID(idIntegracao int64) Integracao {
 
 	return integracao
 }
+
+// BuscarPorEndpoint -
+func (i Integracao) BuscarPorEndpoint(endpoint string) Integracao {
+
+	db := database.ObterConexao()
+	defer db.Close()
+
+	var sql string = `SELECT id, nome, endpoint, nome_sistema_origem, api_sistema_origem, metodo_sistema_origem, 
+	nome_sistema_destino, api_sistema_destino, metodo_sistema_destino, status FROM integracoes WHERE endpoint = ?`
+
+	rows, _ := db.Query(sql, endpoint)
+	defer rows.Close()
+
+	var integracao Integracao
+
+	for rows.Next() {
+		rows.Scan(&integracao.ID,
+			&integracao.Nome,
+			&integracao.Endpoint,
+			&integracao.NomeSistemaOrigem,
+			&integracao.APISistemaOrigem,
+			&integracao.MetodoSistemaOrigem,
+			&integracao.NomeSistemaDestino,
+			&integracao.APISistemaDestino,
+			&integracao.MetodoSistemaDestino,
+			&integracao.Status)
+
+		return integracao
+	}
+
+	return integracao
+}
