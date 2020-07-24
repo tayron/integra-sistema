@@ -38,8 +38,8 @@ func (p Parametro) Gravar() bool {
 	defer db.Close()
 
 	var sql string = `insert into parametros 
-	(nome_parametro_entrada, nome_parametro_saida, integracao_id) 
-	values (?, ?, ?)`
+		(nome_parametro_entrada, nome_parametro_saida, integracao_id) 
+		values (?, ?, ?)`
 
 	stmt, _ := db.Prepare(sql)
 
@@ -99,7 +99,8 @@ func (p Parametro) BuscarPorIDIntegracao(idIntegracao int64) []Parametro {
 	db := database.ObterConexao()
 	defer db.Close()
 
-	var sql string = `SELECT id, nome_parametro_entrada, nome_parametro_saida FROM parametros WHERE integracao_id = ?`
+	var sql string = `SELECT id, nome_parametro_entrada, nome_parametro_saida 
+		FROM parametros WHERE integracao_id = ? ORDER BY id DESC`
 
 	rows, _ := db.Query(sql, idIntegracao)
 	defer rows.Close()

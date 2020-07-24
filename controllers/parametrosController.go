@@ -77,7 +77,7 @@ func CriarParametro(w http.ResponseWriter, r *http.Request) {
 		Sucesso         bool
 		Erro            bool
 		Integracao      models.Integracao
-		listaParametros []models.Parametro
+		ListaParametros []models.Parametro
 	}{
 		NomeSistema:     os.Getenv("NOME_SISTEMA"),
 		VersaoSistema:   os.Getenv("VERSAO_SISTEMA"),
@@ -85,7 +85,7 @@ func CriarParametro(w http.ResponseWriter, r *http.Request) {
 		Erro:            erro,
 		Mensagem:        mensagem,
 		Integracao:      integracao.BuscarPorID(integracaoID),
-		listaParametros: parametro.BuscarPorIDIntegracao(integracaoID),
+		ListaParametros: parametro.BuscarPorIDIntegracao(integracaoID),
 	}
 
 	var templates = template.Must(template.ParseGlob("template/*.html"))
