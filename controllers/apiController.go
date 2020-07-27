@@ -31,19 +31,18 @@ func processarIntegracao(integracao models.Integracao, w http.ResponseWriter, r 
 	id := int64(integracao.ID)
 	listaParametro := parametroModel.BuscarPorIDIntegracao(id)
 
-	if integracao.MetodoSistemaOrigem != r.Method {
+	if integracao.MetodoSistemaOrigem == r.Method {
+		switch integracao.MetodoSistemaDestino {
+		case "POST":
+			mensagem, sucesso := enviarRequisicaoViaPOST(integracao, listaParametro, r)
+			retornarMensagem(mensagem, sucesso, w, r)
+		case "GET":
+			mensagem, sucesso := enviarRequisicaoViaGET(integracao, listaParametro, r)
+			retornarMensagem(mensagem, sucesso, w, r)
+		}
+	} else {
 		mensagem := fmt.Sprintf("Método de envio %s não permitido", r.Method)
 		retornarMensagem(mensagem, false, w, r)
-	}
-
-	if integracao.MetodoSistemaDestino == "POST" {
-		mensagem, sucesso := enviarRequisicaoViaPOST(integracao, listaParametro, r)
-		retornarMensagem(mensagem, sucesso, w, r)
-	}
-
-	if integracao.MetodoSistemaDestino == "GET" {
-		mensagem, sucesso := enviarRequisicaoViaGET(integracao, listaParametro, r)
-		retornarMensagem(mensagem, sucesso, w, r)
 	}
 }
 
@@ -80,7 +79,22 @@ func enviarRequisicaoViaGET(integracao models.Integracao, listaParametros []mode
 
 	req.URL.RawQuery = query.Encode()
 
-	return req.URL.String(), true
+	resp, err := http.Get(req.URL.String())
+	defer resp.Body.Close()
+
+	if err != nil {
+		return fmt.Sprintf("%s", err), false
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		return fmt.Sprintf("%s", err), false
+	}
+
+	stringRetorno := fmt.Sprintf("%s", string(body))
+
+	return stringRetorno, true
 }
 
 func retornarMensagem(mensagem string, status bool, w http.ResponseWriter, r *http.Request) {
