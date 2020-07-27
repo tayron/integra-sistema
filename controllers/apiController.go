@@ -54,11 +54,7 @@ func enviarRequisicaoViaPOST(integracao models.Integracao, listaParametros []mod
 	}
 
 	jsonValue, _ := json.Marshal(jsonData)
-	response, err := http.Post(integracao.APISistemaDestino, "application/json", bytes.NewBuffer(jsonValue))
-
-	if err != nil {
-		//return err, false
-	}
+	response, _ := http.Post(integracao.APISistemaDestino, "application/json", bytes.NewBuffer(jsonValue))
 
 	data, _ := ioutil.ReadAll(response.Body)
 
@@ -66,11 +62,7 @@ func enviarRequisicaoViaPOST(integracao models.Integracao, listaParametros []mod
 }
 
 func enviarRequisicaoViaGET(integracao models.Integracao, listaParametros []models.Parametro, r *http.Request) ([]byte, bool) {
-	req, err := http.NewRequest("GET", integracao.APISistemaDestino, nil)
-	if err != nil {
-		//return err, false
-	}
-
+	req, _ := http.NewRequest("GET", integracao.APISistemaDestino, nil)
 	query := req.URL.Query()
 
 	for _, parametro := range listaParametros {
@@ -79,18 +71,12 @@ func enviarRequisicaoViaGET(integracao models.Integracao, listaParametros []mode
 
 	req.URL.RawQuery = query.Encode()
 
-	resp, err := http.Get(req.URL.String())
+	fmt.Println(req.URL.String())
+
+	resp, _ := http.Get(req.URL.String())
 	defer resp.Body.Close()
 
-	if err != nil {
-		//return err, false
-	}
-
-	body, err := ioutil.ReadAll(resp.Body)
-
-	if err != nil {
-		//return err, false
-	}
+	body, _ := ioutil.ReadAll(resp.Body)
 
 	return body, true
 }
