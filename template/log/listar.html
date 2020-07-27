@@ -1,0 +1,125 @@
+{{- define "listarLogPage" -}}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{{.NomeSistema}} {{.VersaoSistema}}</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+
+<body class="bg-dark">
+    <div class="container bg-white">
+        {{- template "menu" . -}}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-info" role="alert">
+                    Um integrador de sistemas é uma ferramenta especializada em reunir subsistemas de componentes em um
+                    todo e garantir que esses subsistemas funcionem juntos, uma prática conhecida como integração de
+                    sistemas. Eles também resolvem problemas de automação.
+                </div>
+                {{- template "alert" . -}}
+            </div>
+
+            <div class="col-md-12">
+                <h4>Logs da API: <strong>{{.Integracao.Nome}}</strong></h4>
+                <p class="float-right">Esta tela irá atualizar em <span id="contador">60</span> segundos</p>
+                <table class="table table-sm table-bordered table-hover">
+                    <thead>
+                        <tr class="bg-dark text-white">
+                            <th>#</th>
+                            <th>Endereço da API Destino</th>
+                            <th>Parametro</th>                            
+                        </tr>                      
+                    </thead>
+                    <tbody>
+                        {{- range .ListaLogs -}}
+                        <tr>
+                            <td>{{.ID}}</td>
+                            <td>{{.APIDestino}}</td>
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modalParametro{{.ID}}" onclick="stopContador()">Parametro</button>
+                                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalRetorno{{.ID}}" onclick="stopContador()">Retorno</button>                                
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- Modal -->
+                        <div class="modal fade" id="modalParametro{{.ID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Parâmetro</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="startContador()">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">                                
+                                    <code>
+                                        {{.Parametro}}
+                                    </code>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="startContador()">Fechar</button>
+                                </div>
+                                </div>
+                            </div>
+                        </div>                    
+                        <!-- Modal -->
+                        <div class="modal fade" id="modalRetorno{{.ID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Resposta</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="startContador()">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <code>
+                                        {{.Resposta}}
+                                    </code>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="startContador()">Fechar</button>
+                                </div>
+                                </div>
+                            </div>
+                        </div>                          
+                        {{- end -}}
+                    </tbody>
+                </table>                
+            </div>
+        </div>
+
+        {{- template "footer" . -}}
+    </div>
+    {{- template "javascript" . -}}
+    <script>
+        var funcaoContador
+
+        function startContador() {
+            var contador = 60;
+            funcaoContador = setInterval(function(){
+                contador--;
+
+                if(contador == 0) {
+                    document.location.href = window.location.href;
+                }
+                $("#contador").html(contador);
+            }, 1000)
+        }
+
+        function stopContador() {
+            clearInterval(funcaoContador);
+        }
+
+        startContador();
+    </script>    
+</body>
+
+</html>
+{{end}}
