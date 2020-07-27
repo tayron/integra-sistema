@@ -10,6 +10,7 @@ func init() {
 	godotenv.Load()
 	models.CriarTabelaIntegracao()
 	models.CriarTabelaParametro()
+	models.CriarTabelaLog()
 }
 
 // BootstrapApplication -

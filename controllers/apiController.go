@@ -56,9 +56,18 @@ func enviarRequisicaoViaPOST(integracao models.Integracao, listaParametros []mod
 	jsonValue, _ := json.Marshal(jsonData)
 	response, _ := http.Post(integracao.APISistemaDestino, "application/json", bytes.NewBuffer(jsonValue))
 
-	data, _ := ioutil.ReadAll(response.Body)
+	retornoAPI, _ := ioutil.ReadAll(response.Body)
 
-	return data, true
+	log := models.Log{
+		IntegracaoID: integracao.ID,
+		APIDestino:   integracao.APISistemaDestino,
+		Parametro:    fmt.Sprintf("%s", jsonData),
+		Resposta:     fmt.Sprintf("%s", retornoAPI),
+	}
+
+	log.Gravar()
+
+	return retornoAPI, true
 }
 
 func enviarRequisicaoViaGET(integracao models.Integracao, listaParametros []models.Parametro, r *http.Request) ([]byte, bool) {
@@ -71,14 +80,21 @@ func enviarRequisicaoViaGET(integracao models.Integracao, listaParametros []mode
 
 	req.URL.RawQuery = query.Encode()
 
-	fmt.Println(req.URL.String())
-
 	resp, _ := http.Get(req.URL.String())
 	defer resp.Body.Close()
 
-	body, _ := ioutil.ReadAll(resp.Body)
+	retornoAPI, _ := ioutil.ReadAll(resp.Body)
 
-	return body, true
+	log := models.Log{
+		IntegracaoID: integracao.ID,
+		APIDestino:   req.URL.String(),
+		Parametro:    "",
+		Resposta:     fmt.Sprintf("%s", retornoAPI),
+	}
+
+	log.Gravar()
+
+	return retornoAPI, true
 }
 
 func retornarMensagem(mensagem string, status bool, w http.ResponseWriter, r *http.Request) {
