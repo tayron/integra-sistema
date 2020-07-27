@@ -35,10 +35,10 @@ func processarIntegracao(integracao models.Integracao, w http.ResponseWriter, r 
 		switch integracao.MetodoSistemaDestino {
 		case "POST":
 			mensagem, sucesso := enviarRequisicaoViaPOST(integracao, listaParametro, r)
-			retornarMensagem(mensagem, sucesso, w, r)
+			retornarMensagemResposta(mensagem, sucesso, w, r)
 		case "GET":
 			mensagem, sucesso := enviarRequisicaoViaGET(integracao, listaParametro, r)
-			retornarMensagem(mensagem, sucesso, w, r)
+			retornarMensagemResposta(mensagem, sucesso, w, r)
 		}
 	} else {
 		mensagem := fmt.Sprintf("Método de envio %s não permitido", r.Method)
@@ -46,7 +46,7 @@ func processarIntegracao(integracao models.Integracao, w http.ResponseWriter, r 
 	}
 }
 
-func enviarRequisicaoViaPOST(integracao models.Integracao, listaParametros []models.Parametro, r *http.Request) (string, bool) {
+func enviarRequisicaoViaPOST(integracao models.Integracao, listaParametros []models.Parametro, r *http.Request) ([]byte, bool) {
 
 	jsonData := map[string]string{}
 	for _, parametro := range listaParametros {
@@ -57,18 +57,18 @@ func enviarRequisicaoViaPOST(integracao models.Integracao, listaParametros []mod
 	response, err := http.Post(integracao.APISistemaDestino, "application/json", bytes.NewBuffer(jsonValue))
 
 	if err != nil {
-		return fmt.Sprintf("%s", err), false
+		//return err, false
 	}
 
 	data, _ := ioutil.ReadAll(response.Body)
 
-	return string(data), true
+	return data, true
 }
 
-func enviarRequisicaoViaGET(integracao models.Integracao, listaParametros []models.Parametro, r *http.Request) (string, bool) {
+func enviarRequisicaoViaGET(integracao models.Integracao, listaParametros []models.Parametro, r *http.Request) ([]byte, bool) {
 	req, err := http.NewRequest("GET", integracao.APISistemaDestino, nil)
 	if err != nil {
-		return fmt.Sprintf("%s", err), false
+		//return err, false
 	}
 
 	query := req.URL.Query()
@@ -83,18 +83,16 @@ func enviarRequisicaoViaGET(integracao models.Integracao, listaParametros []mode
 	defer resp.Body.Close()
 
 	if err != nil {
-		return fmt.Sprintf("%s", err), false
+		//return err, false
 	}
 
 	body, err := ioutil.ReadAll(resp.Body)
 
 	if err != nil {
-		return fmt.Sprintf("%s", err), false
+		//return err, false
 	}
 
-	stringRetorno := fmt.Sprintf("%s", string(body))
-
-	return stringRetorno, true
+	return body, true
 }
 
 func retornarMensagem(mensagem string, status bool, w http.ResponseWriter, r *http.Request) {
@@ -108,4 +106,9 @@ func retornarMensagem(mensagem string, status bool, w http.ResponseWriter, r *ht
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(parametros)
+}
+
+func retornarMensagemResposta(mensagem []byte, status bool, w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(mensagem)
 }
