@@ -40,10 +40,10 @@
                             </div>
                             <div class="form-group">
                                 <label for="api_sistema_origem">Endereço da API de origem</label>
-                                <input type="text" class="form-control" id="api_sistema_origem" name="api_sistema_origem" required />
+                                <input type="text" class="form-control" id="api_sistema_origem" name="api_sistema_origem" placeholder="Somente se os dados de Origem foram solicitados pelo {{.NomeSistema}}" />
                             </div> 
                             <div class="form-group">
-                                <label for="api_sistema_destino">Método envio</label>
+                                <label for="api_sistema_destino">Método envio do Sistema de Origem</label>
                                 <div class="custom-control custom-radio">
                                     <input type="radio" class="custom-control-input" id="metodo_sistema_origem_post" name="metodo_sistema_origem" required value="POST" />
                                     <label class="custom-control-label" for="metodo_sistema_origem_post">POST</label>
@@ -70,7 +70,7 @@
                                 <input type="text" class="form-control" id="api_sistema_destino" name="api_sistema_destino" required />
                             </div> 
                             <div class="form-group">
-                                <label for="api_sistema_destino">Método envio</label>   
+                                <label for="api_sistema_destino">Método envio do Sistema de Destino</label>   
                                 <div class="custom-control custom-radio">
                                     <input type="radio" class="custom-control-input" id="metodo_sistema_destino_post" name="metodo_sistema_destino" required value="POST" />
                                     <label class="custom-control-label" for="metodo_sistema_destino_post">POST</label>
