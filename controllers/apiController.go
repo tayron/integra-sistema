@@ -42,8 +42,8 @@ func processarIntegracao(integracao models.Integracao, w http.ResponseWriter, r 
 	}
 
 	if integracao.MetodoSistemaDestino == "GET" {
-		mensagem := "Método GET para integração da API destino não implementado"
-		retornarMensagem(mensagem, false, w, r)
+		mensagem, sucesso := enviarRequisicaoViaGET(integracao, listaParametro, r)
+		retornarMensagem(mensagem, sucesso, w, r)
 	}
 }
 
@@ -64,6 +64,23 @@ func enviarRequisicaoViaPOST(integracao models.Integracao, listaParametros []mod
 	data, _ := ioutil.ReadAll(response.Body)
 
 	return string(data), true
+}
+
+func enviarRequisicaoViaGET(integracao models.Integracao, listaParametros []models.Parametro, r *http.Request) (string, bool) {
+	req, err := http.NewRequest("GET", integracao.APISistemaDestino, nil)
+	if err != nil {
+		return fmt.Sprintf("%s", err), false
+	}
+
+	query := req.URL.Query()
+
+	for _, parametro := range listaParametros {
+		query.Add(parametro.NomeParametroSaida, r.FormValue(parametro.NomeParametroEntrada))
+	}
+
+	req.URL.RawQuery = query.Encode()
+
+	return req.URL.String(), true
 }
 
 func retornarMensagem(mensagem string, status bool, w http.ResponseWriter, r *http.Request) {
