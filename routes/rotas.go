@@ -10,6 +10,10 @@ import (
 // CarregarRotas -
 func CarregarRotas() {
 	r := mux.NewRouter()
+
+	s := http.StripPrefix("/public/", http.FileServer(http.Dir("./public/")))
+	r.PathPrefix("/public/").Handler(s)
+
 	r.HandleFunc("/", controllers.IndexApplication).Methods("GET")
 	r.HandleFunc("/", controllers.CriarIntegracao).Methods("POST")
 	r.HandleFunc("/integracoes", controllers.ListarIntegracao).Methods("GET")
