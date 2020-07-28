@@ -7,93 +7,137 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{{.NomeSistema}} {{.VersaoSistema}}</title>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="/public/AdminLTE305/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="/public/AdminLTE305/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="/public/AdminLTE305/dist/css/adminlte.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 
-<body class="bg-dark">
-    <div class="container bg-white">
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+    <div class="wrapper">
         {{- template "menu" . -}}
-        <div class="row">
-            <div class="col-md-12">
-                <div class="alert alert-info" role="alert">
-                    Um integrador de sistemas é uma ferramenta especializada em reunir subsistemas de componentes em um
-                    todo e garantir que esses subsistemas funcionem juntos, uma prática conhecida como integração de
-                    sistemas. Eles também resolvem problemas de automação.
-                </div>            
-                {{- template "alert" . -}}   
-            </div>         
 
-            <div class="col-md-12">
-                <h2>Parametros de integração: <strong>{{.Integracao.Nome}}</strong></h2>
-                <form method="post">
-                <input type="hidden" class="form-control" id="integracao_id" name="integracao_id" required value="{{.Integracao.ID}}">
-                    <div class="row">                    
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="nome_parametro_entrada">Atributo do sistema: <strong>{{.Integracao.NomeSistemaOrigem}}</strong></label>
-                                <input type="text" class="form-control" id="nome_parametro_entrada" name="nome_parametro_entrada" required />
-                                <small class="form-text text-muted">Sistema que irá fazer a requisição.</small>
-                            </div>                                   
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Parâmetro</h1>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="nome_parametro_saida">Atributo do sistema: <strong>{{.Integracao.NomeSistemaDestino}}</strong></label>
-                                <input type="text" class="form-control" id="nome_parametro_saida" name="nome_parametro_saida" required />
-                                <small class="form-text text-muted">Sistema que irá receber a requisição.</small>
-                            </div>
-                        </div>  
-                        <div class="col-md-12">                            
-                            <button type="submit" class="btn btn-primary">
-                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pen" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M5.707 13.707a1 1 0 0 1-.39.242l-3 1a1 1 0 0 1-1.266-1.265l1-3a1 1 0 0 1 .242-.391L10.086 2.5a2 2 0 0 1 2.828 0l.586.586a2 2 0 0 1 0 2.828l-7.793 7.793zM3 11l7.793-7.793a1 1 0 0 1 1.414 0l.586.586a1 1 0 0 1 0 1.414L5 13l-3 1 1-3z"></path>
-                                    <path fill-rule="evenodd" d="M9.854 2.56a.5.5 0 0 0-.708 0L5.854 5.855a.5.5 0 0 1-.708-.708L8.44 1.854a1.5 1.5 0 0 1 2.122 0l.293.292a.5.5 0 0 1-.707.708l-.293-.293z"></path>
-                                    <path d="M13.293 1.207a1 1 0 0 1 1.414 0l.03.03a1 1 0 0 1 .03 1.383L13.5 4 12 2.5l1.293-1.293z"></path>
-                                </svg>
-                                Adicionar
-                            </button>
-                        </div>                                                              
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                                <li class="breadcrumb-item active">Editar Parâmetro</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div><!-- /.container-fluid -->
+            </section>
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <!-- left column -->
                         <div class="col-md-12">
-                            <br />
-                            <h4>Parâmetros</h4>
-                            <div class="table-responsive">
-                                <table class="table table-sm table-bordered table-hover">
-                                    <thead>
-                                        <tr class="bg-dark text-white">
-                                            <th>#</th>
-                                            <th>Atributo do sistema: {{.Integracao.NomeSistemaOrigem}}</th>
-                                            <th>Atributo do sistema: {{.Integracao.NomeSistemaDestino}}</th>                                            
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {{- range .ListaParametros -}}
-                                        <tr>
-                                            <td>{{.ID}}</td>                                            
-                                            <td>{{.NomeParametroEntrada}}</td>
-                                            <td>{{.NomeParametroSaida}}</td>                                            
-                                        </tr>                                        
-                                        {{- end -}}
-                                    </tbody>
-                                </table>
+                            <!-- general form elements -->
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">Adicionar atributo</h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <!-- form start -->
+                                <form role="form" method="post">
+                                    <input type="hidden" class="form-control" id="integracao_id" name="integracao_id" required value="{{.Integracao.ID}}">
+                                    {{- template "alert" . -}}
+                                    <div class="card-body">
+                                        <div class="row">                    
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="nome_parametro_entrada">Atributo do sistema: <strong>{{.Integracao.NomeSistemaOrigem}}</strong></label>
+                                                    <input type="text" class="form-control" id="nome_parametro_entrada" name="nome_parametro_entrada" required />
+                                                    <small class="form-text text-muted">Sistema que irá fazer a requisição.</small>
+                                                </div>                                   
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="nome_parametro_saida">Atributo do sistema: <strong>{{.Integracao.NomeSistemaDestino}}</strong></label>
+                                                    <input type="text" class="form-control" id="nome_parametro_saida" name="nome_parametro_saida" required />
+                                                    <small class="form-text text-muted">Sistema que irá receber a requisição.</small>
+                                                </div>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button type="submit" class="btn btn-primary">Adicionar</button>
+                                        <a href="/integracoes" class="btn btn-default float-right">Voltar</a>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- /.card -->
+                            <div class="col-12">
+                                <div class="card card-primary">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Listagem</h3>
+    
+                                        <div class="card-tools">
+                                            <div class="input-group input-group-sm" style="width: 150px;">
+                                                <input type="text" name="table_search" class="form-control float-right"
+                                                    placeholder="Search">
+    
+                                                <div class="input-group-append">
+                                                    <button type="submit" class="btn btn-default"><i
+                                                            class="fas fa-search"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <div class="card-body table-responsive p-0" style="height: 300px;">
+                                       
+                                        <table class="table table-head-fixed text-nowrap">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Atributo do sistema: {{.Integracao.NomeSistemaOrigem}}</th>
+                                                    <th>Atributo do sistema: {{.Integracao.NomeSistemaDestino}}</th>                                            
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {{- range .ListaParametros -}}
+                                                <tr>
+                                                    <td>{{.ID}}</td>                                            
+                                                    <td>{{.NomeParametroEntrada}}</td>
+                                                    <td>{{.NomeParametroSaida}}</td>                                            
+                                                </tr>                                        
+                                                {{- end -}}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- /.card-body -->
+                                    <div class="card-footer">
+                                        <a href="/integracoes" class="btn btn-default float-right">Voltar</a>
+                                    </div>                                    
+                                </div>                                 
+                                <!-- /.card -->
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <br />
-                            <a href="/integracoes" class="btn btn-info">
-                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-90deg-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M6.104 2.396a.5.5 0 0 1 0 .708L3.457 5.75l2.647 2.646a.5.5 0 1 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 0 1 .708 0z"/>
-                                    <path fill-rule="evenodd" d="M2.75 5.75a.5.5 0 0 1 .5-.5h6.5a2.5 2.5 0 0 1 2.5 2.5v5.5a.5.5 0 0 1-1 0v-5.5a1.5 1.5 0 0 0-1.5-1.5h-6.5a.5.5 0 0 1-.5-.5z"/>
-                                </svg>                                
-                                Voltar
-                            </a>
-                        </div> 
-                    </div>                   
-                </form>
-            </div>
+                        <!--/.col (left) -->
+                    </div>
+                    <!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </section>
         </div>
-        {{- template "footer" . -}}    
+        <!-- /.content-wrapper -->
+
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+        {{- template "footer" . -}}
     </div>
     {{- template "javascript" . -}}
 </body>
+
 </html>
 {{end}}

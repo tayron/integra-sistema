@@ -1,4 +1,4 @@
-{{- define "editarIntegracoesPage" -}}
+{{- define "cadastrarIntegracoesPage" -}}
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -28,7 +28,7 @@
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="/">Home</a></li>
-                                <li class="breadcrumb-item active">Editar Integração</li>
+                                <li class="breadcrumb-item active">Cadastrar Integração</li>
                             </ol>
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                             <!-- general form elements -->
                             <div class="card card-primary">
                                 <div class="card-header">
-                                    <h3 class="card-title">Editar</h3>
+                                    <h3 class="card-title">Cadastrar</h3>
                                 </div>
                                 <!-- /.card-header -->
                                 <!-- form start -->
@@ -53,63 +53,61 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="nome">Nome da integração</label>
-                                                    <input type="hidden" id="id" name="id" required value="{{.Integracao.ID}}" />
-                                                    <input type="text" class="form-control" id="nome" name="nome" required value="{{.Integracao.Nome}}" />
-                                                    <small class="form-text text-muted">Nome usado para identificar a integração.</small>
+                                                    <input type="text" class="form-control" id="nome" name="nome" required />
+                                                    <small class="form-text text-muted">Nome da integração a ser realizada</small>
                                                 </div>                            
                                                 <div class="form-group">
                                                     <label for="nome_sistema_origem">Nome do sistema de origem dos dados</label>
-                                                    <input type="text" class="form-control" id="nome_sistema_origem" name="nome_sistema_origem" required value="{{.Integracao.NomeSistemaOrigem}}" />
+                                                    <input type="text" class="form-control" id="nome_sistema_origem" name="nome_sistema_origem" required />
                                                     <small class="form-text text-muted">Sistema que irá fazer a requisição.</small>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="api_sistema_origem">Endereço da API</label>
-                                                    <input type="text" class="form-control" id="api_sistema_origem" name="api_sistema_origem" value="{{.Integracao.APISistemaOrigem}}" placeholder="Somente se os dados de Origem foram solicitados pelo {{.NomeSistema}}" />
+                                                    <label for="api_sistema_origem">Endereço da API de origem</label>
+                                                    <input type="text" class="form-control" id="api_sistema_origem" name="api_sistema_origem" required />
                                                 </div> 
                                                 <div class="form-group">
-                                                    <label for="api_sistema_destino">Método envio do Sistema de Origem</label>
+                                                    <label for="api_sistema_destino">Método envio</label>
                                                     <div class="custom-control custom-radio">
-                                                        <input type="radio" class="custom-control-input" id="metodo_sistema_origem_post" name="metodo_sistema_origem" required value="POST" {{if eq .Integracao.MetodoSistemaOrigem "POST" }} checked {{end}} />
+                                                        <input type="radio" class="custom-control-input" id="metodo_sistema_origem_post" name="metodo_sistema_origem" required value="POST" />
                                                         <label class="custom-control-label" for="metodo_sistema_origem_post">POST</label>
                                                     </div>                            
                                                     <div class="custom-control custom-radio">
-                                                        <input type="radio" class="custom-control-input" id="metodo_sistema_origem_get" name="metodo_sistema_origem" required value="GET" {{if eq .Integracao.MetodoSistemaOrigem "GET" }} checked {{end}} />
+                                                        <input type="radio" class="custom-control-input" id="metodo_sistema_origem_get" name="metodo_sistema_origem" required value="GET" />
                                                         <label class="custom-control-label" for="metodo_sistema_origem_get">GET</label>
                                                     </div>                  
                                                 </div>                                      
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="endpoint">Endpoint da API</label>                                
-                                                    <input type="text" class="form-control" id="endpoint" name="endpoint" required value="{{.Integracao.Endpoint}}" />
+                                                    <label for="endpoint">Endpoint da API</label>
+                                                    <input type="text" class="form-control" id="endpoint" name="endpoint" required 8>
                                                     <small class="form-text text-muted">Exemplo: cadastrar-produto</small>
-                                                </div>                            
+                                                </div>                                                        
                                                 <div class="form-group">
                                                     <label for="nome_sistema_destino">Nome do sistema de destino dos dados</label>
-                                                    <input type="text" class="form-control" id="nome_sistema_destino" name="nome_sistema_destino" required value="{{.Integracao.NomeSistemaDestino}}" />
+                                                    <input type="text" class="form-control" id="nome_sistema_destino" name="nome_sistema_destino" required />
                                                     <small class="form-text text-muted">Sistema que irá receber a requisição.</small>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="api_sistema_destino">Endereço da API</label>
-                                                    <input type="text" class="form-control" id="api_sistema_destino" name="api_sistema_destino" required value="{{.Integracao.APISistemaDestino}}" />
+                                                    <label for="api_sistema_destino">Endereço da API de destino</label>
+                                                    <input type="text" class="form-control" id="api_sistema_destino" name="api_sistema_destino" required />
                                                 </div> 
                                                 <div class="form-group">
-                                                    <label for="api_sistema_destino">Método envio do Sistema de Destino</label>   
+                                                    <label for="api_sistema_destino">Método envio</label>   
                                                     <div class="custom-control custom-radio">
-                                                        <input type="radio" class="custom-control-input" id="metodo_sistema_destino_post" name="metodo_sistema_destino" required value="POST" {{if eq .Integracao.MetodoSistemaDestino "POST" }} checked {{end}} />
+                                                        <input type="radio" class="custom-control-input" id="metodo_sistema_destino_post" name="metodo_sistema_destino" required value="POST" />
                                                         <label class="custom-control-label" for="metodo_sistema_destino_post">POST</label>
                                                     </div>                            
                                                     <div class="custom-control custom-radio">
-                                                        <input type="radio" class="custom-control-input" id="metodo_sistema_destino_get" name="metodo_sistema_destino" required value="GET" {{if eq .Integracao.MetodoSistemaDestino "GET" }} checked {{end}} />
+                                                        <input type="radio" class="custom-control-input" id="metodo_sistema_destino_get" name="metodo_sistema_destino" required value="GET" />
                                                         <label class="custom-control-label" for="metodo_sistema_destino_get">GET</label>
                                                     </div>                                                              
                                                 </div> 
-                                            </div> 
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="card-footer">
-                                        <button type="submit" class="btn btn-primary">Editar</button>
-                                        <a href="/integracoes" class="btn btn-default float-right">Voltar</a>
+                                        <button type="submit" class="btn btn-primary">Cadastrar</button>
                                     </div>
                                 </form>
                             </div>

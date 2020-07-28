@@ -35,6 +35,30 @@ func ListarIntegracao(w http.ResponseWriter, r *http.Request) {
 	templates.ExecuteTemplate(w, "listarIntegracoesPage", parametros)
 }
 
+// CadastrarIntegracao -
+func CadastrarIntegracao(w http.ResponseWriter, r *http.Request) {
+
+	integracao := models.Integracao{}
+
+	parametros := struct {
+		NomeSistema      string
+		VersaoSistema    string
+		Mensagem         string
+		Sucesso          bool
+		Erro             bool
+		ListaIntegracoes []models.Integracao
+	}{
+		NomeSistema:      os.Getenv("NOME_SISTEMA"),
+		VersaoSistema:    os.Getenv("VERSAO_SISTEMA"),
+		ListaIntegracoes: integracao.BuscarTodos(),
+	}
+
+	var templates = template.Must(template.ParseGlob("template/*.html"))
+	template.Must(templates.ParseGlob("template/layout/*.html"))
+	template.Must(templates.ParseGlob("template/integracao/*.html"))
+	templates.ExecuteTemplate(w, "cadastrarIntegracoesPage", parametros)
+}
+
 // CriarIntegracao -
 func CriarIntegracao(w http.ResponseWriter, r *http.Request) {
 	integracao := models.Integracao{
@@ -78,7 +102,8 @@ func CriarIntegracao(w http.ResponseWriter, r *http.Request) {
 
 	var templates = template.Must(template.ParseGlob("template/*.html"))
 	template.Must(templates.ParseGlob("template/layout/*.html"))
-	templates.ExecuteTemplate(w, "homePage", parametros)
+	template.Must(templates.ParseGlob("template/integracao/*.html"))
+	templates.ExecuteTemplate(w, "cadastrarIntegracoesPage", parametros)
 }
 
 // EditarIntegracao -

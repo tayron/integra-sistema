@@ -15,7 +15,8 @@ func CarregarRotas() {
 	r.PathPrefix("/public/").Handler(s)
 
 	r.HandleFunc("/", controllers.IndexApplication).Methods("GET")
-	r.HandleFunc("/", controllers.CriarIntegracao).Methods("POST")
+	r.HandleFunc("/integracao/cadastrar", controllers.CadastrarIntegracao).Methods("GET")
+	r.HandleFunc("/integracao/cadastrar", controllers.CriarIntegracao).Methods("POST")
 	r.HandleFunc("/integracoes", controllers.ListarIntegracao).Methods("GET")
 	r.HandleFunc("/integracao/editar/{id:[0-9]+}", controllers.EditarIntegracao).Methods("GET")
 	r.HandleFunc("/integracao/editar/{id:[0-9]+}", controllers.SalvarIntegracao).Methods("POST")

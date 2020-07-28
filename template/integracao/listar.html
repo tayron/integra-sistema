@@ -7,58 +7,102 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{{.NomeSistema}} {{.VersaoSistema}}</title>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="/public/AdminLTE305/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="/public/AdminLTE305/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="/public/AdminLTE305/dist/css/adminlte.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 
-<body class="bg-dark">
-    <div class="container bg-white">
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+    <div class="wrapper">
         {{- template "menu" . -}}
-        <div class="row">
-            <div class="col-md-12">
-                <div class="alert alert-info" role="alert">
-                    Um integrador de sistemas é uma ferramenta especializada em reunir subsistemas de componentes em um
-                    todo e garantir que esses subsistemas funcionem juntos, uma prática conhecida como integração de
-                    sistemas. Eles também resolvem problemas de automação.
-                </div>
-                {{- template "alert" . -}}
-            </div>
 
-            <div class="col-md-12">
-                <h4>Integrações</h4>
-                
-                <table class="table table-sm table-bordered table-hover">
-                    <thead>
-                        <tr class="bg-dark text-white">
-                            <th>#</th>
-                            <th>Nome</th>
-                            <th>Sistema origem</th>
-                            <th>Sistema destino</th>
-                            <th>Status</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {{- range .ListaIntegracoes -}}
-                        <tr {{if .Status }} class="table-primary" {{else}} class="table-warning" {{end}}>
-                            <td>{{.ID}}</td>
-                            <td>{{.Nome}}</td>
-                            <td>{{.NomeSistemaOrigem}}</td>
-                            <td>{{.NomeSistemaDestino}}</td>
-                            <td>{{if .Status }} Ativo {{else}} Inativo {{end}}</td>
-                            <td>
-                                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                    {{- template "integracaoTabelaAcao" . -}}
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Integração</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                                <li class="breadcrumb-item active">Listar Integração</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div><!-- /.container-fluid -->
+            </section>
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">Listagem</h3>
+
+                                    <div class="card-tools">
+                                        <div class="input-group input-group-sm" style="width: 150px;">
+                                            <input type="text" name="table_search" class="form-control float-right"
+                                                placeholder="Search">
+
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-default"><i
+                                                        class="fas fa-search"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </td>
-                        </tr>
-                        {{- template "modalExclusao" . -}}
-                        {{- end -}}
-                    </tbody>
-                </table>                
-            </div>
+                                <!-- /.card-header -->
+                                <div class="card-body table-responsive p-0" style="height: 600px;">  
+                                    {{- template "alert" . -}}                                  
+                                    <table class="table table-head-fixed text-nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Nome</th>
+                                                <th>Sistema origem</th>
+                                                <th>Sistema destino</th>
+                                                <th>Status</th>
+                                                <th>Ações</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{- range .ListaIntegracoes -}}
+                                            <tr>
+                                                <td>{{.ID}}</td>
+                                                <td>{{.Nome}}</td>
+                                                <td>{{.NomeSistemaOrigem}}</td>
+                                                <td>{{.NomeSistemaDestino}}</td>
+                                                <td>{{if .Status }} Ativo {{else}} Inativo {{end}}</td>
+                                                <td>
+                                                    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                                        {{- template "integracaoTabelaAcao" . -}}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {{- template "modalExclusao" . -}}
+                                            {{- end -}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                    <!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </section>
         </div>
+        <!-- /.content-wrapper -->
 
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
         {{- template "footer" . -}}
     </div>
     {{- template "javascript" . -}}
