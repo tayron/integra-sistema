@@ -28,7 +28,7 @@
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="/">Home</a></li>
-                                <li class="breadcrumb-item active">Editar Parâmetro</li>
+                                <li class="breadcrumb-item active">Gerir Parâmetro</li>
                             </ol>
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                             <!-- general form elements -->
                             <div class="card card-primary">
                                 <div class="card-header">
-                                    <h3 class="card-title">Adicionar atributo</h3>
+                                    <h3 class="card-title">Adicionar parâmetro</h3>
                                 </div>
                                 <!-- /.card-header -->
                                 <!-- form start -->
@@ -53,16 +53,16 @@
                                         <div class="row">                    
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="nome_parametro_entrada">Atributo do sistema: <strong>{{.Integracao.NomeSistemaOrigem}}</strong></label>
+                                                    <label for="nome_parametro_entrada">Parâmetro do sistema: <strong>{{.Integracao.NomeSistemaOrigem}}</strong></label>
                                                     <input type="text" class="form-control" id="nome_parametro_entrada" name="nome_parametro_entrada" required />
-                                                    <small class="form-text text-muted">Sistema que irá fazer a requisição.</small>
+                                                    <small class="form-text text-muted">Sistema que irá fornecer o parâmetro.</small>
                                                 </div>                                   
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="nome_parametro_saida">Atributo do sistema: <strong>{{.Integracao.NomeSistemaDestino}}</strong></label>
+                                                    <label for="nome_parametro_saida">Parâmetro do sistema: <strong>{{.Integracao.NomeSistemaDestino}}</strong></label>
                                                     <input type="text" class="form-control" id="nome_parametro_saida" name="nome_parametro_saida" required />
-                                                    <small class="form-text text-muted">Sistema que irá receber a requisição.</small>
+                                                    <small class="form-text text-muted">Sistema que irá receber o parâmetro.</small>
                                                 </div>
                                             </div> 
                                         </div>
@@ -77,7 +77,7 @@
                             <div class="col-12">
                                 <div class="card card-primary">
                                     <div class="card-header">
-                                        <h3 class="card-title">Listagem</h3>
+                                        <h3 class="card-title">Listagem de parâmetros</h3>
     
                                         <div class="card-tools">
                                             <div class="input-group input-group-sm" style="width: 150px;">
@@ -98,8 +98,8 @@
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
-                                                    <th>Atributo do sistema: {{.Integracao.NomeSistemaOrigem}}</th>
-                                                    <th>Atributo do sistema: {{.Integracao.NomeSistemaDestino}}</th>                                            
+                                                    <th>Parâmetro do sistema: {{.Integracao.NomeSistemaOrigem}}</th>
+                                                    <th>Parâmetro do sistema: {{.Integracao.NomeSistemaDestino}}</th>                                            
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -107,8 +107,45 @@
                                                 <tr>
                                                     <td>{{.ID}}</td>                                            
                                                     <td>{{.NomeParametroEntrada}}</td>
-                                                    <td>{{.NomeParametroSaida}}</td>                                            
-                                                </tr>                                        
+                                                    <td>{{.NomeParametroSaida}}</td>  
+                                                    <td></td>  
+                                                    <td>
+                                                        <div class="btn-group-sm" role="group">
+                                                            <button id="btnGroupDrop1" type="button"
+                                                                class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
+                                                                aria-haspopup="true" aria-expanded="false">
+                                                                Ações
+                                                            </button>
+                                                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                                                <a class="dropdown-item" href="/parametro/editar/{{.ID}}"
+                                                                    title="Editar parâmetro #{{.ID}}">
+                                                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pen"
+                                                                        fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path fill-rule="evenodd"
+                                                                            d="M5.707 13.707a1 1 0 0 1-.39.242l-3 1a1 1 0 0 1-1.266-1.265l1-3a1 1 0 0 1 .242-.391L10.086 2.5a2 2 0 0 1 2.828 0l.586.586a2 2 0 0 1 0 2.828l-7.793 7.793zM3 11l7.793-7.793a1 1 0 0 1 1.414 0l.586.586a1 1 0 0 1 0 1.414L5 13l-3 1 1-3z" />
+                                                                        <path fill-rule="evenodd"
+                                                                            d="M9.854 2.56a.5.5 0 0 0-.708 0L5.854 5.855a.5.5 0 0 1-.708-.708L8.44 1.854a1.5 1.5 0 0 1 2.122 0l.293.292a.5.5 0 0 1-.707.708l-.293-.293z" />
+                                                                        <path
+                                                                            d="M13.293 1.207a1 1 0 0 1 1.414 0l.03.03a1 1 0 0 1 .03 1.383L13.5 4 12 2.5l1.293-1.293z" />
+                                                                    </svg>
+                                                                    Editar parâmetro
+                                                                </a>
+                                                                <a class="dropdown-item" href="/parametro/excluir/{{.ID}}"
+                                                                    title="Excluir parâmetro #{{.ID}}" data-toggle="modal"
+                                                                    data-target="#exclusaoModal{{.ID}}">
+                                                                    <svg width="1em" height="1em" viewBox="0 0 16 16"
+                                                                        class="bi bi-dash-circle-fill" fill="currentColor"
+                                                                        xmlns="http://www.w3.org/2000/svg">
+                                                                        <path fill-rule="evenodd"
+                                                                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4 7.5a.5.5 0 0 0 0 1h8a.5.5 0 0 0 0-1H4z" />
+                                                                    </svg>
+                                                                    Excluir parâmetro
+                                                                </a>                
+                                                            </div>
+                                                        </div>                                                        
+                                                    </td>                                          
+                                                </tr>    
+                                                {{- template "modalExclusaoParametro" . -}}                                    
                                                 {{- end -}}
                                             </tbody>
                                         </table>

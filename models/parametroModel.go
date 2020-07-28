@@ -83,7 +83,7 @@ func (p Parametro) BuscarPorIDIntegracao(idIntegracao int64) []Parametro {
 	db := database.ObterConexao()
 	defer db.Close()
 
-	var sql string = `SELECT id, nome_parametro_entrada, nome_parametro_saida 
+	var sql string = `SELECT id, integracao_id, nome_parametro_entrada, nome_parametro_saida 
 		FROM parametros WHERE integracao_id = ? ORDER BY id DESC`
 
 	rows, _ := db.Query(sql, idIntegracao)
@@ -95,6 +95,7 @@ func (p Parametro) BuscarPorIDIntegracao(idIntegracao int64) []Parametro {
 		var parametro Parametro
 
 		rows.Scan(&parametro.ID,
+			&parametro.IntegracaoID,
 			&parametro.NomeParametroEntrada,
 			&parametro.NomeParametroSaida)
 

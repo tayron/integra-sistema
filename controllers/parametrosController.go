@@ -93,3 +93,52 @@ func CriarParametro(w http.ResponseWriter, r *http.Request) {
 	template.Must(templates.ParseGlob("template/parametro/*.html"))
 	templates.ExecuteTemplate(w, "listarParametroPage", parametros)
 }
+
+// ExcluirParametro -
+func ExcluirParametro(w http.ResponseWriter, r *http.Request) {
+	idIntegracao, _ := strconv.ParseInt(r.FormValue("id_integracao"), 10, 64)
+
+	id, _ := strconv.Atoi(r.FormValue("id_parametro"))
+	parametroModel := models.Parametro{
+		ID: id,
+	}
+
+	retornoExclusao := parametroModel.Excluir()
+
+	var mensagem string
+	var sucesso bool
+	var erro bool
+
+	if retornoExclusao == true {
+		sucesso = true
+		mensagem = fmt.Sprint("Sucesso ao excluir o parâmetro")
+	} else {
+		erro = true
+		mensagem = fmt.Sprint("Erro ao excluir o parâmetro")
+	}
+
+	integracao := models.Integracao{}
+
+	parametros := struct {
+		NomeSistema     string
+		VersaoSistema   string
+		Mensagem        string
+		Sucesso         bool
+		Erro            bool
+		Integracao      models.Integracao
+		ListaParametros []models.Parametro
+	}{
+		NomeSistema:     os.Getenv("NOME_SISTEMA"),
+		VersaoSistema:   os.Getenv("VERSAO_SISTEMA"),
+		Mensagem:        mensagem,
+		Sucesso:         sucesso,
+		Erro:            erro,
+		Integracao:      integracao.BuscarPorID(idIntegracao),
+		ListaParametros: parametroModel.BuscarPorIDIntegracao(idIntegracao),
+	}
+
+	var templates = template.Must(template.ParseGlob("template/*.html"))
+	template.Must(templates.ParseGlob("template/layout/*.html"))
+	template.Must(templates.ParseGlob("template/parametro/*.html"))
+	templates.ExecuteTemplate(w, "listarParametroPage", parametros)
+}
