@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 
 	"github.com/gorilla/mux"
 	"github.com/tayron/integra-sistema/models"
@@ -47,7 +48,6 @@ func processarIntegracao(integracao models.Integracao, w http.ResponseWriter, r 
 }
 
 func enviarRequisicaoViaPOST(integracao models.Integracao, listaParametros []models.Parametro, r *http.Request) ([]byte, bool) {
-
 	jsonData := map[string]string{}
 	for _, parametro := range listaParametros {
 		jsonData[parametro.NomeParametroSaida] = r.FormValue(parametro.NomeParametroEntrada)
@@ -55,16 +55,16 @@ func enviarRequisicaoViaPOST(integracao models.Integracao, listaParametros []mod
 
 	jsonValue, _ := json.Marshal(jsonData)
 	response, _ := http.Post(integracao.APISistemaDestino, "application/json", bytes.NewBuffer(jsonValue))
-
 	retornoAPI, _ := ioutil.ReadAll(response.Body)
 
 	data, _ := json.Marshal(jsonData)
+	retornoString := strings.ReplaceAll(string(retornoAPI), `\"`, `"`)
 
 	log := models.Log{
 		IntegracaoID: integracao.ID,
 		APIDestino:   integracao.APISistemaDestino,
 		Parametro:    fmt.Sprintf("%s", data),
-		Resposta:     fmt.Sprintf("%s", retornoAPI),
+		Resposta:     retornoString,
 	}
 
 	log.Gravar()
@@ -86,12 +86,13 @@ func enviarRequisicaoViaGET(integracao models.Integracao, listaParametros []mode
 	defer resp.Body.Close()
 
 	retornoAPI, _ := ioutil.ReadAll(resp.Body)
+	retornoString := strings.ReplaceAll(string(retornoAPI), `\"`, `"`)
 
 	log := models.Log{
 		IntegracaoID: integracao.ID,
 		APIDestino:   req.URL.String(),
 		Parametro:    "",
-		Resposta:     fmt.Sprintf("%s", retornoAPI),
+		Resposta:     retornoString,
 	}
 
 	log.Gravar()
