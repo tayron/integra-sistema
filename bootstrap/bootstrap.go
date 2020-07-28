@@ -11,6 +11,7 @@ func init() {
 	models.CriarTabelaIntegracao()
 	models.CriarTabelaParametro()
 	models.CriarTabelaLog()
+	models.CriarTabelaUsuario()
 }
 
 // BootstrapApplication -

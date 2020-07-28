@@ -26,7 +26,8 @@
                 <a href="#" class="dropdown-item">
                     <!-- Message Start -->
                     <div class="media">
-                        <img src="/public/AdminLTE305/dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+                        <img src="/public/AdminLTE305/dist/img/user1-128x128.jpg" alt="User Avatar"
+                            class="img-size-50 mr-3 img-circle">
                         <div class="media-body">
                             <h3 class="dropdown-item-title">
                                 Brad Diesel
@@ -42,7 +43,8 @@
                 <a href="#" class="dropdown-item">
                     <!-- Message Start -->
                     <div class="media">
-                        <img src="/public/AdminLTE305/dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+                        <img src="/public/AdminLTE305/dist/img/user8-128x128.jpg" alt="User Avatar"
+                            class="img-size-50 img-circle mr-3">
                         <div class="media-body">
                             <h3 class="dropdown-item-title">
                                 John Pierce
@@ -58,7 +60,8 @@
                 <a href="#" class="dropdown-item">
                     <!-- Message Start -->
                     <div class="media">
-                        <img src="/public/AdminLTE305/dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+                        <img src="/public/AdminLTE305/dist/img/user3-128x128.jpg" alt="User Avatar"
+                            class="img-size-50 img-circle mr-3">
                         <div class="media-body">
                             <h3 class="dropdown-item-title">
                                 Nora Silvester
@@ -113,8 +116,8 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="/" class="brand-link">
-        <img src="/public/AdminLTE305/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-            style="opacity: .8">
+        <img src="/public/AdminLTE305/dist/img/AdminLTELogo.png" alt="AdminLTE Logo"
+            class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">{{.NomeSistema}}</span>
     </a>
 
@@ -126,8 +129,8 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                      with font-awesome or any other icon font library -->
-                <li class="nav-item has-treeview menu-open">
-                    <a href="#" class="nav-link active">
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Integração
@@ -142,13 +145,36 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/integracoes" class="nav-link active">
+                            <a href="/integracoes" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Listar</p>
                             </a>
                         </li>
                     </ul>
-                </li>                              
+                </li>
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>
+                            Usuário
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview" style="display: none;">
+                        <li class="nav-item">
+                            <a href="pages/forms/general.html" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Cadastrar</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="pages/forms/advanced.html" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Listar</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

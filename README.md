@@ -14,6 +14,7 @@ Sistema de integração entre sistemas feito em Go
 ## Dependências
 * github.com/joho/godotenv
 * github.com/gorilla/mux
+* golang.org/x/crypto/bcrypt
 * github.com/go-sql-driver/mysql
 
 Para instalar dependência basta executar o comando go get -u link-repositório, exemplo: : ```go get -u github.com/go-sql-driver/mysql```
