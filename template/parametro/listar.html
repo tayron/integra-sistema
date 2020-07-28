@@ -46,7 +46,7 @@
                                 </div>
                                 <!-- /.card-header -->
                                 <!-- form start -->
-                                <form role="form" method="post">
+                                <form role="form" method="post" action="/parametros/integracao/{{.Integracao.ID}}">
                                     <input type="hidden" class="form-control" id="integracao_id" name="integracao_id" required value="{{.Integracao.ID}}">
                                     {{- template "alert" . -}}
                                     <div class="card-body">
