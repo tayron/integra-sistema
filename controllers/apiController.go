@@ -58,10 +58,12 @@ func enviarRequisicaoViaPOST(integracao models.Integracao, listaParametros []mod
 
 	retornoAPI, _ := ioutil.ReadAll(response.Body)
 
+	data, _ := json.Marshal(jsonData)
+
 	log := models.Log{
 		IntegracaoID: integracao.ID,
 		APIDestino:   integracao.APISistemaDestino,
-		Parametro:    fmt.Sprintf("%s", jsonData),
+		Parametro:    fmt.Sprintf("%s", data),
 		Resposta:     fmt.Sprintf("%s", retornoAPI),
 	}
 
