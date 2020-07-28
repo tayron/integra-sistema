@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"fmt"
+	"net/http"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -25,4 +26,24 @@ func exemploUso() {
 
 	match := compararSenhaComHash(password, hash)
 	fmt.Println("Match:   ", match)
+}
+
+// ListarUsuario -
+func ListarUsuario(w http.ResponseWriter, r *http.Request) {
+
+}
+
+// CadastrarUsuario -
+func CadastrarUsuario(w http.ResponseWriter, r *http.Request) {
+
+}
+
+// EditarUsuario -
+func EditarUsuario(w http.ResponseWriter, r *http.Request) {
+
+}
+
+// ExcluirUsuario -
+func ExcluirUsuario(w http.ResponseWriter, r *http.Request) {
+
 }
