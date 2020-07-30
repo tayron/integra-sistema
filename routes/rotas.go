@@ -25,9 +25,9 @@ func CarregarRotas() {
 	r.HandleFunc("/parametro/excluir", controllers.ExcluirParametro).Methods("POST")
 
 	r.HandleFunc("/usuarios", controllers.ListarUsuario).Methods("GET")
-	r.HandleFunc("/usuarios/cadastrar", controllers.CadastrarUsuario)
-	r.HandleFunc("/usuarios/editar/{id:[0-9]+}", controllers.EditarUsuario)
-	r.HandleFunc("/usuarios/excluir", controllers.ExcluirUsuario).Methods("POST")
+	r.HandleFunc("/usuario/cadastrar", controllers.CadastrarUsuario)
+	r.HandleFunc("/usuario/editar/{id:[0-9]+}", controllers.EditarUsuario)
+	r.HandleFunc("/usuario/excluir", controllers.ExcluirUsuario).Methods("POST")
 
 	r.HandleFunc("/logs/integracao/{id:[0-9]+}", controllers.ListarLog).Methods("GET")
 

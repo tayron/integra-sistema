@@ -156,13 +156,13 @@ func ExcluirIntegracao(w http.ResponseWriter, r *http.Request) {
 		ID: idIntegracao,
 	}
 
-	retornoGravacao := integracao.Excluir()
+	retornoExclusao := integracao.Excluir()
 
 	var mensagem string
 	var sucesso bool
 	var erro bool
 
-	if retornoGravacao == true {
+	if retornoExclusao == true {
 		sucesso = true
 		mensagem = fmt.Sprint("Sucesso ao excluir a integração")
 	} else {

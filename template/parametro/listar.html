@@ -99,7 +99,8 @@
                                                 <tr>
                                                     <th>#</th>
                                                     <th>Parâmetro do sistema: {{.Integracao.NomeSistemaOrigem}}</th>
-                                                    <th>Parâmetro do sistema: {{.Integracao.NomeSistemaDestino}}</th>                                            
+                                                    <th>Parâmetro do sistema: {{.Integracao.NomeSistemaDestino}}</th> 
+                                                    <th></th>                                           
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -108,7 +109,6 @@
                                                     <td>{{.ID}}</td>                                            
                                                     <td>{{.NomeParametroEntrada}}</td>
                                                     <td>{{.NomeParametroSaida}}</td>  
-                                                    <td></td>  
                                                     <td>
                                                         <div class="btn-group-sm" role="group">
                                                             <button id="btnGroupDrop1" type="button"
@@ -145,7 +145,7 @@
                                                         </div>                                                        
                                                     </td>                                          
                                                 </tr>    
-                                                {{- template "modalExclusaoParametro" . -}}                                    
+                                                {{- template "modalExclusaoParametro" . -}}
                                                 {{- end -}}
                                             </tbody>
                                         </table>

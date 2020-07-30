@@ -3,7 +3,12 @@ package controllers
 import (
 	"fmt"
 	"net/http"
+	"os"
+	"strconv"
+	"text/template"
 
+	"github.com/gorilla/mux"
+	"github.com/tayron/integra-sistema/models"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -30,20 +35,175 @@ func exemploUso() {
 
 // ListarUsuario -
 func ListarUsuario(w http.ResponseWriter, r *http.Request) {
+	usuarioModel := models.Usuario{}
 
+	parametros := struct {
+		NomeSistema   string
+		VersaoSistema string
+		Mensagem      string
+		Sucesso       bool
+		Erro          bool
+		ListaUsuarios []models.Usuario
+	}{
+		NomeSistema:   os.Getenv("NOME_SISTEMA"),
+		VersaoSistema: os.Getenv("VERSAO_SISTEMA"),
+		ListaUsuarios: usuarioModel.BuscarTodos(),
+	}
+
+	var templates = template.Must(template.ParseGlob("template/*.html"))
+	template.Must(templates.ParseGlob("template/layout/*.html"))
+	template.Must(templates.ParseGlob("template/usuario/*.html"))
+	templates.ExecuteTemplate(w, "listarUsuariosPage", parametros)
 }
 
 // CadastrarUsuario -
 func CadastrarUsuario(w http.ResponseWriter, r *http.Request) {
+	var mensagem string
+	var sucesso bool
+	var erro bool
 
+	if r.Method == "POST" {
+		senha := r.FormValue("senha")
+		senhaCriptografada, _ := gerarHashSenha(senha)
+
+		usuarioEntidade := models.Usuario{
+			Nome:  r.FormValue("nome"),
+			Login: r.FormValue("login"),
+			Senha: senhaCriptografada,
+		}
+
+		retornoGravacao := usuarioEntidade.Gravar()
+
+		if retornoGravacao == true {
+			sucesso = true
+			mensagem = fmt.Sprint("Sucesso ao gravar dados da integração")
+		} else {
+			erro = true
+			mensagem = fmt.Sprint("Erro ao gravar dados da integração")
+		}
+	}
+
+	parametros := struct {
+		NomeSistema   string
+		VersaoSistema string
+		Mensagem      string
+		Sucesso       bool
+		Erro          bool
+	}{
+		NomeSistema:   os.Getenv("NOME_SISTEMA"),
+		VersaoSistema: os.Getenv("VERSAO_SISTEMA"),
+		Mensagem:      mensagem,
+		Sucesso:       sucesso,
+		Erro:          erro,
+	}
+
+	var templates = template.Must(template.ParseGlob("template/*.html"))
+	template.Must(templates.ParseGlob("template/layout/*.html"))
+	template.Must(templates.ParseGlob("template/usuario/*.html"))
+	templates.ExecuteTemplate(w, "cadastrarUsuarioPage", parametros)
 }
 
 // EditarUsuario -
 func EditarUsuario(w http.ResponseWriter, r *http.Request) {
+	parametrosURL := mux.Vars(r)
+	id, _ := strconv.Atoi(parametrosURL["id"])
 
+	var mensagem string
+	var sucesso bool
+	var erro bool
+
+	if r.Method == "POST" {
+
+		senha := r.FormValue("senha")
+		senhaCriptografada := ""
+
+		if senha != "" {
+			senhaCriptografada, _ = gerarHashSenha(senha)
+		}
+
+		usuarioModel := models.Usuario{
+			ID:    id,
+			Nome:  r.FormValue("nome"),
+			Login: r.FormValue("login"),
+			Senha: senhaCriptografada,
+		}
+
+		retornoGravacao := usuarioModel.Atualizar()
+
+		if retornoGravacao == true {
+			sucesso = true
+			mensagem = fmt.Sprint("Sucesso ao gravar dados do usuário")
+		} else {
+			erro = true
+			mensagem = fmt.Sprint("Erro ao gravar dados da usuário")
+		}
+	}
+
+	usuarioModel := models.Usuario{
+		ID: id,
+	}
+
+	parametros := struct {
+		NomeSistema   string
+		VersaoSistema string
+		Mensagem      string
+		Sucesso       bool
+		Erro          bool
+		Usuario       models.Usuario
+	}{
+		NomeSistema:   os.Getenv("NOME_SISTEMA"),
+		VersaoSistema: os.Getenv("VERSAO_SISTEMA"),
+		Mensagem:      mensagem,
+		Sucesso:       sucesso,
+		Erro:          erro,
+		Usuario:       usuarioModel.BuscarPorID(),
+	}
+
+	var templates = template.Must(template.ParseGlob("template/*.html"))
+	template.Must(templates.ParseGlob("template/layout/*.html"))
+	template.Must(templates.ParseGlob("template/usuario/*.html"))
+	templates.ExecuteTemplate(w, "editarUsuarioPage", parametros)
 }
 
 // ExcluirUsuario -
 func ExcluirUsuario(w http.ResponseWriter, r *http.Request) {
+	idUsuario, _ := strconv.Atoi(r.FormValue("id"))
+	var mensagem string
+	var sucesso bool
+	var erro bool
 
+	usuarioModel := models.Usuario{
+		ID: idUsuario,
+	}
+
+	retornoExclusao := usuarioModel.Excluir()
+
+	if retornoExclusao == true {
+		sucesso = true
+		mensagem = fmt.Sprint("Sucesso ao excluir o usuário")
+	} else {
+		erro = true
+		mensagem = fmt.Sprint("Erro ao excluir o usuário")
+	}
+
+	parametros := struct {
+		NomeSistema   string
+		VersaoSistema string
+		Mensagem      string
+		Sucesso       bool
+		Erro          bool
+		ListaUsuarios []models.Usuario
+	}{
+		NomeSistema:   os.Getenv("NOME_SISTEMA"),
+		VersaoSistema: os.Getenv("VERSAO_SISTEMA"),
+		Mensagem:      mensagem,
+		Sucesso:       sucesso,
+		Erro:          erro,
+		ListaUsuarios: usuarioModel.BuscarTodos(),
+	}
+
+	var templates = template.Must(template.ParseGlob("template/*.html"))
+	template.Must(templates.ParseGlob("template/layout/*.html"))
+	template.Must(templates.ParseGlob("template/usuario/*.html"))
+	templates.ExecuteTemplate(w, "listarUsuariosPage", parametros)
 }

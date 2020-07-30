@@ -1,0 +1,140 @@
+{{- define "listarUsuariosPage" -}}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{{.NomeSistema}} {{.VersaoSistema}}</title>
+
+    <link rel="stylesheet" href="/public/AdminLTE305/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="/public/AdminLTE305/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="/public/AdminLTE305/dist/css/adminlte.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+    <div class="wrapper">
+        {{- template "menu" . -}}
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Usuário</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                                <li class="breadcrumb-item active">Listar Usuário</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div><!-- /.container-fluid -->
+            </section>
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">Listagem</h3>
+
+                                    <div class="card-tools">
+                                        <div class="input-group input-group-sm" style="width: 150px;">
+                                            <input type="text" name="table_search" class="form-control float-right"
+                                                placeholder="Search">
+
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-default"><i
+                                                        class="fas fa-search"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body table-responsive p-0" style="height: 600px;">  
+                                    {{- template "alert" . -}}                                  
+                                    <table class="table table-head-fixed text-nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Nome</th>
+                                                <th>Usuário</th>
+                                                <th>Status</th>
+                                                <th>Ações</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{- range .ListaUsuarios -}}
+                                            <tr>
+                                                <td>{{.ID}}</td>
+                                                <td>{{.Nome}}</td>
+                                                <td>{{.Login}}</td>
+                                                <td>{{if .Ativo }} Ativo {{else}} Inativo {{end}}</td>
+                                                <td>
+                                                    <div class="btn-group-sm" role="group">
+                                                        <button id="btnGroupDrop1" type="button"
+                                                            class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
+                                                            aria-haspopup="true" aria-expanded="false">
+                                                            Ações
+                                                        </button>
+                                                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                                            <a class="dropdown-item" href="/usuario/editar/{{.ID}}"
+                                                                title="Editar usuário #{{.ID}}">
+                                                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pen"
+                                                                    fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path fill-rule="evenodd"
+                                                                        d="M5.707 13.707a1 1 0 0 1-.39.242l-3 1a1 1 0 0 1-1.266-1.265l1-3a1 1 0 0 1 .242-.391L10.086 2.5a2 2 0 0 1 2.828 0l.586.586a2 2 0 0 1 0 2.828l-7.793 7.793zM3 11l7.793-7.793a1 1 0 0 1 1.414 0l.586.586a1 1 0 0 1 0 1.414L5 13l-3 1 1-3z" />
+                                                                    <path fill-rule="evenodd"
+                                                                        d="M9.854 2.56a.5.5 0 0 0-.708 0L5.854 5.855a.5.5 0 0 1-.708-.708L8.44 1.854a1.5 1.5 0 0 1 2.122 0l.293.292a.5.5 0 0 1-.707.708l-.293-.293z" />
+                                                                    <path
+                                                                        d="M13.293 1.207a1 1 0 0 1 1.414 0l.03.03a1 1 0 0 1 .03 1.383L13.5 4 12 2.5l1.293-1.293z" />
+                                                                </svg>
+                                                                Editar usuário
+                                                            </a>
+                                                            <a class="dropdown-item" href="/usuario/excluir/{{.ID}}"
+                                                                title="Excluir usuário #{{.ID}}" data-toggle="modal"
+                                                                data-target="#exclusaoModal{{.ID}}">
+                                                                <svg width="1em" height="1em" viewBox="0 0 16 16"
+                                                                    class="bi bi-dash-circle-fill" fill="currentColor"
+                                                                    xmlns="http://www.w3.org/2000/svg">
+                                                                    <path fill-rule="evenodd"
+                                                                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4 7.5a.5.5 0 0 0 0 1h8a.5.5 0 0 0 0-1H4z" />
+                                                                </svg>
+                                                                Excluir usuário
+                                                            </a>                
+                                                        </div>
+                                                    </div>                                                        
+                                                </td>  
+                                            </tr>
+                                            {{- template "modalExclusaoUsuario" . -}}
+                                            {{- end -}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                    <!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </section>
+        </div>
+        <!-- /.content-wrapper -->
+
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+        {{- template "footer" . -}}
+    </div>
+    {{- template "javascript" . -}}
+</body>
+
+</html>
+{{end}}

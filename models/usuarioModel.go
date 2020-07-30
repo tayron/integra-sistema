@@ -61,6 +61,65 @@ func (u Usuario) Gravar() bool {
 	return false
 }
 
+// Atualizar -
+func (u Usuario) Atualizar() bool {
+
+	db := database.ObterConexao()
+	defer db.Close()
+
+	if u.Senha != "" {
+		var sql string = `UPDATE usuarios SET nome = ?, login = ?, senha = ? WHERE id = ?`
+
+		stmt, err := db.Prepare(sql)
+
+		if err != nil {
+			panic(err)
+		}
+
+		resultado, err := stmt.Exec(
+			u.Nome,
+			u.Login,
+			u.Senha,
+			u.ID)
+
+		if err != nil {
+			panic(err)
+		}
+
+		_, err = resultado.RowsAffected()
+
+		if err != nil {
+			return false
+		}
+
+	} else {
+		var sql string = `UPDATE usuarios SET nome = ?, login = ? WHERE id = ?`
+
+		stmt, err := db.Prepare(sql)
+
+		if err != nil {
+			panic(err)
+		}
+
+		resultado, err := stmt.Exec(
+			u.Nome,
+			u.Login,
+			u.ID)
+
+		if err != nil {
+			panic(err)
+		}
+
+		_, err = resultado.RowsAffected()
+
+		if err != nil {
+			return false
+		}
+	}
+
+	return true
+}
+
 // Excluir -
 func (u Usuario) Excluir() bool {
 	db := database.ObterConexao()
@@ -74,19 +133,18 @@ func (u Usuario) Excluir() bool {
 	}
 
 	return true
-
 }
 
-// BuscarPorID -
-func (u Usuario) BuscarPorID() []Usuario {
+// BuscarTodos -
+func (u Usuario) BuscarTodos() []Usuario {
 
 	db := database.ObterConexao()
 	defer db.Close()
 
 	var sql string = `SELECT id, nome, login, ativo
-		FROM usuarios WHERE id = ? ORDER BY id DESC`
+		FROM usuarios ORDER BY id DESC`
 
-	rows, _ := db.Query(sql, u.ID)
+	rows, _ := db.Query(sql)
 	defer rows.Close()
 
 	var listaUsuarios []Usuario
@@ -97,10 +155,34 @@ func (u Usuario) BuscarPorID() []Usuario {
 		rows.Scan(&usuarioModel.ID,
 			&usuarioModel.Nome,
 			&usuarioModel.Login,
-			&usuarioModel.Senha)
+			&usuarioModel.Ativo)
 
 		listaUsuarios = append(listaUsuarios, usuarioModel)
 	}
 
 	return listaUsuarios
+}
+
+// BuscarPorID -
+func (u Usuario) BuscarPorID() Usuario {
+
+	db := database.ObterConexao()
+	defer db.Close()
+
+	var sql string = `SELECT id, nome, login, ativo
+		FROM usuarios WHERE id = ? ORDER BY id DESC`
+
+	rows, _ := db.Query(sql, u.ID)
+	defer rows.Close()
+
+	var usuarioModel Usuario
+	for rows.Next() {
+		rows.Scan(&usuarioModel.ID,
+			&usuarioModel.Nome,
+			&usuarioModel.Login,
+			&usuarioModel.Ativo)
+		return usuarioModel
+	}
+
+	return usuarioModel
 }
