@@ -76,10 +76,10 @@ func CadastrarUsuario(w http.ResponseWriter, r *http.Request) {
 
 		if retornoGravacao == true {
 			sucesso = true
-			mensagem = fmt.Sprint("Sucesso ao gravar dados da integração")
+			mensagem = fmt.Sprint("Sucesso ao gravar dados do usuário")
 		} else {
 			erro = true
-			mensagem = fmt.Sprint("Erro ao gravar dados da integração")
+			mensagem = fmt.Sprint("Erro ao gravar dados do usuário")
 		}
 	}
 
@@ -125,6 +125,7 @@ func EditarUsuario(w http.ResponseWriter, r *http.Request) {
 			ID:    id,
 			Nome:  r.FormValue("nome"),
 			Login: r.FormValue("login"),
+			Ativo: r.FormValue("ativo"),
 			Senha: senhaCriptografada,
 		}
 

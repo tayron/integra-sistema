@@ -73,7 +73,7 @@
                                                 <td>{{.ID}}</td>
                                                 <td>{{.Nome}}</td>
                                                 <td>{{.Login}}</td>
-                                                <td>{{if .Ativo }} Ativo {{else}} Inativo {{end}}</td>
+                                                <td>{{if eq .Ativo "1" }} Ativo {{else}} Inativo {{end}}</td>
                                                 <td>
                                                     <div class="btn-group-sm" role="group">
                                                         <button id="btnGroupDrop1" type="button"

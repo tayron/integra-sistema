@@ -69,9 +69,11 @@
                                                     <small class="form-text text-muted">Deve conter no mínimo 6 caracteres</small>
                                                 </div>                                                                                                                                                        
                                                 <div class="form-group">
-                                                    <label for="senha_confirmacao">Confirmar senha</label>
-                                                    <input type="password" class="form-control" id="senha_confirmacao" name="senha_confirmacao" />
-                                                    <small class="form-text text-muted">Mesma senha informada no campo Senha.</small>
+                                                    <label for="ativo">Status {{.Usuario.Ativo}}</label>
+                                                    <select class="form-control" id="ativo" name="ativo" >
+                                                        <option  value="1" {{if eq .Usuario.Ativo "1" }} selected="true" {{end}}>Ativo</option>
+                                                        <option value="0" {{if eq .Usuario.Ativo "0" }} selected="true" {{end}}>Inativo</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>

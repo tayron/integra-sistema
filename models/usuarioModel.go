@@ -68,7 +68,7 @@ func (u Usuario) Atualizar() bool {
 	defer db.Close()
 
 	if u.Senha != "" {
-		var sql string = `UPDATE usuarios SET nome = ?, login = ?, senha = ? WHERE id = ?`
+		var sql string = `UPDATE usuarios SET nome = ?, login = ?, ativo = ?, senha = ? WHERE id = ?`
 
 		stmt, err := db.Prepare(sql)
 
@@ -79,6 +79,7 @@ func (u Usuario) Atualizar() bool {
 		resultado, err := stmt.Exec(
 			u.Nome,
 			u.Login,
+			u.Ativo,
 			u.Senha,
 			u.ID)
 
@@ -93,7 +94,7 @@ func (u Usuario) Atualizar() bool {
 		}
 
 	} else {
-		var sql string = `UPDATE usuarios SET nome = ?, login = ? WHERE id = ?`
+		var sql string = `UPDATE usuarios SET nome = ?, login = ?, ativo = ? WHERE id = ?`
 
 		stmt, err := db.Prepare(sql)
 
@@ -104,6 +105,7 @@ func (u Usuario) Atualizar() bool {
 		resultado, err := stmt.Exec(
 			u.Nome,
 			u.Login,
+			u.Ativo,
 			u.ID)
 
 		if err != nil {
