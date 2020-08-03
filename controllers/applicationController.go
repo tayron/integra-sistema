@@ -3,7 +3,8 @@ package controllers
 import (
 	"net/http"
 	"os"
-	"text/template"
+
+	"github.com/tayron/integra-sistema/bootstrap/library/template"
 )
 
 // IndexApplication -
@@ -20,7 +21,5 @@ func IndexApplication(w http.ResponseWriter, r *http.Request) {
 		VersaoSistema: os.Getenv("VERSAO_SISTEMA"),
 	}
 
-	var templates = template.Must(template.ParseGlob("template/*.html"))
-	template.Must(templates.ParseGlob("template/layout/*.html"))
-	templates.ExecuteTemplate(w, "homePage", parametros)
+	template.LoadView(w, "", "homePage", parametros)
 }

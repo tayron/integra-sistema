@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"os"
 	"strconv"
-	"text/template"
 
 	"github.com/gorilla/mux"
+	"github.com/tayron/integra-sistema/bootstrap/library/template"
 	"github.com/tayron/integra-sistema/models"
 )
 
@@ -34,8 +34,5 @@ func ListarLog(w http.ResponseWriter, r *http.Request) {
 		ListaLogs:     log.BuscarPorIDIntegracao(idIntegracao),
 	}
 
-	var templates = template.Must(template.ParseGlob("template/*.html"))
-	template.Must(templates.ParseGlob("template/layout/*.html"))
-	template.Must(templates.ParseGlob("template/log/*.html"))
-	templates.ExecuteTemplate(w, "listarLogPage", parametros)
+	template.LoadView(w, "template/log/*.html", "listarLogPage", parametros)
 }

@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"os"
 	"strconv"
-	"text/template"
 
 	"github.com/gorilla/mux"
+	"github.com/tayron/integra-sistema/bootstrap/library/template"
 	"github.com/tayron/integra-sistema/models"
 )
 
@@ -64,10 +64,7 @@ func ListarParametro(w http.ResponseWriter, r *http.Request) {
 		ListaParametros: parametro.BuscarPorIDIntegracao(idIntegracao),
 	}
 
-	var templates = template.Must(template.ParseGlob("template/*.html"))
-	template.Must(templates.ParseGlob("template/layout/*.html"))
-	template.Must(templates.ParseGlob("template/parametro/*.html"))
-	templates.ExecuteTemplate(w, "listarParametroPage", parametros)
+	template.LoadView(w, "template/parametro/*.html", "listarParametroPage", parametros)
 }
 
 // ExcluirParametro -
@@ -113,8 +110,5 @@ func ExcluirParametro(w http.ResponseWriter, r *http.Request) {
 		ListaParametros: parametroModel.BuscarPorIDIntegracao(idIntegracao),
 	}
 
-	var templates = template.Must(template.ParseGlob("template/*.html"))
-	template.Must(templates.ParseGlob("template/layout/*.html"))
-	template.Must(templates.ParseGlob("template/parametro/*.html"))
-	templates.ExecuteTemplate(w, "listarParametroPage", parametros)
+	template.LoadView(w, "template/parametro/*.html", "listarParametroPage", parametros)
 }

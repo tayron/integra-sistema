@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"os"
 	"strconv"
-	"text/template"
 
 	"github.com/gorilla/mux"
+	"github.com/tayron/integra-sistema/bootstrap/library/template"
 	"github.com/tayron/integra-sistema/models"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -50,10 +50,7 @@ func ListarUsuario(w http.ResponseWriter, r *http.Request) {
 		ListaUsuarios: usuarioModel.BuscarTodos(),
 	}
 
-	var templates = template.Must(template.ParseGlob("template/*.html"))
-	template.Must(templates.ParseGlob("template/layout/*.html"))
-	template.Must(templates.ParseGlob("template/usuario/*.html"))
-	templates.ExecuteTemplate(w, "listarUsuariosPage", parametros)
+	template.LoadView(w, "template/usuario/*.html", "listarUsuariosPage", parametros)
 }
 
 // CadastrarUsuario -
@@ -97,10 +94,7 @@ func CadastrarUsuario(w http.ResponseWriter, r *http.Request) {
 		Erro:          erro,
 	}
 
-	var templates = template.Must(template.ParseGlob("template/*.html"))
-	template.Must(templates.ParseGlob("template/layout/*.html"))
-	template.Must(templates.ParseGlob("template/usuario/*.html"))
-	templates.ExecuteTemplate(w, "cadastrarUsuarioPage", parametros)
+	template.LoadView(w, "template/usuario/*.html", "cadastrarUsuarioPage", parametros)
 }
 
 // EditarUsuario -
@@ -160,10 +154,7 @@ func EditarUsuario(w http.ResponseWriter, r *http.Request) {
 		Usuario:       usuarioModel.BuscarPorID(),
 	}
 
-	var templates = template.Must(template.ParseGlob("template/*.html"))
-	template.Must(templates.ParseGlob("template/layout/*.html"))
-	template.Must(templates.ParseGlob("template/usuario/*.html"))
-	templates.ExecuteTemplate(w, "editarUsuarioPage", parametros)
+	template.LoadView(w, "template/usuario/*.html", "editarUsuarioPage", parametros)
 }
 
 // ExcluirUsuario -
@@ -203,8 +194,5 @@ func ExcluirUsuario(w http.ResponseWriter, r *http.Request) {
 		ListaUsuarios: usuarioModel.BuscarTodos(),
 	}
 
-	var templates = template.Must(template.ParseGlob("template/*.html"))
-	template.Must(templates.ParseGlob("template/layout/*.html"))
-	template.Must(templates.ParseGlob("template/usuario/*.html"))
-	templates.ExecuteTemplate(w, "listarUsuariosPage", parametros)
+	template.LoadView(w, "template/usuario/*.html", "listarUsuariosPage", parametros)
 }

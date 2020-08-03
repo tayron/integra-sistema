@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"os"
 	"strconv"
-	"text/template"
 
 	"github.com/gorilla/mux"
+	"github.com/tayron/integra-sistema/bootstrap/library/template"
 	"github.com/tayron/integra-sistema/models"
 )
 
@@ -29,10 +29,7 @@ func ListarIntegracao(w http.ResponseWriter, r *http.Request) {
 		ListaIntegracoes: integracao.BuscarTodos(),
 	}
 
-	var templates = template.Must(template.ParseGlob("template/*.html"))
-	template.Must(templates.ParseGlob("template/layout/*.html"))
-	template.Must(templates.ParseGlob("template/integracao/*.html"))
-	templates.ExecuteTemplate(w, "listarIntegracoesPage", parametros)
+	template.LoadView(w, "template/integracao/*.html", "listarIntegracoesPage", parametros)
 }
 
 // CadastrarIntegracao -
@@ -83,10 +80,7 @@ func CadastrarIntegracao(w http.ResponseWriter, r *http.Request) {
 		ListaIntegracoes: integracao.BuscarTodos(),
 	}
 
-	var templates = template.Must(template.ParseGlob("template/*.html"))
-	template.Must(templates.ParseGlob("template/layout/*.html"))
-	template.Must(templates.ParseGlob("template/integracao/*.html"))
-	templates.ExecuteTemplate(w, "cadastrarIntegracoesPage", parametros)
+	template.LoadView(w, "template/integracao/*.html", "cadastrarIntegracoesPage", parametros)
 }
 
 // EditarIntegracao -
@@ -142,10 +136,7 @@ func EditarIntegracao(w http.ResponseWriter, r *http.Request) {
 		Integracao:    integracao.BuscarPorID(idIntegracao),
 	}
 
-	var templates = template.Must(template.ParseGlob("template/*.html"))
-	template.Must(templates.ParseGlob("template/layout/*.html"))
-	template.Must(templates.ParseGlob("template/integracao/*.html"))
-	templates.ExecuteTemplate(w, "editarIntegracoesPage", parametros)
+	template.LoadView(w, "template/integracao/*.html", "editarIntegracoesPage", parametros)
 }
 
 // ExcluirIntegracao -
@@ -185,9 +176,5 @@ func ExcluirIntegracao(w http.ResponseWriter, r *http.Request) {
 		Sucesso:          sucesso,
 		Erro:             erro,
 	}
-
-	var templates = template.Must(template.ParseGlob("template/*.html"))
-	template.Must(templates.ParseGlob("template/layout/*.html"))
-	template.Must(templates.ParseGlob("template/integracao/*.html"))
-	templates.ExecuteTemplate(w, "listarIntegracoesPage", parametros)
+	template.LoadView(w, "template/integracao/*.html", "listarIntegracoesPage", parametros)
 }
