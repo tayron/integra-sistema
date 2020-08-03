@@ -1,13 +1,7 @@
 {{define "alert"}}
-{{if .Sucesso }}
-<div class="alert alert-success" role="alert">
-    {{ .Mensagem }}
-</div>
-{{end}}
-
-{{if .Erro }}
-<div class="alert alert-danger" role="alert">
-    {{ .Mensagem }}
-</div>
-{{end}}
+    {{if .FlashMessage }}
+    <div class="alert alert-{{ .FlashMessage.Type }}" role="alert">
+        {{ .FlashMessage.Message }}
+    </div>
+    {{end}}
 {{end}}

@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{{.NomeSistema}} {{.VersaoSistema}}</title>
+    <title>{{.System.Name}} {{.System.Version}}</title>
 
     <link rel="stylesheet" href="/public/AdminLTE305/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="/public/AdminLTE305/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
@@ -56,7 +56,7 @@
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body table-responsive p-0" style="height: 600px;">  
-                                    {{- template "alert" . -}}                                  
+                                    {{- template "alert" . -}}                                                                   
                                     <table class="table table-head-fixed text-nowrap">
                                         <thead>
                                             <tr>
@@ -69,7 +69,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {{- range .ListaIntegracoes -}}
+                                            {{- range .Parameter.Integracoes -}}
                                             <tr>
                                                 <td>{{.ID}}</td>
                                                 <td>{{.Nome}}</td>

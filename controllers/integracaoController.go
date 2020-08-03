@@ -16,17 +16,15 @@ func ListarIntegracao(w http.ResponseWriter, r *http.Request) {
 
 	integracao := models.Integracao{}
 
-	parametros := struct {
-		NomeSistema      string
-		VersaoSistema    string
-		Mensagem         string
-		Sucesso          bool
-		Erro             bool
-		ListaIntegracoes []models.Integracao
+	var Integracoes = struct {
+		Integracoes []models.Integracao
 	}{
-		NomeSistema:      os.Getenv("NOME_SISTEMA"),
-		VersaoSistema:    os.Getenv("VERSAO_SISTEMA"),
-		ListaIntegracoes: integracao.BuscarTodos(),
+		Integracoes: integracao.BuscarTodos(),
+	}
+
+	parametros := template.Parameter{
+		System:    template.ObterSystemInformation(),
+		Parameter: Integracoes,
 	}
 
 	template.LoadView(w, "template/integracao/*.html", "listarIntegracoesPage", parametros)
