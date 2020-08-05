@@ -53,27 +53,27 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="nome">Nome da integração</label>
-                                                    <input type="hidden" id="id" name="id" required value="{{.Integracao.ID}}" />
-                                                    <input type="text" class="form-control" id="nome" name="nome" required value="{{.Integracao.Nome}}" />
+                                                    <input type="hidden" id="id" name="id" required value="{{.Parametro.Integracao.ID}}" />
+                                                    <input type="text" class="form-control" id="nome" name="nome" required value="{{.Parametro.Integracao.Nome}}" />
                                                     <small class="form-text text-muted">Nome usado para identificar a integração.</small>
                                                 </div>                            
                                                 <div class="form-group">
                                                     <label for="nome_sistema_origem">Nome do sistema de origem dos dados</label>
-                                                    <input type="text" class="form-control" id="nome_sistema_origem" name="nome_sistema_origem" required value="{{.Integracao.NomeSistemaOrigem}}" />
+                                                    <input type="text" class="form-control" id="nome_sistema_origem" name="nome_sistema_origem" required value="{{.Parametro.Integracao.NomeSistemaOrigem}}" />
                                                     <small class="form-text text-muted">Sistema que irá fazer a requisição.</small>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="api_sistema_origem">Endereço da API</label>
-                                                    <input type="text" class="form-control" id="api_sistema_origem" name="api_sistema_origem" value="{{.Integracao.APISistemaOrigem}}" placeholder="Somente se os dados de Origem foram solicitados pelo {{.NomeSistema}}" />
+                                                    <input type="text" class="form-control" id="api_sistema_origem" name="api_sistema_origem" value="{{.Parametro.Integracao.APISistemaOrigem}}" placeholder="Somente se os dados de Origem foram solicitados pelo {{.System.Name}}" />
                                                 </div> 
                                                 <div class="form-group">
                                                     <label for="api_sistema_destino">Método envio do Sistema de Origem</label>
                                                     <div class="custom-control custom-radio">
-                                                        <input type="radio" class="custom-control-input" id="metodo_sistema_origem_post" name="metodo_sistema_origem" required value="POST" {{if eq .Integracao.MetodoSistemaOrigem "POST" }} checked {{end}} />
+                                                        <input type="radio" class="custom-control-input" id="metodo_sistema_origem_post" name="metodo_sistema_origem" required value="POST" {{if eq .Parametro.Integracao.MetodoSistemaOrigem "POST" }} checked {{end}} />
                                                         <label class="custom-control-label" for="metodo_sistema_origem_post">POST</label>
                                                     </div>                            
                                                     <div class="custom-control custom-radio">
-                                                        <input type="radio" class="custom-control-input" id="metodo_sistema_origem_get" name="metodo_sistema_origem" required value="GET" {{if eq .Integracao.MetodoSistemaOrigem "GET" }} checked {{end}} />
+                                                        <input type="radio" class="custom-control-input" id="metodo_sistema_origem_get" name="metodo_sistema_origem" required value="GET" {{if eq .Parametro.Integracao.MetodoSistemaOrigem "GET" }} checked {{end}} />
                                                         <label class="custom-control-label" for="metodo_sistema_origem_get">GET</label>
                                                     </div>                  
                                                 </div>                                      
@@ -81,26 +81,26 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="endpoint">Endpoint da API</label>                                
-                                                    <input type="text" class="form-control" id="endpoint" name="endpoint" required value="{{.Integracao.Endpoint}}" />
+                                                    <input type="text" class="form-control" id="endpoint" name="endpoint" required value="{{.Parametro.Integracao.Endpoint}}" />
                                                     <small class="form-text text-muted">Exemplo: cadastrar-produto</small>
                                                 </div>                            
                                                 <div class="form-group">
                                                     <label for="nome_sistema_destino">Nome do sistema de destino dos dados</label>
-                                                    <input type="text" class="form-control" id="nome_sistema_destino" name="nome_sistema_destino" required value="{{.Integracao.NomeSistemaDestino}}" />
+                                                    <input type="text" class="form-control" id="nome_sistema_destino" name="nome_sistema_destino" required value="{{.Parametro.Integracao.NomeSistemaDestino}}" />
                                                     <small class="form-text text-muted">Sistema que irá receber a requisição.</small>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="api_sistema_destino">Endereço da API</label>
-                                                    <input type="text" class="form-control" id="api_sistema_destino" name="api_sistema_destino" required value="{{.Integracao.APISistemaDestino}}" />
+                                                    <input type="text" class="form-control" id="api_sistema_destino" name="api_sistema_destino" required value="{{.Parametro.Integracao.APISistemaDestino}}" />
                                                 </div> 
                                                 <div class="form-group">
                                                     <label for="api_sistema_destino">Método envio do Sistema de Destino</label>   
                                                     <div class="custom-control custom-radio">
-                                                        <input type="radio" class="custom-control-input" id="metodo_sistema_destino_post" name="metodo_sistema_destino" required value="POST" {{if eq .Integracao.MetodoSistemaDestino "POST" }} checked {{end}} />
+                                                        <input type="radio" class="custom-control-input" id="metodo_sistema_destino_post" name="metodo_sistema_destino" required value="POST" {{if eq .Parametro.Integracao.MetodoSistemaDestino "POST" }} checked {{end}} />
                                                         <label class="custom-control-label" for="metodo_sistema_destino_post">POST</label>
                                                     </div>                            
                                                     <div class="custom-control custom-radio">
-                                                        <input type="radio" class="custom-control-input" id="metodo_sistema_destino_get" name="metodo_sistema_destino" required value="GET" {{if eq .Integracao.MetodoSistemaDestino "GET" }} checked {{end}} />
+                                                        <input type="radio" class="custom-control-input" id="metodo_sistema_destino_get" name="metodo_sistema_destino" required value="GET" {{if eq .Parametro.Integracao.MetodoSistemaDestino "GET" }} checked {{end}} />
                                                         <label class="custom-control-label" for="metodo_sistema_destino_get">GET</label>
                                                     </div>                                                              
                                                 </div> 

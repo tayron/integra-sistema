@@ -46,21 +46,21 @@
                                 </div>
                                 <!-- /.card-header -->
                                 <!-- form start -->
-                                <form role="form" method="post" action="/parametros/integracao/{{.Integracao.ID}}">
-                                    <input type="hidden" class="form-control" id="integracao_id" name="integracao_id" required value="{{.Integracao.ID}}">
+                                <form role="form" method="post" action="/parametros/integracao/{{.Parametro.Integracao.ID}}">
+                                    <input type="hidden" class="form-control" id="integracao_id" name="integracao_id" required value="{{.Parametro.Integracao.ID}}">
                                     {{- template "alert" . -}}
                                     <div class="card-body">
                                         <div class="row">                    
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="nome_parametro_entrada">Parâmetro do sistema: <strong>{{.Integracao.NomeSistemaOrigem}}</strong></label>
+                                                    <label for="nome_parametro_entrada">Parâmetro do sistema: <strong>{{.Parametro.Integracao.NomeSistemaOrigem}}</strong></label>
                                                     <input type="text" class="form-control" id="nome_parametro_entrada" name="nome_parametro_entrada" required />
                                                     <small class="form-text text-muted">Sistema que irá fornecer o parâmetro.</small>
                                                 </div>                                   
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="nome_parametro_saida">Parâmetro do sistema: <strong>{{.Integracao.NomeSistemaDestino}}</strong></label>
+                                                    <label for="nome_parametro_saida">Parâmetro do sistema: <strong>{{.Parametro.Integracao.NomeSistemaDestino}}</strong></label>
                                                     <input type="text" class="form-control" id="nome_parametro_saida" name="nome_parametro_saida" required />
                                                     <small class="form-text text-muted">Sistema que irá receber o parâmetro.</small>
                                                 </div>
@@ -98,13 +98,13 @@
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
-                                                    <th>Parâmetro do sistema: {{.Integracao.NomeSistemaOrigem}}</th>
-                                                    <th>Parâmetro do sistema: {{.Integracao.NomeSistemaDestino}}</th> 
+                                                    <th>Parâmetro do sistema: {{.Parametro.Integracao.NomeSistemaOrigem}}</th>
+                                                    <th>Parâmetro do sistema: {{.Parametro.Integracao.NomeSistemaDestino}}</th> 
                                                     <th></th>                                           
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {{- range .ListaParametros -}}
+                                                {{- range .Parametro.ListaParametros -}}
                                                 <tr>
                                                     <td>{{.ID}}</td>                                            
                                                     <td>{{.NomeParametroEntrada}}</td>

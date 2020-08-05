@@ -1,9 +1,7 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
-	"os"
 	"strconv"
 
 	"github.com/gorilla/mux"
@@ -16,10 +14,7 @@ func ListarParametro(w http.ResponseWriter, r *http.Request) {
 
 	parametrosURL := mux.Vars(r)
 	idIntegracao, _ := strconv.ParseInt(parametrosURL["id"], 10, 64)
-
-	var mensagem string
-	var sucesso bool
-	var erro bool
+	flashMessage := template.FlashMessage{}
 
 	if r.Method == "POST" {
 		integracaoID, _ := strconv.ParseInt(r.FormValue("integracao_id"), 10, 64)
@@ -35,33 +30,26 @@ func ListarParametro(w http.ResponseWriter, r *http.Request) {
 		retornoGravacao := parametro.Gravar()
 
 		if retornoGravacao == true {
-			sucesso = true
-			mensagem = fmt.Sprint("Sucesso ao gravar dados da integração")
+			flashMessage.Type, flashMessage.Message = template.ObterTipoMensagemGravacaoSucesso()
 		} else {
-			erro = true
-			mensagem = fmt.Sprint("Erro ao gravar dados da integração")
+			flashMessage.Type, flashMessage.Message = template.ObterTipoMensagemGravacaoErro()
 		}
 	}
 
 	integracao := models.Integracao{}
 	parametro := models.Parametro{}
 
-	parametros := struct {
-		NomeSistema     string
-		VersaoSistema   string
-		Mensagem        string
-		Sucesso         bool
-		Erro            bool
+	var Parametros = struct {
 		Integracao      models.Integracao
 		ListaParametros []models.Parametro
 	}{
-		NomeSistema:     os.Getenv("NOME_SISTEMA"),
-		VersaoSistema:   os.Getenv("VERSAO_SISTEMA"),
-		Mensagem:        mensagem,
-		Sucesso:         sucesso,
-		Erro:            erro,
 		Integracao:      integracao.BuscarPorID(idIntegracao),
 		ListaParametros: parametro.BuscarPorIDIntegracao(idIntegracao),
+	}
+
+	parametros := template.Parametro{
+		System:    template.ObterInformacaoSistema(),
+		Parametro: Parametros,
 	}
 
 	template.LoadView(w, "template/parametro/*.html", "listarParametroPage", parametros)
@@ -70,6 +58,7 @@ func ListarParametro(w http.ResponseWriter, r *http.Request) {
 // ExcluirParametro -
 func ExcluirParametro(w http.ResponseWriter, r *http.Request) {
 	idIntegracao, _ := strconv.ParseInt(r.FormValue("id_integracao"), 10, 64)
+	flashMessage := template.FlashMessage{}
 
 	id, _ := strconv.Atoi(r.FormValue("id_parametro"))
 	parametroModel := models.Parametro{
@@ -78,36 +67,27 @@ func ExcluirParametro(w http.ResponseWriter, r *http.Request) {
 
 	retornoExclusao := parametroModel.Excluir()
 
-	var mensagem string
-	var sucesso bool
-	var erro bool
-
 	if retornoExclusao == true {
-		sucesso = true
-		mensagem = fmt.Sprint("Sucesso ao excluir o parâmetro")
+		flashMessage.Type, flashMessage.Message = template.ObterTipoMensagemExclusaoSucesso()
 	} else {
-		erro = true
-		mensagem = fmt.Sprint("Erro ao excluir o parâmetro")
+		flashMessage.Type, flashMessage.Message = template.ObterTipoMensagemExclusaoErro()
 	}
 
 	integracao := models.Integracao{}
+	parametro := models.Parametro{}
 
-	parametros := struct {
-		NomeSistema     string
-		VersaoSistema   string
-		Mensagem        string
-		Sucesso         bool
-		Erro            bool
+	var Parametros = struct {
 		Integracao      models.Integracao
 		ListaParametros []models.Parametro
 	}{
-		NomeSistema:     os.Getenv("NOME_SISTEMA"),
-		VersaoSistema:   os.Getenv("VERSAO_SISTEMA"),
-		Mensagem:        mensagem,
-		Sucesso:         sucesso,
-		Erro:            erro,
 		Integracao:      integracao.BuscarPorID(idIntegracao),
-		ListaParametros: parametroModel.BuscarPorIDIntegracao(idIntegracao),
+		ListaParametros: parametro.BuscarPorIDIntegracao(idIntegracao),
+	}
+
+	parametros := template.Parametro{
+		System:       template.ObterInformacaoSistema(),
+		FlashMessage: flashMessage,
+		Parametro:    Parametros,
 	}
 
 	template.LoadView(w, "template/parametro/*.html", "listarParametroPage", parametros)

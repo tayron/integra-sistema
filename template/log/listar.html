@@ -23,7 +23,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Logs da integração: <strong>{{.Integracao.Nome}}</strong></h1>
+                            <h1>Logs da integração: <strong>{{.Parametro.Integracao.Nome}}</strong></h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
@@ -61,7 +61,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {{- range .ListaLogs -}}
+                                                {{- range .Parametro.ListaLogs -}}
                                                 <tr>
                                                     <td>{{.ID}}</td>
                                                     <td>{{.APIDestino}}</td>

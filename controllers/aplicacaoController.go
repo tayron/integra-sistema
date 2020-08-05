@@ -8,8 +8,8 @@ import (
 
 // IndexApplication -
 func IndexApplication(w http.ResponseWriter, r *http.Request) {
-	parametros := template.Parameter{
-		System: template.ObterSystemInformation(),
+	parametros := template.Parametro{
+		System: template.ObterInformacaoSistema(),
 	}
 
 	template.LoadView(w, "", "homePage", parametros)
