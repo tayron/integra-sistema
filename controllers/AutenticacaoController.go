@@ -9,7 +9,7 @@ import (
 
 // ValidarSessao - Verifica se tem usuário logado e redireciona para tela de login
 func ValidarSessao(w http.ResponseWriter, r *http.Request) {
-	usuario := session.GetSessionData("login", w, r)
+	usuario := session.GetDadoSessao("login", w, r)
 
 	if usuario == "" {
 		http.Redirect(w, r, "/login", 302)
@@ -20,7 +20,7 @@ func ValidarSessao(w http.ResponseWriter, r *http.Request) {
 func Login(w http.ResponseWriter, r *http.Request) {
 	flashMessage := template.FlashMessage{}
 
-	usuario := session.GetSessionData("login", w, r)
+	usuario := session.GetDadoSessao("login", w, r)
 
 	if usuario != "" {
 		http.Redirect(w, r, "/", 302)
@@ -31,8 +31,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		username := r.PostForm.Get("login")
 		password := r.PostForm.Get("senha")
 
-		session.SetSessionData("login", username, w, r)
-		session.SetSessionData("senha", password, w, r)
+		session.SetDadoSessao("login", username, w, r)
+		session.SetDadoSessao("senha", password, w, r)
 
 		http.Redirect(w, r, "/", 302)
 	}
@@ -47,6 +47,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 // Logout - Limpa os dados da sessão e redireciona para a tela de login
 func Logout(w http.ResponseWriter, r *http.Request) {
-	session.ClearSessionData(w, r)
+	session.ClearDadosSessao(w, r)
 	http.Redirect(w, r, "/login", 302)
 }
