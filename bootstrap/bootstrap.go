@@ -3,7 +3,6 @@ package bootstrap
 import (
 	"github.com/gorilla/sessions"
 	"github.com/joho/godotenv"
-	"github.com/tayron/integra-sistema/bootstrap/library/routes"
 	"github.com/tayron/integra-sistema/models"
 )
 
@@ -20,6 +19,6 @@ func init() {
 
 // StartApplication - Carrega as rotas e inializa a aplicação
 func StartApplication() {
-	routes.CarregarRotas()
+	CarregarRotas()
 	StartarServidor()
 }

@@ -1,4 +1,4 @@
-package routes
+package bootstrap
 
 import (
 	"net/http"
