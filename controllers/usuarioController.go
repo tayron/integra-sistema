@@ -1,53 +1,28 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
-	"os"
 	"strconv"
 
 	"github.com/gorilla/mux"
 	"github.com/tayron/integra-sistema/bootstrap/library/template"
+	"github.com/tayron/integra-sistema/bootstrap/library/util"
 	"github.com/tayron/integra-sistema/models"
-	"golang.org/x/crypto/bcrypt"
 )
-
-func gerarHashSenha(password string) (string, error) {
-	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
-	return string(bytes), err
-}
-
-func compararSenhaComHash(password, hash string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
-	return err == nil
-}
-
-func exemploUso() {
-	password := "secret"
-	hash, _ := gerarHashSenha(password) // ignore error for the sake of simplicity
-
-	fmt.Println("Password:", password)
-	fmt.Println("Hash:    ", hash)
-
-	match := compararSenhaComHash(password, hash)
-	fmt.Println("Match:   ", match)
-}
 
 // ListarUsuario -
 func ListarUsuario(w http.ResponseWriter, r *http.Request) {
 	usuarioModel := models.Usuario{}
 
-	parametros := struct {
-		NomeSistema   string
-		VersaoSistema string
-		Mensagem      string
-		Sucesso       bool
-		Erro          bool
+	var Usuarios = struct {
 		ListaUsuarios []models.Usuario
 	}{
-		NomeSistema:   os.Getenv("NOME_SISTEMA"),
-		VersaoSistema: os.Getenv("VERSAO_SISTEMA"),
 		ListaUsuarios: usuarioModel.BuscarTodos(),
+	}
+
+	parametros := template.Parametro{
+		System:    template.ObterInformacaoSistema(),
+		Parametro: Usuarios,
 	}
 
 	template.LoadView(w, "template/usuario/*.html", "listarUsuariosPage", parametros)
@@ -55,13 +30,11 @@ func ListarUsuario(w http.ResponseWriter, r *http.Request) {
 
 // CadastrarUsuario -
 func CadastrarUsuario(w http.ResponseWriter, r *http.Request) {
-	var mensagem string
-	var sucesso bool
-	var erro bool
+	flashMessage := template.FlashMessage{}
 
 	if r.Method == "POST" {
 		senha := r.FormValue("senha")
-		senhaCriptografada, _ := gerarHashSenha(senha)
+		senhaCriptografada, _ := util.GerarHashSenha(senha)
 
 		usuarioEntidade := models.Usuario{
 			Nome:  r.FormValue("nome"),
@@ -72,26 +45,15 @@ func CadastrarUsuario(w http.ResponseWriter, r *http.Request) {
 		retornoGravacao := usuarioEntidade.Gravar()
 
 		if retornoGravacao == true {
-			sucesso = true
-			mensagem = fmt.Sprint("Sucesso ao gravar dados do usuário")
+			flashMessage.Type, flashMessage.Message = template.ObterTipoMensagemGravacaoSucesso()
 		} else {
-			erro = true
-			mensagem = fmt.Sprint("Erro ao gravar dados do usuário")
+			flashMessage.Type, flashMessage.Message = template.ObterTipoMensagemGravacaoErro()
 		}
 	}
 
-	parametros := struct {
-		NomeSistema   string
-		VersaoSistema string
-		Mensagem      string
-		Sucesso       bool
-		Erro          bool
-	}{
-		NomeSistema:   os.Getenv("NOME_SISTEMA"),
-		VersaoSistema: os.Getenv("VERSAO_SISTEMA"),
-		Mensagem:      mensagem,
-		Sucesso:       sucesso,
-		Erro:          erro,
+	parametros := template.Parametro{
+		System:       template.ObterInformacaoSistema(),
+		FlashMessage: flashMessage,
 	}
 
 	template.LoadView(w, "template/usuario/*.html", "cadastrarUsuarioPage", parametros)
@@ -101,10 +63,7 @@ func CadastrarUsuario(w http.ResponseWriter, r *http.Request) {
 func EditarUsuario(w http.ResponseWriter, r *http.Request) {
 	parametrosURL := mux.Vars(r)
 	id, _ := strconv.Atoi(parametrosURL["id"])
-
-	var mensagem string
-	var sucesso bool
-	var erro bool
+	flashMessage := template.FlashMessage{}
 
 	if r.Method == "POST" {
 
@@ -112,7 +71,7 @@ func EditarUsuario(w http.ResponseWriter, r *http.Request) {
 		senhaCriptografada := ""
 
 		if senha != "" {
-			senhaCriptografada, _ = gerarHashSenha(senha)
+			senhaCriptografada, _ = util.GerarHashSenha(senha)
 		}
 
 		usuarioModel := models.Usuario{
@@ -126,11 +85,9 @@ func EditarUsuario(w http.ResponseWriter, r *http.Request) {
 		retornoGravacao := usuarioModel.Atualizar()
 
 		if retornoGravacao == true {
-			sucesso = true
-			mensagem = fmt.Sprint("Sucesso ao gravar dados do usuário")
+			flashMessage.Type, flashMessage.Message = template.ObterTipoMensagemGravacaoSucesso()
 		} else {
-			erro = true
-			mensagem = fmt.Sprint("Erro ao gravar dados da usuário")
+			flashMessage.Type, flashMessage.Message = template.ObterTipoMensagemGravacaoErro()
 		}
 	}
 
@@ -138,20 +95,16 @@ func EditarUsuario(w http.ResponseWriter, r *http.Request) {
 		ID: id,
 	}
 
-	parametros := struct {
-		NomeSistema   string
-		VersaoSistema string
-		Mensagem      string
-		Sucesso       bool
-		Erro          bool
-		Usuario       models.Usuario
+	var Usuario = struct {
+		Usuario models.Usuario
 	}{
-		NomeSistema:   os.Getenv("NOME_SISTEMA"),
-		VersaoSistema: os.Getenv("VERSAO_SISTEMA"),
-		Mensagem:      mensagem,
-		Sucesso:       sucesso,
-		Erro:          erro,
-		Usuario:       usuarioModel.BuscarPorID(),
+		Usuario: usuarioModel.BuscarPorID(),
+	}
+
+	parametros := template.Parametro{
+		System:       template.ObterInformacaoSistema(),
+		FlashMessage: flashMessage,
+		Parametro:    Usuario,
 	}
 
 	template.LoadView(w, "template/usuario/*.html", "editarUsuarioPage", parametros)
@@ -160,9 +113,7 @@ func EditarUsuario(w http.ResponseWriter, r *http.Request) {
 // ExcluirUsuario -
 func ExcluirUsuario(w http.ResponseWriter, r *http.Request) {
 	idUsuario, _ := strconv.Atoi(r.FormValue("id"))
-	var mensagem string
-	var sucesso bool
-	var erro bool
+	flashMessage := template.FlashMessage{}
 
 	usuarioModel := models.Usuario{
 		ID: idUsuario,
@@ -171,27 +122,21 @@ func ExcluirUsuario(w http.ResponseWriter, r *http.Request) {
 	retornoExclusao := usuarioModel.Excluir()
 
 	if retornoExclusao == true {
-		sucesso = true
-		mensagem = fmt.Sprint("Sucesso ao excluir o usuário")
+		flashMessage.Type, flashMessage.Message = template.ObterTipoMensagemExclusaoSucesso()
 	} else {
-		erro = true
-		mensagem = fmt.Sprint("Erro ao excluir o usuário")
+		flashMessage.Type, flashMessage.Message = template.ObterTipoMensagemExclusaoErro()
 	}
 
-	parametros := struct {
-		NomeSistema   string
-		VersaoSistema string
-		Mensagem      string
-		Sucesso       bool
-		Erro          bool
+	var Usuarios = struct {
 		ListaUsuarios []models.Usuario
 	}{
-		NomeSistema:   os.Getenv("NOME_SISTEMA"),
-		VersaoSistema: os.Getenv("VERSAO_SISTEMA"),
-		Mensagem:      mensagem,
-		Sucesso:       sucesso,
-		Erro:          erro,
 		ListaUsuarios: usuarioModel.BuscarTodos(),
+	}
+
+	parametros := template.Parametro{
+		System:       template.ObterInformacaoSistema(),
+		FlashMessage: flashMessage,
+		Parametro:    Usuarios,
 	}
 
 	template.LoadView(w, "template/usuario/*.html", "listarUsuariosPage", parametros)

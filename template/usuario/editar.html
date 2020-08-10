@@ -53,13 +53,13 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="nome">Nome completo</label>
-                                                    <input type="hidden" id="id" name="id" required value="{{.Usuario.ID}}" />
-                                                    <input type="text" class="form-control" id="nome" name="nome" value="{{.Usuario.Nome}}" required />
+                                                    <input type="hidden" id="id" name="id" required value="{{.Parametro.Usuario.ID}}" />
+                                                    <input type="text" class="form-control" id="nome" name="nome" value="{{.Parametro.Usuario.Nome}}" required />
                                                     <small class="form-text text-muted">Informe nome e sobrenome</small>
                                                 </div>                            
                                                 <div class="form-group">
                                                     <label for="login">Usuário</label>
-                                                    <input type="text" class="form-control" id="login" name="login" value="{{.Usuario.Login}}" required />
+                                                    <input type="text" class="form-control" id="login" name="login" value="{{.Parametro.Usuario.Login}}" required />
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -69,10 +69,10 @@
                                                     <small class="form-text text-muted">Deve conter no mínimo 6 caracteres</small>
                                                 </div>                                                                                                                                                        
                                                 <div class="form-group">
-                                                    <label for="ativo">Status {{.Usuario.Ativo}}</label>
+                                                    <label for="ativo">Status</label>
                                                     <select class="form-control" id="ativo" name="ativo" >
-                                                        <option  value="1" {{if eq .Usuario.Ativo "1" }} selected="true" {{end}}>Ativo</option>
-                                                        <option value="0" {{if eq .Usuario.Ativo "0" }} selected="true" {{end}}>Inativo</option>
+                                                        <option  value="1" {{if eq .Parametro.Usuario.Ativo "1" }} selected="true" {{end}}>Ativo</option>
+                                                        <option value="0" {{if eq .Parametro.Usuario.Ativo "0" }} selected="true" {{end}}>Inativo</option>
                                                     </select>
                                                 </div>
                                             </div>
