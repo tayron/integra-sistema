@@ -20,6 +20,12 @@ func ValidarSessao(w http.ResponseWriter, r *http.Request) {
 func Login(w http.ResponseWriter, r *http.Request) {
 	flashMessage := template.FlashMessage{}
 
+	usuario := session.GetSessionData("login", w, r)
+
+	if usuario != "" {
+		http.Redirect(w, r, "/", 302)
+	}
+
 	if r.Method == "POST" {
 		r.ParseForm()
 		username := r.PostForm.Get("login")
@@ -37,4 +43,10 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	template.LoadView(w, "template/autenticacao/*.html", "loginPage", parametros)
+}
+
+// Logout - Limpa os dados da sessão e redireciona para a tela de login
+func Logout(w http.ResponseWriter, r *http.Request) {
+	session.ClearSessionData(w, r)
+	http.Redirect(w, r, "/login", 302)
 }

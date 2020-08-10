@@ -31,6 +31,7 @@ func CarregarRotas() {
 
 	r.HandleFunc("/login", controllers.Login).Methods("GET")
 	r.HandleFunc("/login", controllers.Login).Methods("POST")
+	r.HandleFunc("/logout", controllers.Logout).Methods("GET")
 
 	r.HandleFunc("/logs/integracao/{id:[0-9]+}", controllers.ListarLog).Methods("GET")
 
