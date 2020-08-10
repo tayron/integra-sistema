@@ -1,7 +1,7 @@
 package models
 
 import (
-	"github.com/tayron/integra-sistema/database"
+	"github.com/tayron/integra-sistema/bootstrap/library/database"
 )
 
 type Parametro struct {

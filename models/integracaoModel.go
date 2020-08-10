@@ -3,7 +3,7 @@ package models
 import (
 	"time"
 
-	"github.com/tayron/integra-sistema/database"
+	"github.com/tayron/integra-sistema/bootstrap/library/database"
 )
 
 type Integracao struct {

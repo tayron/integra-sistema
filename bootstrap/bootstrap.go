@@ -2,8 +2,8 @@ package bootstrap
 
 import (
 	"github.com/joho/godotenv"
+	"github.com/tayron/integra-sistema/bootstrap/library/routes"
 	"github.com/tayron/integra-sistema/models"
-	"github.com/tayron/integra-sistema/routes"
 )
 
 func init() {
