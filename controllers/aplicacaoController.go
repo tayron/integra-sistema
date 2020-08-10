@@ -8,6 +8,8 @@ import (
 
 // IndexApplication -
 func IndexApplication(w http.ResponseWriter, r *http.Request) {
+	ValidarSessao(w, r)
+
 	parametros := template.Parametro{
 		System: template.ObterInformacaoSistema(),
 	}

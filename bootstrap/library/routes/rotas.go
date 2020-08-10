@@ -29,6 +29,9 @@ func CarregarRotas() {
 	r.HandleFunc("/usuario/editar/{id:[0-9]+}", controllers.EditarUsuario)
 	r.HandleFunc("/usuario/excluir", controllers.ExcluirUsuario).Methods("POST")
 
+	r.HandleFunc("/login", controllers.Login).Methods("GET")
+	r.HandleFunc("/login", controllers.Login).Methods("POST")
+
 	r.HandleFunc("/logs/integracao/{id:[0-9]+}", controllers.ListarLog).Methods("GET")
 
 	r.HandleFunc("/api/{endpoint}", controllers.ProcessarIntegracao)

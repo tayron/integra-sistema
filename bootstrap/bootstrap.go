@@ -1,10 +1,13 @@
 package bootstrap
 
 import (
+	"github.com/gorilla/sessions"
 	"github.com/joho/godotenv"
 	"github.com/tayron/integra-sistema/bootstrap/library/routes"
 	"github.com/tayron/integra-sistema/models"
 )
+
+var store = sessions.NewCookieStore([]byte("1n+3gra-s1s+3ma"))
 
 // Inicializa as configurações básica do sistema
 func init() {

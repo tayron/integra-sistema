@@ -12,6 +12,8 @@ import (
 
 // ListarUsuario -
 func ListarUsuario(w http.ResponseWriter, r *http.Request) {
+	ValidarSessao(w, r)
+
 	usuarioModel := models.Usuario{}
 
 	var Usuarios = struct {
@@ -30,6 +32,8 @@ func ListarUsuario(w http.ResponseWriter, r *http.Request) {
 
 // CadastrarUsuario -
 func CadastrarUsuario(w http.ResponseWriter, r *http.Request) {
+	ValidarSessao(w, r)
+
 	flashMessage := template.FlashMessage{}
 
 	if r.Method == "POST" {
@@ -61,6 +65,8 @@ func CadastrarUsuario(w http.ResponseWriter, r *http.Request) {
 
 // EditarUsuario -
 func EditarUsuario(w http.ResponseWriter, r *http.Request) {
+	ValidarSessao(w, r)
+
 	parametrosURL := mux.Vars(r)
 	id, _ := strconv.Atoi(parametrosURL["id"])
 	flashMessage := template.FlashMessage{}
@@ -112,6 +118,8 @@ func EditarUsuario(w http.ResponseWriter, r *http.Request) {
 
 // ExcluirUsuario -
 func ExcluirUsuario(w http.ResponseWriter, r *http.Request) {
+	ValidarSessao(w, r)
+
 	idUsuario, _ := strconv.Atoi(r.FormValue("id"))
 	flashMessage := template.FlashMessage{}
 

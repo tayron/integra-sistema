@@ -11,6 +11,7 @@ import (
 
 // ListarParametro -
 func ListarParametro(w http.ResponseWriter, r *http.Request) {
+	ValidarSessao(w, r)
 
 	parametrosURL := mux.Vars(r)
 	idIntegracao, _ := strconv.ParseInt(parametrosURL["id"], 10, 64)
@@ -57,6 +58,8 @@ func ListarParametro(w http.ResponseWriter, r *http.Request) {
 
 // ExcluirParametro -
 func ExcluirParametro(w http.ResponseWriter, r *http.Request) {
+	ValidarSessao(w, r)
+
 	idIntegracao, _ := strconv.ParseInt(r.FormValue("id_integracao"), 10, 64)
 	flashMessage := template.FlashMessage{}
 

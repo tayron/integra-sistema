@@ -11,6 +11,7 @@ import (
 
 // ListarLog -
 func ListarLog(w http.ResponseWriter, r *http.Request) {
+	ValidarSessao(w, r)
 
 	parametrosURL := mux.Vars(r)
 	idIntegracao, _ := strconv.ParseInt(parametrosURL["id"], 10, 64)

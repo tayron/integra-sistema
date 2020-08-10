@@ -11,6 +11,7 @@ import (
 
 // ListarIntegracao -
 func ListarIntegracao(w http.ResponseWriter, r *http.Request) {
+	ValidarSessao(w, r)
 
 	integracao := models.Integracao{}
 
@@ -30,6 +31,7 @@ func ListarIntegracao(w http.ResponseWriter, r *http.Request) {
 
 // CadastrarIntegracao -
 func CadastrarIntegracao(w http.ResponseWriter, r *http.Request) {
+	ValidarSessao(w, r)
 
 	flashMessage := template.FlashMessage{}
 
@@ -73,6 +75,7 @@ func CadastrarIntegracao(w http.ResponseWriter, r *http.Request) {
 
 // EditarIntegracao -
 func EditarIntegracao(w http.ResponseWriter, r *http.Request) {
+	ValidarSessao(w, r)
 
 	parametrosURL := mux.Vars(r)
 	idIntegracao, _ := strconv.ParseInt(parametrosURL["id"], 10, 64)
@@ -120,6 +123,8 @@ func EditarIntegracao(w http.ResponseWriter, r *http.Request) {
 
 // ExcluirIntegracao -
 func ExcluirIntegracao(w http.ResponseWriter, r *http.Request) {
+	ValidarSessao(w, r)
+
 	idIntegracao, _ := strconv.Atoi(r.FormValue("id"))
 	flashMessage := template.FlashMessage{}
 
