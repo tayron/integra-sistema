@@ -7,7 +7,7 @@ import (
 	"github.com/tayron/integra-sistema/controllers"
 )
 
-// CarregarRotas -
+// CarregarRotas - Método que define e carrega as rodas da aplicação
 func CarregarRotas() {
 	r := mux.NewRouter()
 
