@@ -9,7 +9,8 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func exec(db *sql.DB, sql string) sql.Result {
+// ExecutarQuery - Executa query no banco de dados
+func ExecutarQuery(db *sql.DB, sql string) sql.Result {
 	result, err := db.Exec(sql)
 	if err != nil {
 		panic(err)
@@ -34,8 +35,8 @@ func ObterConexao() *sql.DB {
 		panic(err)
 	}
 
-	exec(db, "create database if not exists "+os.Getenv("DB_BANCO"))
-	exec(db, "use "+os.Getenv("DB_BANCO"))
+	ExecutarQuery(db, "create database if not exists "+os.Getenv("DB_BANCO"))
+	ExecutarQuery(db, "use "+os.Getenv("DB_BANCO"))
 
 	return db
 }

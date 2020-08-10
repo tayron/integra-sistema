@@ -12,7 +12,7 @@ type Usuario struct {
 	Ativo string
 }
 
-// CriarTabelaUsuario -
+// CriarTabelaUsuario - Cria caso não exista tabela usuaários no banco
 func CriarTabelaUsuario() {
 	db := database.ObterConexao()
 	defer db.Close()
@@ -27,10 +27,8 @@ func CriarTabelaUsuario() {
 		alteracao datetime ON UPDATE CURRENT_TIMESTAMP,
 		PRIMARY KEY (id)
 	)`
-	_, err := db.Exec(sql)
-	if err != nil {
-		panic(err)
-	}
+
+	database.ExecutarQuery(db, sql)
 }
 
 // Gravar -

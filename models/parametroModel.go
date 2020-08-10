@@ -26,10 +26,8 @@ func CriarTabelaParametro() {
 		PRIMARY KEY (id),
 		FOREIGN KEY (integracao_id) REFERENCES integracoes(id)
 	)`
-	_, err := db.Exec(sql)
-	if err != nil {
-		panic(err)
-	}
+
+	database.ExecutarQuery(db, sql)
 }
 
 // Gravar -

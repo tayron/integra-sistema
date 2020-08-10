@@ -6,6 +6,7 @@ import (
 	"github.com/tayron/integra-sistema/models"
 )
 
+// Inicializa as configurações básica do sistema
 func init() {
 	godotenv.Load()
 	models.CriarTabelaIntegracao()
@@ -14,8 +15,8 @@ func init() {
 	models.CriarTabelaUsuario()
 }
 
-// BootstrapApplication -
-func BootstrapApplication() {
+// StartApplication - Carrega as rotas e inializa a aplicação
+func StartApplication() {
 	routes.CarregarRotas()
 	StartarServidor()
 }

@@ -42,10 +42,7 @@ func CriarTabelaIntegracao() {
 		PRIMARY KEY (id)
 	)`
 
-	_, err := db.Exec(sql)
-	if err != nil {
-		panic(err)
-	}
+	database.ExecutarQuery(db, sql)
 }
 
 // Gravar -
