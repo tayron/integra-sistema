@@ -34,5 +34,9 @@ DB_SENHA=yakTLS&70c52
 DB_BANCO=integra_sistema
 ```
 
+## Administrador
+**Usuário:** integra-sistema
+**Senha:** NftK2O7y
+
 ## Execução
 ```go run *.go```

@@ -80,11 +80,16 @@ func EditarUsuario(w http.ResponseWriter, r *http.Request) {
 			senhaCriptografada, _ = util.GerarHashSenha(senha)
 		}
 
+		var ativo bool = false
+		if r.FormValue("ativo") == "1" {
+			ativo = true
+		}
+
 		usuarioModel := models.Usuario{
 			ID:    id,
 			Nome:  r.FormValue("nome"),
 			Login: r.FormValue("login"),
-			Ativo: r.FormValue("ativo"),
+			Ativo: ativo,
 			Senha: senhaCriptografada,
 		}
 

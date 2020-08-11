@@ -37,3 +37,8 @@ func ObterTipoMensagemExclusaoSucesso() (string, string) {
 func ObterTipoMensagemExclusaoErro() (string, string) {
 	return os.Getenv("CSS_MENSAGEM_ERRO"), os.Getenv("MENSAGEM_EXCLUSAO_ERRO")
 }
+
+// ObterTipoMensagemAcessoNegado -
+func ObterTipoMensagemAcessoNegado() (string, string) {
+	return os.Getenv("CSS_MENSAGEM_ERRO"), os.Getenv("MENSAGEM_ACESSO_NEGADO")
+}

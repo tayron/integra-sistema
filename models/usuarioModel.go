@@ -9,7 +9,7 @@ type Usuario struct {
 	Nome  string
 	Login string
 	Senha string
-	Ativo string
+	Ativo bool
 }
 
 // CriarTabelaUsuario - Cria caso não exista tabela usuaários no banco
@@ -19,8 +19,8 @@ func CriarTabelaUsuario() {
 
 	var sql string = `create table if not exists usuarios (
 		id integer auto_increment,
-		nome varchar(255),
-		login varchar(255),		
+		nome varchar(255) NOT NULL,
+		login varchar(255) NOT NULL UNIQUE,		
 		senha varchar(255),		
 		ativo bool DEFAULT 0,		
 		criacao datetime DEFAULT CURRENT_TIMESTAMP,	
@@ -29,6 +29,41 @@ func CriarTabelaUsuario() {
 	)`
 
 	database.ExecutarQuery(db, sql)
+}
+
+// CriarUsuarioAdministrador - Cria usuário default do sistema
+func CriarUsuarioAdministrador() {
+	var usuarioModel Usuario
+
+	listaUsuarios := usuarioModel.BuscarTodos()
+
+	if len(listaUsuarios) == 0 {
+		db := database.ObterConexao()
+		defer db.Close()
+
+		var sql string = `insert into usuarios 
+			(nome, login, senha, ativo) values (?, ?, ?, ?)`
+
+		stmt, _ := db.Prepare(sql)
+
+		usuarioModel := Usuario{
+			Nome:  "Integra Sistema",
+			Login: "integra-sistema",
+			Senha: "$2a$14$ZN3eWRZs30egm9pwDOucVeBBu28LMoou4JCTf0EsU2pzLCLyshYnu",
+			Ativo: true,
+		}
+
+		_, err := stmt.Exec(
+			usuarioModel.Nome,
+			usuarioModel.Login,
+			usuarioModel.Senha,
+			usuarioModel.Ativo,
+		)
+
+		if err != nil {
+			panic(err)
+		}
+	}
 }
 
 // Gravar -
@@ -163,7 +198,7 @@ func (u Usuario) BuscarTodos() []Usuario {
 	return listaUsuarios
 }
 
-// BuscarPorID -
+// BuscarPorID - Busca usuário por ID
 func (u Usuario) BuscarPorID() Usuario {
 
 	db := database.ObterConexao()
@@ -180,6 +215,30 @@ func (u Usuario) BuscarPorID() Usuario {
 		rows.Scan(&usuarioModel.ID,
 			&usuarioModel.Nome,
 			&usuarioModel.Login,
+			&usuarioModel.Ativo)
+		return usuarioModel
+	}
+
+	return usuarioModel
+}
+
+// BuscarPorLoginStatus - Busca usuario por login e status
+func (u Usuario) BuscarPorLoginStatus() Usuario {
+	db := database.ObterConexao()
+	defer db.Close()
+
+	var sql string = `SELECT id, nome, login, senha, ativo
+		FROM usuarios WHERE login = ? AND ativo = ?`
+
+	rows, _ := db.Query(sql, u.Login, u.Ativo)
+	defer rows.Close()
+
+	var usuarioModel Usuario
+	for rows.Next() {
+		rows.Scan(&usuarioModel.ID,
+			&usuarioModel.Nome,
+			&usuarioModel.Login,
+			&usuarioModel.Senha,
 			&usuarioModel.Ativo)
 		return usuarioModel
 	}

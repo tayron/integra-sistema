@@ -15,6 +15,7 @@ func init() {
 	models.CriarTabelaParametro()
 	models.CriarTabelaLog()
 	models.CriarTabelaUsuario()
+	models.CriarUsuarioAdministrador()
 }
 
 // StartApplication - Carrega as rotas e inializa a aplicação

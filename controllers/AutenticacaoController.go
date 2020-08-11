@@ -2,9 +2,13 @@ package controllers
 
 import (
 	"net/http"
+	"strconv"
+
+	"github.com/tayron/integra-sistema/models"
 
 	"github.com/tayron/integra-sistema/bootstrap/library/session"
 	"github.com/tayron/integra-sistema/bootstrap/library/template"
+	"github.com/tayron/integra-sistema/bootstrap/library/util"
 )
 
 // ValidarSessao - Verifica se tem usuário logado e redireciona para tela de login
@@ -28,13 +32,28 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method == "POST" {
 		r.ParseForm()
-		username := r.PostForm.Get("login")
-		password := r.PostForm.Get("senha")
+		login := r.PostForm.Get("login")
+		senha := r.PostForm.Get("senha")
+		senhaCriptografada, _ := util.GerarHashSenha(senha)
 
-		session.SetDadoSessao("login", username, w, r)
-		session.SetDadoSessao("senha", password, w, r)
+		usuarioModel := models.Usuario{
+			Login: login,
+			Senha: senhaCriptografada,
+			Ativo: true,
+		}
 
-		http.Redirect(w, r, "/", 302)
+		usuario := usuarioModel.BuscarPorLoginStatus()
+
+		if util.CompararSenhaComHash(senha, usuario.Senha) == true {
+			idUsuario := strconv.Itoa(usuario.ID)
+			session.SetDadoSessao("id_usuario", idUsuario, w, r)
+			session.SetDadoSessao("nome_usuario", usuario.Login, w, r)
+			session.SetDadoSessao("login", usuario.Login, w, r)
+
+			http.Redirect(w, r, "/", 302)
+		}
+
+		flashMessage.Type, flashMessage.Message = template.ObterTipoMensagemAcessoNegado()
 	}
 
 	parametros := template.Parametro{
