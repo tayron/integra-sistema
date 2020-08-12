@@ -30,25 +30,26 @@ func ProcessarIntegracao(w http.ResponseWriter, r *http.Request) {
 func processarIntegracao(integracao models.Integracao, w http.ResponseWriter, r *http.Request) {
 	parametroModel := models.Parametro{}
 	id := int64(integracao.ID)
-	listaParametro := parametroModel.BuscarPorIDIntegracao(id)
+	listaParametros := parametroModel.BuscarPorIDIntegracao(id)
 
-	if integracao.MetodoSistemaOrigem == r.Method {
-		switch integracao.MetodoSistemaDestino {
-		case "POST":
-			mensagem, sucesso := enviarRequisicaoViaPOST(integracao, listaParametro, r)
-			retornarMensagemResposta(mensagem, sucesso, w, r)
-		case "GET":
-			mensagem, sucesso := enviarRequisicaoViaGET(integracao, listaParametro, r)
-			retornarMensagemResposta(mensagem, sucesso, w, r)
-		}
-	} else {
-		mensagem := fmt.Sprintf("Método de envio %s não permitido", r.Method)
-		retornarMensagem(mensagem, false, w, r)
+	if len(listaParametros) == 0 {
+		var mensagem []byte = []byte("{'status': false, 'mensagem': 'Nenhum parametro configurado para integração'}")
+		retornarMensagemResposta(mensagem, false, w, r)
+	}
+
+	switch integracao.MetodoSistemaDestino {
+	case "POST":
+		mensagem, sucesso := enviarRequisicaoViaPOST(integracao, listaParametros, r)
+		retornarMensagemResposta(mensagem, sucesso, w, r)
+	case "GET":
+		mensagem, sucesso := enviarRequisicaoViaGET(integracao, listaParametros, r)
+		retornarMensagemResposta(mensagem, sucesso, w, r)
 	}
 }
 
 func enviarRequisicaoViaPOST(integracao models.Integracao, listaParametros []models.Parametro, r *http.Request) ([]byte, bool) {
 	jsonData := map[string]string{}
+
 	for _, parametro := range listaParametros {
 		jsonData[parametro.NomeParametroSaida] = r.FormValue(parametro.NomeParametroEntrada)
 	}

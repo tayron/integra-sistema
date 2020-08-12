@@ -60,22 +60,11 @@
                                                     <label for="nome_sistema_origem">Nome do sistema de origem dos dados</label>
                                                     <input type="text" class="form-control" id="nome_sistema_origem" name="nome_sistema_origem" required />
                                                     <small class="form-text text-muted">Sistema que irá fazer a requisição.</small>
-                                                </div>
+                                                </div>     
                                                 <div class="form-group">
-                                                    <label for="api_sistema_origem">Endereço da API de origem</label>
-                                                    <input type="text" class="form-control" id="api_sistema_origem" name="api_sistema_origem" required />
-                                                </div> 
-                                                <div class="form-group">
-                                                    <label for="api_sistema_destino">Método envio</label>
-                                                    <div class="custom-control custom-radio">
-                                                        <input type="radio" class="custom-control-input" id="metodo_sistema_origem_post" name="metodo_sistema_origem" required value="POST" />
-                                                        <label class="custom-control-label" for="metodo_sistema_origem_post">POST</label>
-                                                    </div>                            
-                                                    <div class="custom-control custom-radio">
-                                                        <input type="radio" class="custom-control-input" id="metodo_sistema_origem_get" name="metodo_sistema_origem" required value="GET" />
-                                                        <label class="custom-control-label" for="metodo_sistema_origem_get">GET</label>
-                                                    </div>                  
-                                                </div>                                      
+                                                    <label for="api_sistema_destino">Endereço da API de destino</label>
+                                                    <input type="text" class="form-control" id="api_sistema_destino" name="api_sistema_destino" required />
+                                                </div>                                                                                
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
@@ -89,11 +78,7 @@
                                                     <small class="form-text text-muted">Sistema que irá receber a requisição.</small>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="api_sistema_destino">Endereço da API de destino</label>
-                                                    <input type="text" class="form-control" id="api_sistema_destino" name="api_sistema_destino" required />
-                                                </div> 
-                                                <div class="form-group">
-                                                    <label for="api_sistema_destino">Método envio</label>   
+                                                    <label for="api_sistema_destino">Método envio do Sistema de Destino</label>   
                                                     <div class="custom-control custom-radio">
                                                         <input type="radio" class="custom-control-input" id="metodo_sistema_destino_post" name="metodo_sistema_destino" required value="POST" />
                                                         <label class="custom-control-label" for="metodo_sistema_destino_post">POST</label>

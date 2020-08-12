@@ -30,9 +30,7 @@ func CriarTabelaIntegracao() {
 		id integer auto_increment,
 		nome varchar(255),
 		endpoint varchar(255),
-		nome_sistema_origem varchar(255),
-		api_sistema_origem varchar(255),
-		metodo_sistema_origem char(6),
+		nome_sistema_origem varchar(255),				
 		nome_sistema_destino varchar(255),
 		api_sistema_destino varchar(255),
 		metodo_sistema_destino char(6),			
@@ -51,9 +49,9 @@ func (i Integracao) Gravar() bool {
 	defer db.Close()
 
 	var sql string = `insert into integracoes 
-	(nome, endpoint, nome_sistema_origem, api_sistema_origem, metodo_sistema_origem, 
-	nome_sistema_destino, api_sistema_destino, metodo_sistema_destino) 
-	values (?, ?, ?, ?, ?, ?, ?, ?)`
+	(nome, endpoint, nome_sistema_origem, nome_sistema_destino, 
+	api_sistema_destino, metodo_sistema_destino) 
+	values (?, ?, ?, ?, ?, ?)`
 
 	stmt, _ := db.Prepare(sql)
 
@@ -61,8 +59,6 @@ func (i Integracao) Gravar() bool {
 		i.Nome,
 		i.Endpoint,
 		i.NomeSistemaOrigem,
-		i.APISistemaOrigem,
-		i.MetodoSistemaOrigem,
 		i.NomeSistemaDestino,
 		i.APISistemaDestino,
 		i.MetodoSistemaDestino)
@@ -87,8 +83,9 @@ func (i Integracao) Atualizar() bool {
 	defer db.Close()
 
 	var sql string = `UPDATE integracoes SET
-	nome = ?, endpoint = ?, nome_sistema_origem = ?, api_sistema_origem = ?, metodo_sistema_origem = ?,
-	nome_sistema_destino = ?, api_sistema_destino = ?, metodo_sistema_destino = ?
+	nome = ?, endpoint = ?, nome_sistema_origem = ?,
+	nome_sistema_destino = ?, api_sistema_destino = ?, 
+	metodo_sistema_destino = ?
 	WHERE id = ?`
 
 	stmt, err := db.Prepare(sql)
@@ -101,8 +98,6 @@ func (i Integracao) Atualizar() bool {
 		i.Nome,
 		i.Endpoint,
 		i.NomeSistemaOrigem,
-		i.APISistemaOrigem,
-		i.MetodoSistemaOrigem,
 		i.NomeSistemaDestino,
 		i.APISistemaDestino,
 		i.MetodoSistemaDestino,
@@ -142,8 +137,9 @@ func (i Integracao) BuscarTodos() []Integracao {
 	db := database.ObterConexao()
 	defer db.Close()
 
-	var sql string = `SELECT id, nome, endpoint, nome_sistema_origem, api_sistema_origem, metodo_sistema_origem, 
-	nome_sistema_destino, api_sistema_destino, metodo_sistema_destino, status FROM integracoes ORDER BY id DESC`
+	var sql string = `SELECT id, nome, endpoint, nome_sistema_origem, 
+	nome_sistema_destino, api_sistema_destino, metodo_sistema_destino, 
+	status FROM integracoes ORDER BY id DESC`
 
 	rows, _ := db.Query(sql)
 	defer rows.Close()
@@ -157,8 +153,6 @@ func (i Integracao) BuscarTodos() []Integracao {
 			&integracao.Nome,
 			&integracao.Endpoint,
 			&integracao.NomeSistemaOrigem,
-			&integracao.APISistemaOrigem,
-			&integracao.MetodoSistemaOrigem,
 			&integracao.NomeSistemaDestino,
 			&integracao.APISistemaDestino,
 			&integracao.MetodoSistemaDestino,
@@ -176,8 +170,9 @@ func (i Integracao) BuscarPorID(idIntegracao int64) Integracao {
 	db := database.ObterConexao()
 	defer db.Close()
 
-	var sql string = `SELECT id, nome, endpoint, nome_sistema_origem, api_sistema_origem, metodo_sistema_origem, 
-	nome_sistema_destino, api_sistema_destino, metodo_sistema_destino, status FROM integracoes WHERE id = ?`
+	var sql string = `SELECT id, nome, endpoint, nome_sistema_origem, 
+	nome_sistema_destino, api_sistema_destino, metodo_sistema_destino, 
+	status FROM integracoes WHERE id = ?`
 
 	rows, _ := db.Query(sql, idIntegracao)
 	defer rows.Close()
@@ -188,8 +183,6 @@ func (i Integracao) BuscarPorID(idIntegracao int64) Integracao {
 			&integracao.Nome,
 			&integracao.Endpoint,
 			&integracao.NomeSistemaOrigem,
-			&integracao.APISistemaOrigem,
-			&integracao.MetodoSistemaOrigem,
 			&integracao.NomeSistemaDestino,
 			&integracao.APISistemaDestino,
 			&integracao.MetodoSistemaDestino,
@@ -207,8 +200,9 @@ func (i Integracao) BuscarPorEndpoint(endpoint string) Integracao {
 	db := database.ObterConexao()
 	defer db.Close()
 
-	var sql string = `SELECT id, nome, endpoint, nome_sistema_origem, api_sistema_origem, metodo_sistema_origem, 
-	nome_sistema_destino, api_sistema_destino, metodo_sistema_destino, status FROM integracoes WHERE endpoint = ?`
+	var sql string = `SELECT id, nome, endpoint, nome_sistema_origem, 
+	nome_sistema_destino, api_sistema_destino, metodo_sistema_destino, 
+	status FROM integracoes WHERE endpoint = ?`
 
 	rows, _ := db.Query(sql, endpoint)
 	defer rows.Close()
@@ -220,8 +214,6 @@ func (i Integracao) BuscarPorEndpoint(endpoint string) Integracao {
 			&integracao.Nome,
 			&integracao.Endpoint,
 			&integracao.NomeSistemaOrigem,
-			&integracao.APISistemaOrigem,
-			&integracao.MetodoSistemaOrigem,
 			&integracao.NomeSistemaDestino,
 			&integracao.APISistemaDestino,
 			&integracao.MetodoSistemaDestino,
