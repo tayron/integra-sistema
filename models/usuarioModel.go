@@ -41,7 +41,7 @@ func CriarTabelaUsuario() {
 func CriarUsuarioAdministrador() {
 	var usuarioModel Usuario
 
-	listaUsuarios := usuarioModel.BuscarTodos()
+	listaUsuarios := usuarioModel.BuscarTodosIndependenteStatus()
 
 	if len(listaUsuarios) == 0 {
 		db := database.ObterConexao()
@@ -191,6 +191,34 @@ func (u Usuario) BuscarTodos() []Usuario {
 
 	var sql string = `SELECT id, nome, login, ativo
 		FROM usuarios WHERE permite_ser_listado = true ORDER BY id DESC`
+
+	rows, _ := db.Query(sql)
+	defer rows.Close()
+
+	var listaUsuarios []Usuario
+	for rows.Next() {
+
+		var usuarioModel Usuario
+
+		rows.Scan(&usuarioModel.ID,
+			&usuarioModel.Nome,
+			&usuarioModel.Login,
+			&usuarioModel.Ativo)
+
+		listaUsuarios = append(listaUsuarios, usuarioModel)
+	}
+
+	return listaUsuarios
+}
+
+// BuscarTodosIndependenteStatus -Retorna todos os usuários independente de status
+func (u Usuario) BuscarTodosIndependenteStatus() []Usuario {
+
+	db := database.ObterConexao()
+	defer db.Close()
+
+	var sql string = `SELECT id, nome, login, ativo
+		FROM usuarios ORDER BY id DESC`
 
 	rows, _ := db.Query(sql)
 	defer rows.Close()

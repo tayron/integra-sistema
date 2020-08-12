@@ -28,7 +28,7 @@
                 {{- template "alert" . -}}
                 <form action="/login" method="post">
                     <div class="input-group mb-3">                        
-                        <input type="login" name="login" class="form-control" placeholder="Login" autocomplete="false" />
+                        <input type="login" name="login" class="form-control" placeholder="Login" autocomplete="false" required />
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
@@ -36,7 +36,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" name="senha" class="form-control" placeholder="Senha" autocomplete="false" />
+                        <input type="password" name="senha" class="form-control" placeholder="Senha" autocomplete="false" required />
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>

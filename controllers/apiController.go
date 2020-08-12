@@ -35,6 +35,7 @@ func processarIntegracao(integracao models.Integracao, w http.ResponseWriter, r 
 	if len(listaParametros) == 0 {
 		var mensagem []byte = []byte("{'status': false, 'mensagem': 'Nenhum parametro configurado para integração'}")
 		retornarMensagemResposta(mensagem, false, w, r)
+		return
 	}
 
 	switch integracao.MetodoSistemaDestino {

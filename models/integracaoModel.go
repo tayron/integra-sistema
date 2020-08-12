@@ -28,13 +28,13 @@ func CriarTabelaIntegracao() {
 
 	var sql string = `create table if not exists integracoes (
 		id integer auto_increment,
-		nome varchar(255),
-		endpoint varchar(255),
-		nome_sistema_origem varchar(255),				
-		nome_sistema_destino varchar(255),
-		api_sistema_destino varchar(255),
-		metodo_sistema_destino char(6),			
-		status bool DEFAULT 1,	
+		nome varchar(255) NOT NULL UNIQUE,
+		endpoint varchar(255) NOT NULL UNIQUE,
+		nome_sistema_origem varchar(255) NOT NULL,				
+		nome_sistema_destino varchar(255) NOT NULL,
+		api_sistema_destino varchar(255) NOT NULL,
+		metodo_sistema_destino char(6) NOT NULL,			
+		status bool NOT NULL DEFAULT 1,	
 		criacao datetime DEFAULT CURRENT_TIMESTAMP,	
 		alteracao datetime ON UPDATE CURRENT_TIMESTAMP,
 		PRIMARY KEY (id)
