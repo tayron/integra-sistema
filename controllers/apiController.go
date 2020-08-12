@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"html"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -66,7 +67,7 @@ func enviarRequisicaoViaPOST(integracao models.Integracao, listaParametros []mod
 		IntegracaoID: integracao.ID,
 		APIDestino:   integracao.APISistemaDestino,
 		Parametro:    fmt.Sprintf("%s", data),
-		Resposta:     retornoString,
+		Resposta:     html.EscapeString(retornoString),
 	}
 
 	log.Gravar()
@@ -94,7 +95,7 @@ func enviarRequisicaoViaGET(integracao models.Integracao, listaParametros []mode
 		IntegracaoID: integracao.ID,
 		APIDestino:   req.URL.String(),
 		Parametro:    "",
-		Resposta:     retornoString,
+		Resposta:     html.EscapeString(retornoString),
 	}
 
 	log.Gravar()
