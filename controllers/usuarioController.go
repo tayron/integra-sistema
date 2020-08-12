@@ -106,6 +106,12 @@ func EditarUsuario(w http.ResponseWriter, r *http.Request) {
 		ID: id,
 	}
 
+	usuario := usuarioModel.BuscarPorID()
+
+	if usuario.ID == 0 {
+		http.Redirect(w, r, "/", 302)
+	}
+
 	var Usuario = struct {
 		Usuario models.Usuario
 	}{

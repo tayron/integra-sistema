@@ -5,11 +5,14 @@ import (
 )
 
 type Usuario struct {
-	ID    int
-	Nome  string
-	Login string
-	Senha string
-	Ativo bool
+	ID                int
+	Nome              string
+	Login             string
+	Senha             string
+	Ativo             bool
+	PermiteExclusao   bool
+	permiteEdicao     bool
+	PermiteSerListado bool
 }
 
 // CriarTabelaUsuario - Cria caso não exista tabela usuaários no banco
@@ -22,7 +25,10 @@ func CriarTabelaUsuario() {
 		nome varchar(255) NOT NULL,
 		login varchar(255) NOT NULL UNIQUE,		
 		senha varchar(255),		
-		ativo bool DEFAULT 0,		
+		ativo bool DEFAULT 0,
+		permite_exclusao bool DEFAULT 1,
+		permite_edicao bool DEFAULT 1,
+		permite_ser_listado bool DEFAULT 1,
 		criacao datetime DEFAULT CURRENT_TIMESTAMP,	
 		alteracao datetime ON UPDATE CURRENT_TIMESTAMP,
 		PRIMARY KEY (id)
@@ -42,15 +48,19 @@ func CriarUsuarioAdministrador() {
 		defer db.Close()
 
 		var sql string = `insert into usuarios 
-			(nome, login, senha, ativo) values (?, ?, ?, ?)`
+			(nome, login, senha, ativo, permite_exclusao, permite_edicao, permite_ser_listado) 
+			values (?, ?, ?, ?, ?, ?, ?)`
 
 		stmt, _ := db.Prepare(sql)
 
 		usuarioModel := Usuario{
-			Nome:  "Integra Sistema",
-			Login: "integra-sistema",
-			Senha: "$2a$14$ZN3eWRZs30egm9pwDOucVeBBu28LMoou4JCTf0EsU2pzLCLyshYnu",
-			Ativo: true,
+			Nome:              "Integra Sistema",
+			Login:             "integra-sistema",
+			Senha:             "$2a$14$ZN3eWRZs30egm9pwDOucVeBBu28LMoou4JCTf0EsU2pzLCLyshYnu",
+			Ativo:             true,
+			PermiteExclusao:   false,
+			permiteEdicao:     false,
+			PermiteSerListado: false,
 		}
 
 		_, err := stmt.Exec(
@@ -58,6 +68,9 @@ func CriarUsuarioAdministrador() {
 			usuarioModel.Login,
 			usuarioModel.Senha,
 			usuarioModel.Ativo,
+			usuarioModel.PermiteExclusao,
+			usuarioModel.permiteEdicao,
+			usuarioModel.PermiteSerListado,
 		)
 
 		if err != nil {
@@ -101,7 +114,7 @@ func (u Usuario) Atualizar() bool {
 	defer db.Close()
 
 	if u.Senha != "" {
-		var sql string = `UPDATE usuarios SET nome = ?, login = ?, ativo = ?, senha = ? WHERE id = ?`
+		var sql string = `UPDATE usuarios SET nome = ?, login = ?, ativo = ?, senha = ? WHERE permite_edicao = true AND id = ?`
 
 		stmt, err := db.Prepare(sql)
 
@@ -160,7 +173,7 @@ func (u Usuario) Excluir() bool {
 	db := database.ObterConexao()
 	defer db.Close()
 
-	stmt, _ := db.Prepare("DELETE FROM usuarios WHERE id = ?")
+	stmt, _ := db.Prepare("DELETE FROM usuarios WHERE permite_exclusao = true AND id = ?")
 	var _, err = stmt.Exec(u.ID)
 
 	if err != nil {
@@ -170,14 +183,14 @@ func (u Usuario) Excluir() bool {
 	return true
 }
 
-// BuscarTodos -
+// BuscarTodos -Retorna todos os usuários
 func (u Usuario) BuscarTodos() []Usuario {
 
 	db := database.ObterConexao()
 	defer db.Close()
 
 	var sql string = `SELECT id, nome, login, ativo
-		FROM usuarios ORDER BY id DESC`
+		FROM usuarios WHERE permite_ser_listado = true ORDER BY id DESC`
 
 	rows, _ := db.Query(sql)
 	defer rows.Close()
@@ -205,7 +218,7 @@ func (u Usuario) BuscarPorID() Usuario {
 	defer db.Close()
 
 	var sql string = `SELECT id, nome, login, ativo
-		FROM usuarios WHERE id = ? ORDER BY id DESC`
+		FROM usuarios WHERE permite_ser_listado = true AND id = ? ORDER BY id DESC`
 
 	rows, _ := db.Query(sql, u.ID)
 	defer rows.Close()
