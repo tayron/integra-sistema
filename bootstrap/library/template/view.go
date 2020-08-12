@@ -4,15 +4,20 @@ import (
 	"net/http"
 	"os"
 	"text/template"
+
+	"github.com/tayron/integra-sistema/bootstrap/library/session"
 )
 
 var templates = template.Must(template.ParseGlob("template/*.html"))
 
 // ObterInformacaoSistema -
-func ObterInformacaoSistema() System {
+func ObterInformacaoSistema(w http.ResponseWriter, r *http.Request) System {
+	nome := session.GetDadoSessao("login", w, r)
+
 	return System{
 		Name:    os.Getenv("NOME_SISTEMA"),
 		Version: os.Getenv("VERSAO_SISTEMA"),
+		Usuario: nome,
 	}
 }
 

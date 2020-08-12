@@ -71,8 +71,8 @@
                                                 <div class="form-group">
                                                     <label for="ativo">Status</label>
                                                     <select class="form-control" id="ativo" name="ativo" >
-                                                        <option  value="1" {{if eq .Parametro.Usuario.Ativo "1" }} selected="true" {{end}}>Ativo</option>
-                                                        <option value="0" {{if eq .Parametro.Usuario.Ativo "0" }} selected="true" {{end}}>Inativo</option>
+                                                        <option  value="1" {{if eq .Parametro.Usuario.Ativo true }} selected="true" {{end}}>Ativo</option>
+                                                        <option value="0" {{if eq .Parametro.Usuario.Ativo false }} selected="true" {{end}}>Inativo</option>
                                                     </select>
                                                 </div>
                                             </div>

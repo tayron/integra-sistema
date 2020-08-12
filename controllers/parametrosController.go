@@ -49,7 +49,7 @@ func ListarParametro(w http.ResponseWriter, r *http.Request) {
 	}
 
 	parametros := template.Parametro{
-		System:    template.ObterInformacaoSistema(),
+		System:    template.ObterInformacaoSistema(w, r),
 		Parametro: Parametros,
 	}
 
@@ -88,7 +88,7 @@ func ExcluirParametro(w http.ResponseWriter, r *http.Request) {
 	}
 
 	parametros := template.Parametro{
-		System:       template.ObterInformacaoSistema(),
+		System:       template.ObterInformacaoSistema(w, r),
 		FlashMessage: flashMessage,
 		Parametro:    Parametros,
 	}

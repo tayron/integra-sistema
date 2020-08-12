@@ -23,7 +23,7 @@ func ListarUsuario(w http.ResponseWriter, r *http.Request) {
 	}
 
 	parametros := template.Parametro{
-		System:    template.ObterInformacaoSistema(),
+		System:    template.ObterInformacaoSistema(w, r),
 		Parametro: Usuarios,
 	}
 
@@ -56,7 +56,7 @@ func CadastrarUsuario(w http.ResponseWriter, r *http.Request) {
 	}
 
 	parametros := template.Parametro{
-		System:       template.ObterInformacaoSistema(),
+		System:       template.ObterInformacaoSistema(w, r),
 		FlashMessage: flashMessage,
 	}
 
@@ -113,7 +113,7 @@ func EditarUsuario(w http.ResponseWriter, r *http.Request) {
 	}
 
 	parametros := template.Parametro{
-		System:       template.ObterInformacaoSistema(),
+		System:       template.ObterInformacaoSistema(w, r),
 		FlashMessage: flashMessage,
 		Parametro:    Usuario,
 	}
@@ -147,7 +147,7 @@ func ExcluirUsuario(w http.ResponseWriter, r *http.Request) {
 	}
 
 	parametros := template.Parametro{
-		System:       template.ObterInformacaoSistema(),
+		System:       template.ObterInformacaoSistema(w, r),
 		FlashMessage: flashMessage,
 		Parametro:    Usuarios,
 	}

@@ -5,6 +5,7 @@ import "os"
 type System struct {
 	Name    string
 	Version string
+	Usuario string
 }
 
 type FlashMessage struct {

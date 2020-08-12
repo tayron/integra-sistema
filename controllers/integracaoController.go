@@ -22,7 +22,7 @@ func ListarIntegracao(w http.ResponseWriter, r *http.Request) {
 	}
 
 	parametros := template.Parametro{
-		System:    template.ObterInformacaoSistema(),
+		System:    template.ObterInformacaoSistema(w, r),
 		Parametro: Integracoes,
 	}
 
@@ -65,7 +65,7 @@ func CadastrarIntegracao(w http.ResponseWriter, r *http.Request) {
 	}
 
 	parametros := template.Parametro{
-		System:       template.ObterInformacaoSistema(),
+		System:       template.ObterInformacaoSistema(w, r),
 		FlashMessage: flashMessage,
 		Parametro:    Integracoes,
 	}
@@ -113,7 +113,7 @@ func EditarIntegracao(w http.ResponseWriter, r *http.Request) {
 	}
 
 	parametros := template.Parametro{
-		System:       template.ObterInformacaoSistema(),
+		System:       template.ObterInformacaoSistema(w, r),
 		FlashMessage: flashMessage,
 		Parametro:    Integracao,
 	}
@@ -147,7 +147,7 @@ func ExcluirIntegracao(w http.ResponseWriter, r *http.Request) {
 	}
 
 	parametros := template.Parametro{
-		System:       template.ObterInformacaoSistema(),
+		System:       template.ObterInformacaoSistema(w, r),
 		FlashMessage: flashMessage,
 		Parametro:    Integracoes,
 	}

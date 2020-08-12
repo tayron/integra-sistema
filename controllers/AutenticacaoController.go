@@ -57,7 +57,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	parametros := template.Parametro{
-		System:       template.ObterInformacaoSistema(),
+		System:       template.ObterInformacaoSistema(w, r),
 		FlashMessage: flashMessage,
 	}
 
