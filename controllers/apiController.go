@@ -84,9 +84,7 @@ func enviarRequisicaoViaGET(integracao models.Integracao, listaParametros []mode
 	}
 
 	req.URL.RawQuery = query.Encode()
-
 	resp, _ := http.Get(req.URL.String())
-	defer resp.Body.Close()
 
 	retornoAPI, _ := ioutil.ReadAll(resp.Body)
 	retornoString := strings.ReplaceAll(string(retornoAPI), `\"`, `"`)
