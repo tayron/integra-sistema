@@ -1,7 +1,8 @@
 # Integra Sistema
 Sistema de integração entre sistemas feito em Go
 
-![Alt text](/imagem.png?raw=true "Página inicial do sistema Integra Sistema")
+![Alt text](/imagem1.png?raw=true "Página cadastro de integração")
+![Alt text](/imagem.png?raw=true "Página listagem log das integrações")
 
 ## Estrutura do banco desenvolvida
 ![Alt text](/der.png?raw=true "Diagrama de Entidade e Relacionamento")
