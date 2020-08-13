@@ -56,6 +56,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
+                                                    <th>Método</th>
                                                     <th>Endereço da API de Destino</th>
                                                     <th></th
                                                 </tr>
@@ -64,6 +65,7 @@
                                                 {{- range .Parametro.ListaLogs -}}
                                                 <tr>
                                                     <td>{{.ID}}</td>
+                                                    <td>{{.Metodo}}</td>
                                                     <td>{{.APIDestino}}</td>
                                                     <td>
                                                         <div class="btn-group" role="group" aria-label="Basic example">

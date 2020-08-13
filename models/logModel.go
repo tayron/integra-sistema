@@ -8,6 +8,7 @@ type Log struct {
 	ID           int
 	IntegracaoID int
 	APIDestino   string
+	Metodo       string
 	Parametro    string
 	Resposta     string
 }
@@ -21,6 +22,7 @@ func CriarTabelaLog() {
 		id integer auto_increment,
 		integracao_id integer,
 		api_destino varchar(255),
+		metodo varchar(255),
 		parametro text,		
 		resposta text,		
 		criacao datetime DEFAULT CURRENT_TIMESTAMP,	
@@ -38,14 +40,15 @@ func (l Log) Gravar() bool {
 	defer db.Close()
 
 	var sql string = `insert into logs 
-		(api_destino, parametro, resposta, integracao_id) 
-		values (?, ?, ?, ?)`
+		(api_destino, parametro, metodo, resposta, integracao_id) 
+		values (?, ?, ?, ?, ?)`
 
 	stmt, _ := db.Prepare(sql)
 
 	resultado, err := stmt.Exec(
 		l.APIDestino,
 		l.Parametro,
+		l.Metodo,
 		l.Resposta,
 		l.IntegracaoID)
 
@@ -84,7 +87,7 @@ func (l Log) BuscarPorIDIntegracao(idIntegracao int64) []Log {
 	db := database.ObterConexao()
 	defer db.Close()
 
-	var sql string = `SELECT id, api_destino, parametro, resposta, integracao_id
+	var sql string = `SELECT id, api_destino, metodo, parametro, resposta, integracao_id
 		FROM logs WHERE integracao_id = ? ORDER BY id DESC`
 
 	rows, _ := db.Query(sql, idIntegracao)
@@ -97,6 +100,7 @@ func (l Log) BuscarPorIDIntegracao(idIntegracao int64) []Log {
 
 		rows.Scan(&log.ID,
 			&log.APIDestino,
+			&log.Metodo,
 			&log.Parametro,
 			&log.Resposta,
 			&log.IntegracaoID)

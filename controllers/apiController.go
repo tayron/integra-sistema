@@ -1,15 +1,11 @@
 package controllers
 
 import (
-	"bytes"
 	"encoding/json"
-	"fmt"
-	"html"
-	"io/ioutil"
 	"net/http"
-	"strings"
 
 	"github.com/gorilla/mux"
+	"github.com/tayron/integra-sistema/api/services"
 	"github.com/tayron/integra-sistema/models"
 )
 
@@ -41,64 +37,15 @@ func processarIntegracao(integracao models.Integracao, w http.ResponseWriter, r 
 
 	switch integracao.MetodoSistemaDestino {
 	case "POST":
-		mensagem, sucesso := enviarRequisicaoViaPOST(integracao, listaParametros, r)
+		mensagem, sucesso := services.EnviarRequisicaoViaPOST(integracao, "POST", listaParametros, r)
+		retornarMensagemResposta(mensagem, sucesso, w, r)
+	case "POST-JSON":
+		mensagem, sucesso := services.EnviarRequisicaoJSONViaPOST(integracao, "POST-JSON", listaParametros, r)
 		retornarMensagemResposta(mensagem, sucesso, w, r)
 	case "GET":
-		mensagem, sucesso := enviarRequisicaoViaGET(integracao, listaParametros, r)
+		mensagem, sucesso := services.EnviarRequisicaoViaGET(integracao, "GET", listaParametros, r)
 		retornarMensagemResposta(mensagem, sucesso, w, r)
 	}
-}
-
-func enviarRequisicaoViaPOST(integracao models.Integracao, listaParametros []models.Parametro, r *http.Request) ([]byte, bool) {
-	jsonData := map[string]string{}
-
-	for _, parametro := range listaParametros {
-		jsonData[parametro.NomeParametroSaida] = r.FormValue(parametro.NomeParametroEntrada)
-	}
-
-	jsonValue, _ := json.Marshal(jsonData)
-	response, _ := http.Post(integracao.APISistemaDestino, "application/json", bytes.NewBuffer(jsonValue))
-	retornoAPI, _ := ioutil.ReadAll(response.Body)
-
-	data, _ := json.Marshal(jsonData)
-	retornoString := strings.ReplaceAll(string(retornoAPI), `\"`, `"`)
-
-	log := models.Log{
-		IntegracaoID: integracao.ID,
-		APIDestino:   integracao.APISistemaDestino,
-		Parametro:    fmt.Sprintf("%s", data),
-		Resposta:     html.EscapeString(retornoString),
-	}
-
-	log.Gravar()
-
-	return retornoAPI, true
-}
-
-func enviarRequisicaoViaGET(integracao models.Integracao, listaParametros []models.Parametro, r *http.Request) ([]byte, bool) {
-	req, _ := http.NewRequest("GET", integracao.APISistemaDestino, nil)
-	query := req.URL.Query()
-
-	for _, parametro := range listaParametros {
-		query.Add(parametro.NomeParametroSaida, r.FormValue(parametro.NomeParametroEntrada))
-	}
-
-	req.URL.RawQuery = query.Encode()
-	resp, _ := http.Get(req.URL.String())
-
-	retornoAPI, _ := ioutil.ReadAll(resp.Body)
-	retornoString := strings.ReplaceAll(string(retornoAPI), `\"`, `"`)
-
-	log := models.Log{
-		IntegracaoID: integracao.ID,
-		APIDestino:   req.URL.String(),
-		Parametro:    "",
-		Resposta:     html.EscapeString(retornoString),
-	}
-
-	log.Gravar()
-
-	return retornoAPI, true
 }
 
 func retornarMensagem(mensagem string, status bool, w http.ResponseWriter, r *http.Request) {

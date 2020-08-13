@@ -33,7 +33,7 @@ func CriarTabelaIntegracao() {
 		nome_sistema_origem varchar(255) NOT NULL,				
 		nome_sistema_destino varchar(255) NOT NULL,
 		api_sistema_destino varchar(255) NOT NULL,
-		metodo_sistema_destino char(6) NOT NULL,			
+		metodo_sistema_destino char(85) NOT NULL,			
 		status bool NOT NULL DEFAULT 1,	
 		criacao datetime DEFAULT CURRENT_TIMESTAMP,	
 		alteracao datetime ON UPDATE CURRENT_TIMESTAMP,
