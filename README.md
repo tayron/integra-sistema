@@ -55,8 +55,11 @@ Permite realizar DE-PARA das informações do sistema A para o sistema B na tela
 Permite visualizar log das requisições, parametros enviados pelo sistema A e o retorno do sistema B
 ![Alt text](/imagens/visualizar-logs.png?raw=true "Página de visualização de logs")
 
+Visualização do parâmetro enviado pelo sistema A
+![Alt text](/imagens/visualizar-log-parametro-integracao.png?raw=true "Parametro enviado pelo sistema A")
+
 Visualização da reposta enviada pelo sistema B 
-![Alt text](/imagens/visualizar-log-retorno-integracao.png?raw=true "Página listagem log das integrações")
+![Alt text](/imagens/visualizar-log-retorno-integracao.png?raw=true "Retorno enviado pelo sistema B")
 
 ### Usuário
 Permite a criação de novos usuários para acessar o sistema, além de já possuir um usuário 
