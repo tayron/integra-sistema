@@ -51,7 +51,7 @@ retorno da solicitação para o integrador que o integra ao sistema A.
 ![Alt text](/imagens/cadastro-integracao.png?raw=true "Página cadastro de integração")
 
 Permite listar todas as integrações já existente
-![Alt text](/imagens/listar-integracao.png?raw=true "Página listagem de integração")
+![Alt text](/imagens/listar-integracoes.png?raw=true "Página listagem de integração")
 
 Permite editar uma integração já existente
 ![Alt text](/imagens/editar-integracao.png?raw=true "Página edição de integração")
