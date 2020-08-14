@@ -45,20 +45,20 @@ DB_BANCO=integra_sistema
 ## Recursos
 
 ### Integração
-Permite integração via webhook, onde se pode informar dados da api de destino, nome da integração, 
-método de envio e nome da api no integrador que será chamado pelo sistema que irá fazer a solicitação.
+Permite integração via webhook, um sistema A faz a solicitação para uma API via POST no integrador, 
+onde os parametros do sistema A são repassados para API do sistema B que por sua vez devolve o 
+retorno da solicitação para o integrador que o integra ao sistema A.
 ![Alt text](/imagens/cadastro-integracao.png?raw=true "Página cadastro de integração")
 
-Pode se cadastrar parametros (DE-PARA) dos dados da integração.
+Permite realizar DE-PARA das informações do sistema A para o sistema B na tela de cadastro de parâmetros
 ![Alt text](/imagens/editar-parametros.png?raw=true "Página de edição de parametros")
 
-Pode se visualizar log das requisições
+Permite visualizar log das requisições, parametros enviados pelo sistema A e o retorno do sistema B
 ![Alt text](/imagens/visualizar-logs.png?raw=true "Página de visualização de logs")
 
 ### Usuário
-Permite a criação de novos usuários para acessar o sistema, 
-além de já possuir um usuário superadministrador cadastrado 
-previamente no banco de dados
+Permite a criação de novos usuários para acessar o sistema, além de já possuir um usuário 
+superadministrador cadastrado que não pode ser alterado ou excluído via sistema.
 ![Alt text](/imagens/cadastro-usuario.png?raw=true "Página de cadastro de usuário")
 
 ### Autenticação
@@ -66,5 +66,7 @@ Permite acesso ao sistema somente mediante a usuário e senha
 ![Alt text](/imagens/autenticacao.png?raw=true "Página de autenticação")
 
 ## Novos Recursos à implementar
-* Permitir que uma integração chame outra integração já previamente cadastrada permitindo criar fluxos de trabalho
+### Fluxo de integração
+* Permitir criar uma integração chame outra integração já existente no sistema, bastando informar nome da API
+### Lista de dados como parametros
 * Ao enviar dados via post, permitir o envio de lista de dados (Ex.: lista de produtos, clientes via post), no momento só dados simples são permitidos
