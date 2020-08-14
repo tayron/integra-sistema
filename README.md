@@ -8,6 +8,7 @@ Sistema de integração entre sistemas feito em Go
 
 ## Tecnologias
 * Go versão 1.14.4 linux/amd64
+* https://github.com/ColorlibHQ/AdminLTE/releases/tag/v3.0.5
 * Bootstrap v4.5.0 (https://getbootstrap.com/)
 * https://icons.getbootstrap.com/
 
