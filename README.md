@@ -2,7 +2,6 @@
 Sistema de integração entre sistemas feito em Go
 
 ![Alt text](/imagens/cadastro-integracao.png?raw=true "Página cadastro de integração")
-![Alt text](/imagens/visualizar-log-retorno-integracao.png?raw=true "Página listagem log das integrações")
 
 ## Estrutura do banco desenvolvida
 ![Alt text](/imagens/der.png?raw=true "Diagrama de Entidade e Relacionamento")
@@ -55,6 +54,9 @@ Permite realizar DE-PARA das informações do sistema A para o sistema B na tela
 
 Permite visualizar log das requisições, parametros enviados pelo sistema A e o retorno do sistema B
 ![Alt text](/imagens/visualizar-logs.png?raw=true "Página de visualização de logs")
+
+Visualização da reposta enviada pelo sistema B 
+![Alt text](/imagens/visualizar-log-retorno-integracao.png?raw=true "Página listagem log das integrações")
 
 ### Usuário
 Permite a criação de novos usuários para acessar o sistema, além de já possuir um usuário 
