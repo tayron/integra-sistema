@@ -13,7 +13,7 @@ type Log struct {
 	Resposta     string
 }
 
-// CriarTabelaLog -
+// CriarTabelaLog - Caso não existe, cria tabela logs no banco
 func CriarTabelaLog() {
 	db := database.ObterConexao()
 	defer db.Close()

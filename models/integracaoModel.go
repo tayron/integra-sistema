@@ -21,7 +21,7 @@ type Integracao struct {
 	Alteracao            time.Time
 }
 
-// CriarTabelaIntegracao -
+// CriarTabelaIntegracao - Caso não existe, cria tabela integração no banco
 func CriarTabelaIntegracao() {
 	db := database.ObterConexao()
 	defer db.Close()
@@ -43,7 +43,7 @@ func CriarTabelaIntegracao() {
 	database.ExecutarQuery(db, sql)
 }
 
-// Gravar -
+// Gravar - Grava uma integração
 func (i Integracao) Gravar() bool {
 	db := database.ObterConexao()
 	defer db.Close()
@@ -76,7 +76,7 @@ func (i Integracao) Gravar() bool {
 	return false
 }
 
-// Atualizar -
+// Atualizar - Atualiza uma integração
 func (i Integracao) Atualizar() bool {
 
 	db := database.ObterConexao()
@@ -116,7 +116,7 @@ func (i Integracao) Atualizar() bool {
 	return true
 }
 
-// Excluir -
+// Excluir - Exclui uma integração
 func (i Integracao) Excluir() bool {
 	db := database.ObterConexao()
 	defer db.Close()
@@ -131,7 +131,7 @@ func (i Integracao) Excluir() bool {
 	return true
 }
 
-// BuscarTodos -
+// BuscarTodos -Busca todas as integrações
 func (i Integracao) BuscarTodos() []Integracao {
 
 	db := database.ObterConexao()
@@ -164,7 +164,7 @@ func (i Integracao) BuscarTodos() []Integracao {
 	return listaIntegracoes
 }
 
-// BuscarPorID -
+// BuscarPorID - Busca integração por id
 func (i Integracao) BuscarPorID(idIntegracao int64) Integracao {
 
 	db := database.ObterConexao()
@@ -194,7 +194,7 @@ func (i Integracao) BuscarPorID(idIntegracao int64) Integracao {
 	return integracao
 }
 
-// BuscarPorEndpoint -
+// BuscarPorEndpoint - Busca integraçaõ através do endpoint
 func (i Integracao) BuscarPorEndpoint(endpoint string) Integracao {
 
 	db := database.ObterConexao()
