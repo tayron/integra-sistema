@@ -1,11 +1,11 @@
 # Integra Sistema
 Sistema de integração entre sistemas feito em Go
 
-![Alt text](/imagem1.png?raw=true "Página cadastro de integração")
-![Alt text](/imagem2.png?raw=true "Página listagem log das integrações")
+![Alt text](/imagens/cadastro-integracao.png?raw=true "Página cadastro de integração")
+![Alt text](/imagens/visualizar-log-retorno-integracao.png?raw=true "Página listagem log das integrações")
 
 ## Estrutura do banco desenvolvida
-![Alt text](/der.png?raw=true "Diagrama de Entidade e Relacionamento")
+![Alt text](/imagens/der.png?raw=true "Diagrama de Entidade e Relacionamento")
 
 ## Tecnologias
 * Go versão 1.14.4 linux/amd64
@@ -47,8 +47,13 @@ DB_BANCO=integra_sistema
 ### Integração
 Permite integração via webhook, onde se pode informar dados da api de destino, nome da integração, 
 método de envio e nome da api no integrador que será chamado pelo sistema que irá fazer a solicitação.
+![Alt text](/imagens/cadastro-integracao.png?raw=true "Página cadastro de integração")
+
 Pode se cadastrar parametros (DE-PARA) dos dados da integração.
+![Alt text](/imagens/editar-parametros.png?raw=true "Página de edição de parametros")
+
 Pode se visualizar log das requisições
+![Alt text](/imagens/visualizar-logs.png?raw=true "Página de visualização de logs")
 
 ### Usuário
 Permite a criação de novos usuários para acessar o sistema, 
