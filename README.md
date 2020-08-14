@@ -59,9 +59,11 @@ Pode se visualizar log das requisições
 Permite a criação de novos usuários para acessar o sistema, 
 além de já possuir um usuário superadministrador cadastrado 
 previamente no banco de dados
+![Alt text](/imagens/cadastro-usuario.png?raw=true "Página de cadastro de usuário")
 
 ### Autenticação
 Permite acesso ao sistema somente mediante a usuário e senha
+![Alt text](/imagens/autenticacao.png?raw=true "Página de autenticação")
 
 ## Novos Recursos à implementar
 * Permitir que uma integração chame outra integração já previamente cadastrada permitindo criar fluxos de trabalho
