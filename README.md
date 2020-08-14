@@ -50,6 +50,9 @@ onde os parametros do sistema A são repassados para API do sistema B que por su
 retorno da solicitação para o integrador que o integra ao sistema A.
 ![Alt text](/imagens/cadastro-integracao.png?raw=true "Página cadastro de integração")
 
+Permite editar uma integração já existente
+![Alt text](/imagens/editar-integracao.png?raw=true "Página edição de integração")
+
 Permite realizar DE-PARA das informações do sistema A para o sistema B na tela de cadastro de parâmetros
 ![Alt text](/imagens/editar-parametros.png?raw=true "Página de edição de parametros")
 
