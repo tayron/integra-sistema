@@ -41,3 +41,23 @@ DB_BANCO=integra_sistema
 
 ## Execução
 ```go run *.go```
+
+## Recursos
+
+### Integração
+Permite integração via webhook, onde se pode informar dados da api de destino, nome da integração, 
+método de envio e nome da api no integrador que será chamado pelo sistema que irá fazer a solicitação.
+Pode se cadastrar parametros (DE-PARA) dos dados da integração.
+Pode se visualizar log das requisições
+
+### Usuário
+Permite a criação de novos usuários para acessar o sistema, 
+além de já possuir um usuário superadministrador cadastrado 
+previamente no banco de dados
+
+### Autenticação
+Permite acesso ao sistema somente mediante a usuário e senha
+
+## Novos Recursos à implementar
+* Permitir que uma integração chame outra integração já previamente cadastrada permitindo criar fluxos de trabalho
+* Ao enviar dados via post, permitir o envio de lista de dados (Ex.: lista de produtos, clientes via post), no momento só dados simples são permitidos
