@@ -1,0 +1,11 @@
+*.go linguist-detectable=true
+api/*.go linguist-detectable=true
+bootstrap/*.go linguist-detectable=true
+controllers/*.go linguist-detectable=true
+models/*.go linguist-detectable=true
+
+
+imagens/* linguist-detectable=false
+dist/* linguist-detectable=false
+public/* linguist-detectable=false
+template/* linguist-detectable=false
