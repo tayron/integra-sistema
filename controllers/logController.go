@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	"github.com/gorilla/mux"
-	"github.com/tayron/integra-sistema/bootstrap/library/template"
+	appTemplate "github.com/tayron/integra-sistema/bootstrap/library/template"
 	"github.com/tayron/integra-sistema/models"
 )
 
@@ -15,7 +15,7 @@ func ListarLog(w http.ResponseWriter, r *http.Request) {
 
 	parametrosURL := mux.Vars(r)
 	idIntegracao, _ := strconv.ParseInt(parametrosURL["id"], 10, 64)
-	flashMessage := template.FlashMessage{}
+	flashMessage := appTemplate.FlashMessage{}
 
 	integracao := models.Integracao{}
 	log := models.Log{}
@@ -28,11 +28,11 @@ func ListarLog(w http.ResponseWriter, r *http.Request) {
 		ListaLogs:  log.BuscarPorIDIntegracao(idIntegracao),
 	}
 
-	parametros := template.Parametro{
-		System:       template.ObterInformacaoSistema(w, r),
+	parametros := appTemplate.Parametro{
+		System:       appTemplate.ObterInformacaoSistema(w, r),
 		FlashMessage: flashMessage,
 		Parametro:    Logs,
 	}
 
-	template.LoadView(w, "template/log/*.html", "listarLogPage", parametros)
+	appTemplate.LoadView(w, "template/log/*.html", "listarLogPage", parametros)
 }

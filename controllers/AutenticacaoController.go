@@ -7,7 +7,7 @@ import (
 	"github.com/tayron/integra-sistema/models"
 
 	"github.com/tayron/integra-sistema/bootstrap/library/session"
-	"github.com/tayron/integra-sistema/bootstrap/library/template"
+	appTemplate "github.com/tayron/integra-sistema/bootstrap/library/template"
 	"github.com/tayron/integra-sistema/bootstrap/library/util"
 )
 
@@ -22,7 +22,7 @@ func ValidarSessao(w http.ResponseWriter, r *http.Request) {
 
 // Login - Exibe tela de login e faz loogin do usuário no banco
 func Login(w http.ResponseWriter, r *http.Request) {
-	flashMessage := template.FlashMessage{}
+	flashMessage := appTemplate.FlashMessage{}
 
 	usuario := session.GetDadoSessao("login", w, r)
 
@@ -53,15 +53,15 @@ func Login(w http.ResponseWriter, r *http.Request) {
 			http.Redirect(w, r, "/", 302)
 		}
 
-		flashMessage.Type, flashMessage.Message = template.ObterTipoMensagemAcessoNegado()
+		flashMessage.Type, flashMessage.Message = appTemplate.ObterTipoMensagemAcessoNegado()
 	}
 
-	parametros := template.Parametro{
-		System:       template.ObterInformacaoSistema(w, r),
+	parametros := appTemplate.Parametro{
+		System:       appTemplate.ObterInformacaoSistema(w, r),
 		FlashMessage: flashMessage,
 	}
 
-	template.LoadView(w, "template/autenticacao/*.html", "loginPage", parametros)
+	appTemplate.LoadView(w, "template/autenticacao/*.html", "loginPage", parametros)
 }
 
 // Logout - Limpa os dados da sessão e redireciona para a tela de login

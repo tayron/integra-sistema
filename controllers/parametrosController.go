@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	"github.com/gorilla/mux"
-	"github.com/tayron/integra-sistema/bootstrap/library/template"
+	appTemplate "github.com/tayron/integra-sistema/bootstrap/library/template"
 	"github.com/tayron/integra-sistema/models"
 )
 
@@ -15,7 +15,7 @@ func ListarParametro(w http.ResponseWriter, r *http.Request) {
 
 	parametrosURL := mux.Vars(r)
 	idIntegracao, _ := strconv.ParseInt(parametrosURL["id"], 10, 64)
-	flashMessage := template.FlashMessage{}
+	flashMessage := appTemplate.FlashMessage{}
 
 	if r.Method == "POST" {
 		integracaoID, _ := strconv.ParseInt(r.FormValue("integracao_id"), 10, 64)
@@ -31,9 +31,9 @@ func ListarParametro(w http.ResponseWriter, r *http.Request) {
 		retornoGravacao := parametro.Gravar()
 
 		if retornoGravacao == true {
-			flashMessage.Type, flashMessage.Message = template.ObterTipoMensagemGravacaoSucesso()
+			flashMessage.Type, flashMessage.Message = appTemplate.ObterTipoMensagemGravacaoSucesso()
 		} else {
-			flashMessage.Type, flashMessage.Message = template.ObterTipoMensagemGravacaoErro()
+			flashMessage.Type, flashMessage.Message = appTemplate.ObterTipoMensagemGravacaoErro()
 		}
 	}
 
@@ -48,12 +48,12 @@ func ListarParametro(w http.ResponseWriter, r *http.Request) {
 		ListaParametros: parametro.BuscarPorIDIntegracao(idIntegracao),
 	}
 
-	parametros := template.Parametro{
-		System:    template.ObterInformacaoSistema(w, r),
+	parametros := appTemplate.Parametro{
+		System:    appTemplate.ObterInformacaoSistema(w, r),
 		Parametro: Parametros,
 	}
 
-	template.LoadView(w, "template/parametro/*.html", "listarParametroPage", parametros)
+	appTemplate.LoadView(w, "template/parametro/*.html", "listarParametroPage", parametros)
 }
 
 // ExcluirParametro -
@@ -61,7 +61,7 @@ func ExcluirParametro(w http.ResponseWriter, r *http.Request) {
 	ValidarSessao(w, r)
 
 	idIntegracao, _ := strconv.ParseInt(r.FormValue("id_integracao"), 10, 64)
-	flashMessage := template.FlashMessage{}
+	flashMessage := appTemplate.FlashMessage{}
 
 	id, _ := strconv.Atoi(r.FormValue("id_parametro"))
 	parametroModel := models.Parametro{
@@ -71,9 +71,9 @@ func ExcluirParametro(w http.ResponseWriter, r *http.Request) {
 	retornoExclusao := parametroModel.Excluir()
 
 	if retornoExclusao == true {
-		flashMessage.Type, flashMessage.Message = template.ObterTipoMensagemExclusaoSucesso()
+		flashMessage.Type, flashMessage.Message = appTemplate.ObterTipoMensagemExclusaoSucesso()
 	} else {
-		flashMessage.Type, flashMessage.Message = template.ObterTipoMensagemExclusaoErro()
+		flashMessage.Type, flashMessage.Message = appTemplate.ObterTipoMensagemExclusaoErro()
 	}
 
 	integracao := models.Integracao{}
@@ -87,11 +87,11 @@ func ExcluirParametro(w http.ResponseWriter, r *http.Request) {
 		ListaParametros: parametro.BuscarPorIDIntegracao(idIntegracao),
 	}
 
-	parametros := template.Parametro{
-		System:       template.ObterInformacaoSistema(w, r),
+	parametros := appTemplate.Parametro{
+		System:       appTemplate.ObterInformacaoSistema(w, r),
 		FlashMessage: flashMessage,
 		Parametro:    Parametros,
 	}
 
-	template.LoadView(w, "template/parametro/*.html", "listarParametroPage", parametros)
+	appTemplate.LoadView(w, "template/parametro/*.html", "listarParametroPage", parametros)
 }

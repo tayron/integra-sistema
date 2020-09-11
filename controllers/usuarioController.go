@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	"github.com/gorilla/mux"
-	"github.com/tayron/integra-sistema/bootstrap/library/template"
+	appTemplate "github.com/tayron/integra-sistema/bootstrap/library/template"
 	"github.com/tayron/integra-sistema/bootstrap/library/util"
 	"github.com/tayron/integra-sistema/models"
 )
@@ -22,19 +22,19 @@ func ListarUsuario(w http.ResponseWriter, r *http.Request) {
 		ListaUsuarios: usuarioModel.BuscarTodos(),
 	}
 
-	parametros := template.Parametro{
-		System:    template.ObterInformacaoSistema(w, r),
+	parametros := appTemplate.Parametro{
+		System:    appTemplate.ObterInformacaoSistema(w, r),
 		Parametro: Usuarios,
 	}
 
-	template.LoadView(w, "template/usuario/*.html", "listarUsuariosPage", parametros)
+	appTemplate.LoadView(w, "template/usuario/*.html", "listarUsuariosPage", parametros)
 }
 
 // CadastrarUsuario -
 func CadastrarUsuario(w http.ResponseWriter, r *http.Request) {
 	ValidarSessao(w, r)
 
-	flashMessage := template.FlashMessage{}
+	flashMessage := appTemplate.FlashMessage{}
 
 	if r.Method == "POST" {
 		senha := r.FormValue("senha")
@@ -49,18 +49,18 @@ func CadastrarUsuario(w http.ResponseWriter, r *http.Request) {
 		retornoGravacao := usuarioEntidade.Gravar()
 
 		if retornoGravacao == true {
-			flashMessage.Type, flashMessage.Message = template.ObterTipoMensagemGravacaoSucesso()
+			flashMessage.Type, flashMessage.Message = appTemplate.ObterTipoMensagemGravacaoSucesso()
 		} else {
-			flashMessage.Type, flashMessage.Message = template.ObterTipoMensagemGravacaoErro()
+			flashMessage.Type, flashMessage.Message = appTemplate.ObterTipoMensagemGravacaoErro()
 		}
 	}
 
-	parametros := template.Parametro{
-		System:       template.ObterInformacaoSistema(w, r),
+	parametros := appTemplate.Parametro{
+		System:       appTemplate.ObterInformacaoSistema(w, r),
 		FlashMessage: flashMessage,
 	}
 
-	template.LoadView(w, "template/usuario/*.html", "cadastrarUsuarioPage", parametros)
+	appTemplate.LoadView(w, "template/usuario/*.html", "cadastrarUsuarioPage", parametros)
 }
 
 // EditarUsuario -
@@ -69,7 +69,7 @@ func EditarUsuario(w http.ResponseWriter, r *http.Request) {
 
 	parametrosURL := mux.Vars(r)
 	id, _ := strconv.Atoi(parametrosURL["id"])
-	flashMessage := template.FlashMessage{}
+	flashMessage := appTemplate.FlashMessage{}
 
 	if r.Method == "POST" {
 
@@ -96,9 +96,9 @@ func EditarUsuario(w http.ResponseWriter, r *http.Request) {
 		retornoGravacao := usuarioModel.Atualizar()
 
 		if retornoGravacao == true {
-			flashMessage.Type, flashMessage.Message = template.ObterTipoMensagemGravacaoSucesso()
+			flashMessage.Type, flashMessage.Message = appTemplate.ObterTipoMensagemGravacaoSucesso()
 		} else {
-			flashMessage.Type, flashMessage.Message = template.ObterTipoMensagemGravacaoErro()
+			flashMessage.Type, flashMessage.Message = appTemplate.ObterTipoMensagemGravacaoErro()
 		}
 	}
 
@@ -118,13 +118,13 @@ func EditarUsuario(w http.ResponseWriter, r *http.Request) {
 		Usuario: usuarioModel.BuscarPorID(),
 	}
 
-	parametros := template.Parametro{
-		System:       template.ObterInformacaoSistema(w, r),
+	parametros := appTemplate.Parametro{
+		System:       appTemplate.ObterInformacaoSistema(w, r),
 		FlashMessage: flashMessage,
 		Parametro:    Usuario,
 	}
 
-	template.LoadView(w, "template/usuario/*.html", "editarUsuarioPage", parametros)
+	appTemplate.LoadView(w, "template/usuario/*.html", "editarUsuarioPage", parametros)
 }
 
 // ExcluirUsuario -
@@ -132,7 +132,7 @@ func ExcluirUsuario(w http.ResponseWriter, r *http.Request) {
 	ValidarSessao(w, r)
 
 	idUsuario, _ := strconv.Atoi(r.FormValue("id"))
-	flashMessage := template.FlashMessage{}
+	flashMessage := appTemplate.FlashMessage{}
 
 	usuarioModel := models.Usuario{
 		ID: idUsuario,
@@ -141,9 +141,9 @@ func ExcluirUsuario(w http.ResponseWriter, r *http.Request) {
 	retornoExclusao := usuarioModel.Excluir()
 
 	if retornoExclusao == true {
-		flashMessage.Type, flashMessage.Message = template.ObterTipoMensagemExclusaoSucesso()
+		flashMessage.Type, flashMessage.Message = appTemplate.ObterTipoMensagemExclusaoSucesso()
 	} else {
-		flashMessage.Type, flashMessage.Message = template.ObterTipoMensagemExclusaoErro()
+		flashMessage.Type, flashMessage.Message = appTemplate.ObterTipoMensagemExclusaoErro()
 	}
 
 	var Usuarios = struct {
@@ -152,11 +152,11 @@ func ExcluirUsuario(w http.ResponseWriter, r *http.Request) {
 		ListaUsuarios: usuarioModel.BuscarTodos(),
 	}
 
-	parametros := template.Parametro{
-		System:       template.ObterInformacaoSistema(w, r),
+	parametros := appTemplate.Parametro{
+		System:       appTemplate.ObterInformacaoSistema(w, r),
 		FlashMessage: flashMessage,
 		Parametro:    Usuarios,
 	}
 
-	template.LoadView(w, "template/usuario/*.html", "listarUsuariosPage", parametros)
+	appTemplate.LoadView(w, "template/usuario/*.html", "listarUsuariosPage", parametros)
 }

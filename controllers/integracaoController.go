@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	"github.com/gorilla/mux"
-	"github.com/tayron/integra-sistema/bootstrap/library/template"
+	appTemplate "github.com/tayron/integra-sistema/bootstrap/library/template"
 	"github.com/tayron/integra-sistema/models"
 )
 
@@ -21,19 +21,19 @@ func ListarIntegracao(w http.ResponseWriter, r *http.Request) {
 		Integracoes: integracao.BuscarTodos(),
 	}
 
-	parametros := template.Parametro{
-		System:    template.ObterInformacaoSistema(w, r),
+	parametros := appTemplate.Parametro{
+		System:    appTemplate.ObterInformacaoSistema(w, r),
 		Parametro: Integracoes,
 	}
 
-	template.LoadView(w, "template/integracao/*.html", "listarIntegracoesPage", parametros)
+	appTemplate.LoadView(w, "template/integracao/*.html", "listarIntegracoesPage", parametros)
 }
 
 // CadastrarIntegracao -
 func CadastrarIntegracao(w http.ResponseWriter, r *http.Request) {
 	ValidarSessao(w, r)
 
-	flashMessage := template.FlashMessage{}
+	flashMessage := appTemplate.FlashMessage{}
 
 	if r.Method == "POST" {
 		integracao := models.Integracao{
@@ -48,9 +48,9 @@ func CadastrarIntegracao(w http.ResponseWriter, r *http.Request) {
 		retornoGravacao := integracao.Gravar()
 
 		if retornoGravacao == true {
-			flashMessage.Type, flashMessage.Message = template.ObterTipoMensagemGravacaoSucesso()
+			flashMessage.Type, flashMessage.Message = appTemplate.ObterTipoMensagemGravacaoSucesso()
 		} else {
-			flashMessage.Type, flashMessage.Message = template.ObterTipoMensagemGravacaoErro()
+			flashMessage.Type, flashMessage.Message = appTemplate.ObterTipoMensagemGravacaoErro()
 		}
 	}
 
@@ -62,13 +62,13 @@ func CadastrarIntegracao(w http.ResponseWriter, r *http.Request) {
 		Integracoes: integracao.BuscarTodos(),
 	}
 
-	parametros := template.Parametro{
-		System:       template.ObterInformacaoSistema(w, r),
+	parametros := appTemplate.Parametro{
+		System:       appTemplate.ObterInformacaoSistema(w, r),
 		FlashMessage: flashMessage,
 		Parametro:    Integracoes,
 	}
 
-	template.LoadView(w, "template/integracao/*.html", "cadastrarIntegracoesPage", parametros)
+	appTemplate.LoadView(w, "template/integracao/*.html", "cadastrarIntegracoesPage", parametros)
 }
 
 // EditarIntegracao -
@@ -77,7 +77,7 @@ func EditarIntegracao(w http.ResponseWriter, r *http.Request) {
 
 	parametrosURL := mux.Vars(r)
 	idIntegracao, _ := strconv.ParseInt(parametrosURL["id"], 10, 64)
-	flashMessage := template.FlashMessage{}
+	flashMessage := appTemplate.FlashMessage{}
 
 	if r.Method == "POST" {
 		id, _ := strconv.Atoi(r.FormValue("id"))
@@ -94,9 +94,9 @@ func EditarIntegracao(w http.ResponseWriter, r *http.Request) {
 		retornoGravacao := integracaoModel.Atualizar()
 
 		if retornoGravacao == true {
-			flashMessage.Type, flashMessage.Message = template.ObterTipoMensagemGravacaoSucesso()
+			flashMessage.Type, flashMessage.Message = appTemplate.ObterTipoMensagemGravacaoSucesso()
 		} else {
-			flashMessage.Type, flashMessage.Message = template.ObterTipoMensagemGravacaoErro()
+			flashMessage.Type, flashMessage.Message = appTemplate.ObterTipoMensagemGravacaoErro()
 		}
 	}
 
@@ -108,13 +108,13 @@ func EditarIntegracao(w http.ResponseWriter, r *http.Request) {
 		Integracao: integracao.BuscarPorID(idIntegracao),
 	}
 
-	parametros := template.Parametro{
-		System:       template.ObterInformacaoSistema(w, r),
+	parametros := appTemplate.Parametro{
+		System:       appTemplate.ObterInformacaoSistema(w, r),
 		FlashMessage: flashMessage,
 		Parametro:    Integracao,
 	}
 
-	template.LoadView(w, "template/integracao/*.html", "editarIntegracoesPage", parametros)
+	appTemplate.LoadView(w, "template/integracao/*.html", "editarIntegracoesPage", parametros)
 }
 
 // ExcluirIntegracao -
@@ -122,7 +122,7 @@ func ExcluirIntegracao(w http.ResponseWriter, r *http.Request) {
 	ValidarSessao(w, r)
 
 	idIntegracao, _ := strconv.Atoi(r.FormValue("id"))
-	flashMessage := template.FlashMessage{}
+	flashMessage := appTemplate.FlashMessage{}
 
 	integracao := models.Integracao{
 		ID: idIntegracao,
@@ -131,9 +131,9 @@ func ExcluirIntegracao(w http.ResponseWriter, r *http.Request) {
 	retornoExclusao := integracao.Excluir()
 
 	if retornoExclusao == true {
-		flashMessage.Type, flashMessage.Message = template.ObterTipoMensagemExclusaoSucesso()
+		flashMessage.Type, flashMessage.Message = appTemplate.ObterTipoMensagemExclusaoSucesso()
 	} else {
-		flashMessage.Type, flashMessage.Message = template.ObterTipoMensagemExclusaoErro()
+		flashMessage.Type, flashMessage.Message = appTemplate.ObterTipoMensagemExclusaoErro()
 	}
 
 	var Integracoes = struct {
@@ -142,11 +142,11 @@ func ExcluirIntegracao(w http.ResponseWriter, r *http.Request) {
 		Integracoes: integracao.BuscarTodos(),
 	}
 
-	parametros := template.Parametro{
-		System:       template.ObterInformacaoSistema(w, r),
+	parametros := appTemplate.Parametro{
+		System:       appTemplate.ObterInformacaoSistema(w, r),
 		FlashMessage: flashMessage,
 		Parametro:    Integracoes,
 	}
 
-	template.LoadView(w, "template/integracao/*.html", "listarIntegracoesPage", parametros)
+	appTemplate.LoadView(w, "template/integracao/*.html", "listarIntegracoesPage", parametros)
 }

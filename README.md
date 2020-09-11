@@ -12,14 +12,6 @@ Sistema de integração entre sistemas feito em Go
 * Bootstrap v4.5.0 (https://getbootstrap.com/)
 * https://icons.getbootstrap.com/
 
-## Dependências
-* github.com/joho/godotenv
-* github.com/gorilla/mux
-* golang.org/x/crypto/bcrypt
-* github.com/go-sql-driver/mysql
-
-Para instalar dependência basta executar o comando go get -u link-repositório, exemplo: : ```go get -u github.com/go-sql-driver/mysql```
-
 ## Configurando a aplicação 
 Altere o arquivo .env na raiz do projeto conforme exemplo abaixo
 ```

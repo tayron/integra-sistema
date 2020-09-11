@@ -19,7 +19,7 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <b>{{.System.Name}}</b> <small>v. {{.System.Version}}</small>
+            <b>{{.System.Name}}</b>
         </div>
         <!-- /.login-logo -->
         <div class="card">
@@ -28,7 +28,7 @@
                 {{- template "alert" . -}}
                 <form action="/login" method="post">
                     <div class="input-group mb-3">                        
-                        <input type="login" name="login" class="form-control" placeholder="Login" autocomplete="false" required />
+                        <input type="text" name="login" class="form-control" placeholder="Login" autocomplete="false" required />
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
@@ -46,6 +46,7 @@
                     <div class="row">
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+                            <p class="text-right"><small>versão {{.System.Version}}</small></p>
                         </div>
                         <!-- /.col -->
                     </div>
