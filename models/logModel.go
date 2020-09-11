@@ -136,3 +136,26 @@ func (l Log) ObterNumeroLogsPorIDIntegracao(idIntegracao int64) int {
 
 	return numero
 }
+
+// ObterNumeroIntegracoesRealizadas -
+func (l Log) ObterNumeroIntegracoesRealizadas() int {
+	db := database.ObterConexao()
+	defer db.Close()
+
+	var sql string = `SELECT count(0) FROM logs`
+
+	rows, err := db.Query(sql)
+
+	if err != nil {
+		panic(err)
+	}
+
+	defer rows.Close()
+
+	var numero int = 0
+	for rows.Next() {
+		rows.Scan(&numero)
+	}
+
+	return numero
+}

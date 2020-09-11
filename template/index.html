@@ -49,7 +49,7 @@
                                 <div class="info-box-content">
                                     <span class="info-box-text">Integrações</span>
                                     <span class="info-box-number">
-                                        10
+                                        {{.Parametro.numeroIntegracoes}}
                                     </span>
                                 </div>
                                 <!-- /.info-box-content -->
@@ -63,7 +63,7 @@
                                         class="fas fa-thumbs-down"></i></span>
 
                                 <div class="info-box-content">
-                                    <span class="info-box-text">Integrações com falhas</span>
+                                    <span class="info-box-text">Contador a decidir</span>
                                     <span class="info-box-number">41</span>
                                 </div>
                                 <!-- /.info-box-content -->
@@ -81,8 +81,8 @@
                                         class="fas fa-thumbs-up"></i></span>
 
                                 <div class="info-box-content">
-                                    <span class="info-box-text">Integrações som sucesso</span>
-                                    <span class="info-box-number">760</span>
+                                    <span class="info-box-text">Integrações executadas</span>
+                                    <span class="info-box-number">{{.Parametro.numeroIntegracoesRealizadas}}</span>
                                 </div>
                                 <!-- /.info-box-content -->
                             </div>
@@ -94,8 +94,10 @@
                                 <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
 
                                 <div class="info-box-content">
-                                    <span class="info-box-text">Usuários</span>
-                                    <span class="info-box-number">1</span>
+                                    <span class="info-box-text">Usuários cadastrados</span>
+                                    <span class="info-box-number">
+                                        {{.Parametro.numeroUsuarios}}
+                                    </span>
                                 </div>
                                 <!-- /.info-box-content -->
                             </div>
