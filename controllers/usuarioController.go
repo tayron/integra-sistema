@@ -1,10 +1,12 @@
 package controllers
 
 import (
+	"html/template"
 	"net/http"
 	"strconv"
 
 	"github.com/gorilla/mux"
+	"github.com/tayron/gopaginacao"
 	appTemplate "github.com/tayron/integra-sistema/bootstrap/library/template"
 	"github.com/tayron/integra-sistema/bootstrap/library/util"
 	"github.com/tayron/integra-sistema/models"
@@ -15,11 +17,21 @@ func ListarUsuario(w http.ResponseWriter, r *http.Request) {
 	ValidarSessao(w, r)
 
 	usuarioModel := models.Usuario{}
+	numeroTotalRegistro := usuarioModel.ObterNumeroUsuarios()
+	htmlPaginacao, offset, err := gopaginacao.CriarPaginacao(numeroTotalRegistro, r)
+
+	var listaUsuarios []models.Usuario
+
+	if err == nil {
+		listaUsuarios = usuarioModel.BuscarTodos(offset)
+	}
 
 	var Usuarios = struct {
 		ListaUsuarios []models.Usuario
+		Paginacao     template.HTML
 	}{
-		ListaUsuarios: usuarioModel.BuscarTodos(),
+		ListaUsuarios: listaUsuarios,
+		Paginacao:     template.HTML(htmlPaginacao),
 	}
 
 	parametros := appTemplate.Parametro{
@@ -146,10 +158,21 @@ func ExcluirUsuario(w http.ResponseWriter, r *http.Request) {
 		flashMessage.Type, flashMessage.Message = appTemplate.ObterTipoMensagemExclusaoErro()
 	}
 
+	numeroTotalRegistro := usuarioModel.ObterNumeroUsuarios()
+	htmlPaginacao, offset, err := gopaginacao.CriarPaginacao(numeroTotalRegistro, r)
+
+	var listaUsuarios []models.Usuario
+
+	if err == nil {
+		listaUsuarios = usuarioModel.BuscarTodos(offset)
+	}
+
 	var Usuarios = struct {
 		ListaUsuarios []models.Usuario
+		Paginacao     template.HTML
 	}{
-		ListaUsuarios: usuarioModel.BuscarTodos(),
+		ListaUsuarios: listaUsuarios,
+		Paginacao: template.HTML(htmlPaginacao),
 	}
 
 	parametros := appTemplate.Parametro{

@@ -1,6 +1,8 @@
 package models
 
 import (
+	"os"
+
 	"github.com/tayron/integra-sistema/bootstrap/library/database"
 )
 
@@ -184,15 +186,16 @@ func (u Usuario) Excluir() bool {
 }
 
 // BuscarTodos -Retorna todos os usuários
-func (u Usuario) BuscarTodos() []Usuario {
+func (u Usuario) BuscarTodos(offset int) []Usuario {
 
 	db := database.ObterConexao()
 	defer db.Close()
 
 	var sql string = `SELECT id, nome, login, ativo
-		FROM usuarios WHERE permite_ser_listado = true ORDER BY id DESC`
+		FROM usuarios WHERE permite_ser_listado = true ORDER BY id DESC LIMIT ? OFFSET ?`
 
-	rows, _ := db.Query(sql)
+	numeroRegistro := os.Getenv("NUMERO_REGISTRO_POR_PAGINA")
+	rows, _ := db.Query(sql, numeroRegistro, offset)
 	defer rows.Close()
 
 	var listaUsuarios []Usuario
@@ -285,4 +288,27 @@ func (u Usuario) BuscarPorLoginStatus() Usuario {
 	}
 
 	return usuarioModel
+}
+
+// ObterNumeroUsuarios - Retorna número de usuários cadastrados
+func (u Usuario) ObterNumeroUsuarios() int {
+	db := database.ObterConexao()
+	defer db.Close()
+
+	var sql string = `SELECT count(0) FROM usuarios WHERE permite_ser_listado = true`
+
+	rows, err := db.Query(sql)
+
+	if err != nil {
+		panic(err)
+	}
+
+	defer rows.Close()
+
+	var numero int = 0
+	for rows.Next() {
+		rows.Scan(&numero)
+	}
+
+	return numero
 }

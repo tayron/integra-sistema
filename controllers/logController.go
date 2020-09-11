@@ -1,10 +1,12 @@
 package controllers
 
 import (
+	"html/template"
 	"net/http"
 	"strconv"
 
 	"github.com/gorilla/mux"
+	"github.com/tayron/gopaginacao"
 	appTemplate "github.com/tayron/integra-sistema/bootstrap/library/template"
 	"github.com/tayron/integra-sistema/models"
 )
@@ -18,14 +20,25 @@ func ListarLog(w http.ResponseWriter, r *http.Request) {
 	flashMessage := appTemplate.FlashMessage{}
 
 	integracao := models.Integracao{}
-	log := models.Log{}
+	logModel := models.Log{}
+
+	numeroTotalRegistro := logModel.ObterNumeroLogsPorIDIntegracao(idIntegracao)
+	htmlPaginacao, offset, err := gopaginacao.CriarPaginacao(numeroTotalRegistro, r)
+
+	var listaLogs []models.Log
+
+	if err == nil {
+		listaLogs = logModel.BuscarPorIDIntegracao(idIntegracao, offset)
+	}
 
 	var Logs = struct {
 		Integracao models.Integracao
 		ListaLogs  []models.Log
+		Paginacao  template.HTML
 	}{
 		Integracao: integracao.BuscarPorID(idIntegracao),
-		ListaLogs:  log.BuscarPorIDIntegracao(idIntegracao),
+		ListaLogs:  listaLogs,
+		Paginacao:  template.HTML(htmlPaginacao),
 	}
 
 	parametros := appTemplate.Parametro{

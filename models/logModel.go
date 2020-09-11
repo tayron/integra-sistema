@@ -1,6 +1,8 @@
 package models
 
 import (
+	"os"
+
 	"github.com/tayron/integra-sistema/bootstrap/library/database"
 )
 
@@ -82,15 +84,16 @@ func (l Log) Excluir() bool {
 }
 
 // BuscarPorIDIntegracao -
-func (l Log) BuscarPorIDIntegracao(idIntegracao int64) []Log {
+func (l Log) BuscarPorIDIntegracao(idIntegracao int64, offset int) []Log {
 
 	db := database.ObterConexao()
 	defer db.Close()
 
 	var sql string = `SELECT id, api_destino, metodo, parametro, resposta, integracao_id
-		FROM logs WHERE integracao_id = ? ORDER BY id DESC`
+		FROM logs WHERE integracao_id = ? ORDER BY id DESC LIMIT ? OFFSET ?`
 
-	rows, _ := db.Query(sql, idIntegracao)
+	numeroRegistro := os.Getenv("NUMERO_REGISTRO_POR_PAGINA")
+	rows, _ := db.Query(sql, idIntegracao, numeroRegistro, offset)
 	defer rows.Close()
 
 	var listaLog []Log
@@ -109,4 +112,27 @@ func (l Log) BuscarPorIDIntegracao(idIntegracao int64) []Log {
 	}
 
 	return listaLog
+}
+
+// ObterNumeroLogsPorIDIntegracao -
+func (l Log) ObterNumeroLogsPorIDIntegracao(idIntegracao int64) int {
+	db := database.ObterConexao()
+	defer db.Close()
+
+	var sql string = `SELECT count(0) FROM logs where integracao_id = ?`
+
+	rows, err := db.Query(sql, idIntegracao)
+
+	if err != nil {
+		panic(err)
+	}
+
+	defer rows.Close()
+
+	var numero int = 0
+	for rows.Next() {
+		rows.Scan(&numero)
+	}
+
+	return numero
 }

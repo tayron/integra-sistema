@@ -1,10 +1,12 @@
 package controllers
 
 import (
+	"html/template"
 	"net/http"
 	"strconv"
 
 	"github.com/gorilla/mux"
+	"github.com/tayron/gopaginacao"
 	appTemplate "github.com/tayron/integra-sistema/bootstrap/library/template"
 	"github.com/tayron/integra-sistema/models"
 )
@@ -13,12 +15,23 @@ import (
 func ListarIntegracao(w http.ResponseWriter, r *http.Request) {
 	ValidarSessao(w, r)
 
-	integracao := models.Integracao{}
+	integracaoModel := models.Integracao{}
+
+	numeroTotalRegistro := integracaoModel.ObterNumeroIntegracoes()
+	htmlPaginacao, offset, err := gopaginacao.CriarPaginacao(numeroTotalRegistro, r)
+
+	var listaIntegracoes []models.Integracao
+
+	if err == nil {
+		listaIntegracoes = integracaoModel.BuscarTodos(offset)
+	}
 
 	var Integracoes = struct {
 		Integracoes []models.Integracao
+		Paginacao   template.HTML
 	}{
-		Integracoes: integracao.BuscarTodos(),
+		Integracoes: listaIntegracoes,
+		Paginacao:   template.HTML(htmlPaginacao),
 	}
 
 	parametros := appTemplate.Parametro{
@@ -54,12 +67,23 @@ func CadastrarIntegracao(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	integracao := models.Integracao{}
+	integracaoModel := models.Integracao{}
+
+	numeroTotalRegistro := integracaoModel.ObterNumeroIntegracoes()
+	htmlPaginacao, offset, err := gopaginacao.CriarPaginacao(numeroTotalRegistro, r)
+
+	var listaIntegracoes []models.Integracao
+
+	if err == nil {
+		listaIntegracoes = integracaoModel.BuscarTodos(offset)
+	}
 
 	var Integracoes = struct {
 		Integracoes []models.Integracao
+		Paginacao   template.HTML
 	}{
-		Integracoes: integracao.BuscarTodos(),
+		Integracoes: listaIntegracoes,
+		Paginacao:   template.HTML(htmlPaginacao),
 	}
 
 	parametros := appTemplate.Parametro{
@@ -124,11 +148,11 @@ func ExcluirIntegracao(w http.ResponseWriter, r *http.Request) {
 	idIntegracao, _ := strconv.Atoi(r.FormValue("id"))
 	flashMessage := appTemplate.FlashMessage{}
 
-	integracao := models.Integracao{
+	integracaoModel := models.Integracao{
 		ID: idIntegracao,
 	}
 
-	retornoExclusao := integracao.Excluir()
+	retornoExclusao := integracaoModel.Excluir()
 
 	if retornoExclusao == true {
 		flashMessage.Type, flashMessage.Message = appTemplate.ObterTipoMensagemExclusaoSucesso()
@@ -136,10 +160,21 @@ func ExcluirIntegracao(w http.ResponseWriter, r *http.Request) {
 		flashMessage.Type, flashMessage.Message = appTemplate.ObterTipoMensagemExclusaoErro()
 	}
 
+	numeroTotalRegistro := integracaoModel.ObterNumeroIntegracoes()
+	htmlPaginacao, offset, err := gopaginacao.CriarPaginacao(numeroTotalRegistro, r)
+
+	var listaIntegracoes []models.Integracao
+
+	if err == nil {
+		listaIntegracoes = integracaoModel.BuscarTodos(offset)
+	}
+
 	var Integracoes = struct {
 		Integracoes []models.Integracao
+		Paginacao   template.HTML
 	}{
-		Integracoes: integracao.BuscarTodos(),
+		Integracoes: listaIntegracoes,
+		Paginacao:   template.HTML(htmlPaginacao),
 	}
 
 	parametros := appTemplate.Parametro{
